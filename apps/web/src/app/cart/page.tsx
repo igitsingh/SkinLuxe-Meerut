@@ -18,7 +18,7 @@ interface SavedAddress {
 }
 
 export default function CartPage() {
-    const { cart, removeFromCart, clearCart, deliveryAddress, setDeliveryAddress, location, setLocation, selectedAddressId, setSelectedAddressId } = useStore();
+    const { cart, user, removeFromCart, clearCart, deliveryAddress, setDeliveryAddress, location, setLocation, selectedAddressId, setSelectedAddressId } = useStore();
     const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
     const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
@@ -172,7 +172,14 @@ export default function CartPage() {
                             <div className="bg-gray-50 p-6 rounded-lg border border-dashed border-gray-300 text-center">
                                 <p className="text-gray-500 mb-3">No saved addresses</p>
                                 <Button
-                                    onClick={() => setIsAddressModalOpen(true)}
+                                    onClick={() => {
+                                        if (!user) {
+                                            toast.error('Please login to add an address');
+                                            // Optional: router.push('/login');
+                                            return;
+                                        }
+                                        setIsAddressModalOpen(true);
+                                    }}
                                     variant="outline"
                                     className="border-orange-500 text-orange-600 hover:bg-orange-50"
                                 >
