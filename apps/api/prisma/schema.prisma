@@ -1,0 +1,281 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  MANAGER
+  CHEF
+  DELIVERY_PARTNER
+  ACCOUNTANT
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  PREPARING
+  BAKING
+  READY_FOR_PICKUP
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  COD
+  UPI
+  CARD
+  NET_BANKING
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum ComplaintStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(CUSTOMER)
+  phone     String?
+  addresses Address[]
+  orders    Order[]
+  complaints Complaint[]
+  notes     String?  // Admin notes for VIPs, issues
+  isVIP     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id        String @id @default(uuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  street    String
+  city      String
+  zip       String
+  isDefault Boolean @default(false)
+  orders    Order[]
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String // Pizza, Burger, Sandwich, Snacks
+  items Item[]
+  slug  String? @unique
+  image String?
+  seoTitle String?
+  seoDescription String?
+}
+
+model Item {
+  id          String   @id @default(uuid())
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  name        String
+  description String?
+  price       Float
+  image       String?
+  slug        String?   @unique
+  seoTitle    String?
+  seoDescription String?
+  altText     String?
+  isVeg       Boolean  @default(true)
+  isSpicy      Boolean  @default(false)
+  isBestSeller Boolean  @default(false)
+  isAvailable  Boolean  @default(true)
+  stock       Int      @default(100)
+  isStockManaged Boolean @default(false)
+  options     ItemOption[]
+  addons      ItemAddon[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Location {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  seoTitle    String?
+  seoDescription String?
+  content     String?  @db.Text // HTML content for the landing page
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ItemOption {
+  id     String @id @default(uuid())
+  itemId String
+  item   Item   @relation(fields: [itemId], references: [id])
+  name   String // e.g., Size, Crust
+  choices OptionChoice[]
+}
+
+model OptionChoice {
+  id           String     @id @default(uuid())
+  optionId     String
+  option       ItemOption @relation(fields: [optionId], references: [id])
+  name         String     // e.g., Small, Medium, Cheese Burst
+  price        Float      @default(0)
+}
+
+model ItemAddon {
+  id     String @id @default(uuid())
+  itemId String
+  item   Item   @relation(fields: [itemId], references: [id])
+  name   String // e.g., Extra Cheese
+  price  Float
+}
+
+model Order {
+  id            String        @id @default(uuid())
+  orderNumber   Int           @unique @default(autoincrement())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  status        OrderStatus   @default(PENDING)
+  total         Float
+  subtotal      Float         @default(0)
+  tax           Float         @default(0)
+  deliveryFee   Float         @default(0)
+  items         OrderItem[]
+  paymentMethod PaymentMethod @default(COD)
+  paymentStatus PaymentStatus @default(PENDING)
+  paymentDetails Json?        // Store UPI ID, card last 4 digits, etc.
+  instructions  String?
+  deliveryPartnerId String?
+  deliveryPartner DeliveryPartner? @relation(fields: [deliveryPartnerId], references: [id])
+  addressId     String?
+  address       Address?      @relation(fields: [addressId], references: [id])
+  refund        Refund?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  order     Order  @relation(fields: [orderId], references: [id])
+  itemId    String // Keep reference for analytics, but snapshot data is better
+  name      String // Snapshot name
+  price     Float  // Snapshot price
+  quantity  Int
+  options   Json?  // Store selected options as JSON
+  addons    Json?  // Store selected addons as JSON
+}
+
+model DeliveryPartner {
+  id            String   @id @default(uuid())
+  name          String
+  phone         String   @unique
+  email         String?
+  vehicleType   String?  // BIKE, SCOOTER, CYCLE
+  vehicleNumber String?
+  currentLocation String?
+  status        String   @default("AVAILABLE") // AVAILABLE, BUSY, OFFLINE
+  orders        Order[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  orderId   String?
+  amount    Float
+  type      String   // CREDIT, DEBIT
+  status    String   // SUCCESS, FAILED, PENDING
+  method    String   // UPI, CASH, CARD
+  reference String?  // Payment gateway ref
+  createdAt DateTime @default(now())
+}
+
+model Refund {
+  id        String   @id @default(uuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id])
+  amount    Float
+  reason    String?
+  status    String   // PENDING, PROCESSED
+  createdAt DateTime @default(now())
+}
+
+model Complaint {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  subject   String
+  message   String
+  status    ComplaintStatus @default(OPEN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Coupon {
+  id        String       @id @default(uuid())
+  code      String       @unique
+  type      DiscountType
+  value     Float
+  expiry    DateTime
+  isActive  Boolean      @default(true)
+  limit     Int?
+  usedCount Int          @default(0)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model DeliveryZone {
+  id        String   @id @default(uuid())
+  name      String
+  pincode   String   @unique
+  charge    Float
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Settings {
+  id             String   @id @default(uuid())
+  restaurantName String
+  contactPhone   String
+  contactEmail   String
+  address        String
+  minOrderAmount Float    @default(0)
+  operatingHours String
+  isOpen         Boolean  @default(true)
+  isPaused       Boolean  @default(false)
+  seoTitle       String?
+  seoDescription String?
+  seoOgImage     String?
+  updatedAt      DateTime @updatedAt
+}
+
+model Branch {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  phone     String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum DiscountType {
+  FLAT
+  PERCENTAGE
+}
