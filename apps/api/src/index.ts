@@ -42,7 +42,13 @@ app.use(express.json({
 }));
 app.use(cookieParser());
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
+    origin: [
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'http://localhost:3002',
+        process.env.FRONTEND_URL,
+        process.env.ADMIN_URL
+    ].filter(Boolean) as string[],
     credentials: true,
 }));
 app.use(helmet());
