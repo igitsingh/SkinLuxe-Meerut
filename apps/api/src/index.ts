@@ -48,7 +48,7 @@ app.use(cors({
         'http://localhost:3002',
         process.env.FRONTEND_URL,
         process.env.ADMIN_URL
-    ].filter(Boolean) as string[],
+    ].filter(Boolean).map(url => (url as string).replace(/\/$/, '')),
     credentials: true,
 }));
 app.use(helmet());
