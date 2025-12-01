@@ -3,7 +3,7 @@ import prisma from '../config/db';
 import { z } from 'zod';
 
 const addressSchema = z.object({
-    street: z.string().min(5),
+    street: z.string().min(3),
     city: z.string().min(2),
     zip: z.string().min(5),
     isDefault: z.boolean().optional(),

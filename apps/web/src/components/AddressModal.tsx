@@ -59,7 +59,9 @@ export default function AddressModal({ isOpen, onClose, onSaveAddress, currentLo
             onClose();
         } catch (error) {
             console.error('Failed to save address:', error);
-            toast.error('Failed to save address. Please try again.');
+            // @ts-ignore
+            const message = error.response?.data?.message || error.response?.data?.errors?.[0]?.message || 'Failed to save address. Please try again.';
+            toast.error(message);
         } finally {
             setIsSaving(false);
         }
@@ -161,8 +163,8 @@ export default function AddressModal({ isOpen, onClose, onSaveAddress, currentLo
                                     type="button"
                                     onClick={() => setAddressType(label)}
                                     className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg border-2 transition-all ${addressType === label
-                                            ? 'border-blue-600 bg-blue-50 text-blue-700'
-                                            : 'border-gray-200 hover:border-gray-300'
+                                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                        : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                 >
                                     <Icon className="h-4 w-4" />
