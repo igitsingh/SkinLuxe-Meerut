@@ -13,6 +13,7 @@ export const addAddress = async (req: Request, res: Response): Promise<void> => 
     try {
         // @ts-ignore
         const userId = req.user?.userId;
+        console.log('Adding address for user:', userId, 'Body:', req.body);
         const { street, city, zip, isDefault } = addressSchema.parse(req.body);
 
         if (isDefault) {
@@ -34,6 +35,7 @@ export const addAddress = async (req: Request, res: Response): Promise<void> => 
 
         res.status(201).json(address);
     } catch (error) {
+        console.error('Add address error:', error);
         if (error instanceof z.ZodError) {
             res.status(400).json({ errors: error.issues });
         } else {

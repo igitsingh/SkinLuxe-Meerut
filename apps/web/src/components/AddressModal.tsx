@@ -19,14 +19,26 @@ export default function AddressModal({ isOpen, onClose, onSaveAddress, currentLo
     const [floor, setFloor] = useState('');
     const [buildingName, setBuildingName] = useState('');
     const [landmark, setLandmark] = useState('');
+    const [city, setCity] = useState('Meerut');
+    const [zip, setZip] = useState('250001');
     const [addressType, setAddressType] = useState('Home');
     const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Update city based on location prop change
+    // useEffect(() => {
+    //     if (currentLocation) {
+    //         const inferredCity = currentLocation.split(',').pop()?.trim();
+    //         if (inferredCity) setCity(inferredCity);
+    //     }
+    // }, [currentLocation]);
 
     if (!isOpen) return null;
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSaving(true);
+        setError(null);
 
         try {
             const fullAddress = {
@@ -42,9 +54,6 @@ export default function AddressModal({ isOpen, onClose, onSaveAddress, currentLo
                 .filter(Boolean)
                 .join(', ');
 
-            const city = currentLocation.split(',').pop()?.trim() || 'Meerut';
-            const zip = '250001';
-
             await api.post('/users/addresses', { street, city, zip });
 
             toast.success('Address saved successfully!');
@@ -55,12 +64,13 @@ export default function AddressModal({ isOpen, onClose, onSaveAddress, currentLo
             setBuildingName('');
             setLandmark('');
             setAddressType('Home');
+            setError(null);
 
             onClose();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to save address:', error);
-            // @ts-ignore
             const message = error.response?.data?.message || error.response?.data?.errors?.[0]?.message || 'Failed to save address. Please try again.';
+            setError(message);
             toast.error(message);
         } finally {
             setIsSaving(false);
@@ -149,6 +159,33 @@ export default function AddressModal({ isOpen, onClose, onSaveAddress, currentLo
                             placeholder="e.g. Near City Park"
                         />
                     </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label className="text-xs font-medium text-gray-500">City</label>
+                            <input
+                                type="text"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-xs font-medium text-gray-500">Zip Code</label>
+                            <input
+                                type="text"
+                                value={zip}
+                                onChange={(e) => setZip(e.target.value)}
+                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                    </div>
+
+                    {error && (
+                        <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-200">
+                            {error}
+                        </div>
+                    )}
 
                     <div className="space-y-2">
                         <label className="text-xs font-medium text-gray-500">Save Address As</label>
