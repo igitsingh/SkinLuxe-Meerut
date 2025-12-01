@@ -112,9 +112,10 @@ export default function CheckoutPage() {
             setTimeout(() => {
                 window.location.href = `/order-confirmation/${orderRes.data.id}`;
             }, 500);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to place order', error);
-            alert('Failed to place order. Please try again.');
+            const message = error.response?.data?.message || error.response?.data?.errors?.[0]?.message || 'Failed to place order. Please try again.';
+            toast.error(message);
         } finally {
             setCreatingOrder(false);
         }

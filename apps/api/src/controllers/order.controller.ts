@@ -25,6 +25,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
     try {
         // @ts-ignore
         const userId = req.user?.userId;
+        console.log('Creating order for user:', userId, 'Body:', JSON.stringify(req.body, null, 2));
         const { items, total, addressId, paymentMethod, paymentStatus, paymentDetails } = createOrderSchema.parse(req.body);
 
         const order = await prisma.order.create({
