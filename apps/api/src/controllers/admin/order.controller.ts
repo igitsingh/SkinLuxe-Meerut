@@ -15,6 +15,7 @@ export const getAllOrders = async (req: Request, res: Response) => {
                     },
                 },
                 items: true,
+                address: true,
             },
             orderBy: {
                 createdAt: 'desc',
@@ -43,7 +44,8 @@ export const getOrderById = async (req: Request, res: Response) => {
                 },
                 items: true,
                 deliveryPartner: true,
-                refund: true
+                refund: true,
+                address: true
             },
         });
 
@@ -108,6 +110,7 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
                         email: true,
                     },
                 },
+                address: true,
             },
         });
 

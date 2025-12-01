@@ -92,7 +92,8 @@ export const getOrders = async (req: Request, res: Response): Promise<void> => {
             where: whereClause,
             include: {
                 items: true,
-                user: true  // Include user info for admin view
+                user: true,
+                address: true  // Include user info for admin view
             },
             orderBy: { createdAt: 'desc' },
         });
@@ -110,7 +111,7 @@ export const getOrder = async (req: Request, res: Response): Promise<void> => {
 
         const order = await prisma.order.findUnique({
             where: { id },
-            include: { items: true },
+            include: { items: true, address: true },
         });
 
         if (!order) {
