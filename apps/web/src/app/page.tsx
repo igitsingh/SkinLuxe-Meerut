@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { MapPin, ChevronDown, Smartphone, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import CategorySlider from '@/components/CategorySlider';
 import PromoBanner from '@/components/PromoBanner';
 import LocationModal from '@/components/LocationModal';
@@ -23,7 +24,7 @@ export default function Home() {
   const [loveCarouselSlide, setLoveCarouselSlide] = useState(0);
   const [bestsellers, setBestsellers] = useState<any[]>([]);
   const [loadingBestsellers, setLoadingBestsellers] = useState(true);
-  const { location: selectedLocation, setLocation: setSelectedLocation } = useStore();
+  const { location: selectedLocation, setLocation: setSelectedLocation, user } = useStore();
 
   // Fetch bestsellers
   useEffect(() => {
@@ -113,6 +114,10 @@ export default function Home() {
               className="bg-transparent border-white text-white hover:bg-orange-700 w-full md:w-auto text-[10px] md:text-xs h-7 md:h-8 min-h-0"
               onClick={() => {
                 if (selectedLocation) {
+                  if (!user) {
+                    toast.error('Please login to add address details');
+                    return;
+                  }
                   setIsAddressModalOpen(true);
                 } else {
                   setIsLocationModalOpen(true);
