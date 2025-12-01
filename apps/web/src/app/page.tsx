@@ -116,6 +116,7 @@ export default function Home() {
                 if (selectedLocation) {
                   if (!user) {
                     toast.error('Please login to add address details');
+                    window.location.href = '/login';
                     return;
                   }
                   setIsAddressModalOpen(true);

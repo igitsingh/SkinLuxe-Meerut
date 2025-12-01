@@ -175,7 +175,7 @@ export default function CartPage() {
                                     onClick={() => {
                                         if (!user) {
                                             toast.error('Please login to add an address');
-                                            // Optional: router.push('/login');
+                                            window.location.href = '/login';
                                             return;
                                         }
                                         setIsAddressModalOpen(true);
