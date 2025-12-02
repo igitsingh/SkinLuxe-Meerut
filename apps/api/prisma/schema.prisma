@@ -60,6 +60,7 @@ model User {
   complaints Complaint[]
   notes     String?  // Admin notes for VIPs, issues
   isVIP     Boolean  @default(false)
+  fcmToken  String?  // For Android Push Notifications
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -158,6 +159,9 @@ model Order {
   paymentMethod PaymentMethod @default(COD)
   paymentStatus PaymentStatus @default(PENDING)
   paymentDetails Json?        // Store UPI ID, card last 4 digits, etc.
+  razorpayOrderId String?     // For Razorpay integration
+  razorpayPaymentId String?   // For Razorpay integration
+  razorpaySignature String?   // For Razorpay integration
   instructions  String?
   deliveryPartnerId String?
   deliveryPartner DeliveryPartner? @relation(fields: [deliveryPartnerId], references: [id])

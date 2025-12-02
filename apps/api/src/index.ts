@@ -29,6 +29,7 @@ import adminUserRoutes from './routes/admin/user.routes';
 import adminSettingsRoutes from './routes/admin/settings.routes';
 import locationRoutes from './routes/location.routes';
 import paymentRoutes from './routes/payment.routes';
+import notificationRoutes from './routes/notification.routes';
 
 // Middleware
 app.use(express.json({
@@ -80,6 +81,7 @@ app.use('/api/admin/complaints', adminComplaintRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {

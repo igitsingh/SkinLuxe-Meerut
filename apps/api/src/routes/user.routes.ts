@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { addAddress, getAddresses, deleteAddress, updateAddress } from '../controllers/user.controller';
+import { addAddress, getAddresses, deleteAddress, updateAddress, updateProfile } from '../controllers/user.controller';
 import { authenticate } from '../middlewares/auth.middleware';
 
 const router = Router();
 
+router.put('/me', authenticate, updateProfile);
 router.post('/addresses', authenticate, addAddress);
 router.get('/addresses', authenticate, getAddresses);
 router.delete('/addresses/:id', authenticate, deleteAddress);

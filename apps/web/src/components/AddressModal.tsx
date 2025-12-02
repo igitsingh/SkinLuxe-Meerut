@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { X, MapPin, Home, Briefcase, Users, Edit3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useStore } from '@/store/useStore';
 import api from '@/lib/api';
 import { toast } from 'sonner';
 
@@ -32,6 +33,8 @@ export default function AddressModal({ isOpen, onClose, onSaveAddress, currentLo
     //         if (inferredCity) setCity(inferredCity);
     //     }
     // }, [currentLocation]);
+
+    const { user } = useStore();
 
     if (!isOpen) return null;
 

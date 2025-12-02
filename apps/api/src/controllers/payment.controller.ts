@@ -71,3 +71,89 @@ export const handleWebhook = async (req: Request, res: Response): Promise<void> 
 
     res.json({ received: true });
 };
+
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder',
+    key_secret: process.env.RAZORPAY_KEY_SECRET || 'rzp_secret_placeholder',
+});
+
+export const createRazorpayOrder = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { orderId } = req.body;
+
+        const order = await prisma.order.findUnique({
+            where: { id: orderId },
+        });
+
+        if (!order) {
+            res.status(404).json({ message: 'Order not found' });
+            return;
+        }
+
+        const options = {
+            amount: Math.round(order.total * 100), // Amount in paise
+            currency: 'INR',
+            receipt: orderId,
+        };
+
+        const razorpayOrder = await razorpay.orders.create(options);
+
+        await prisma.order.update({
+            where: { id: orderId },
+            data: { razorpayOrderId: razorpayOrder.id },
+        });
+
+        res.json({
+            id: razorpayOrder.id,
+            amount: razorpayOrder.amount,
+            currency: razorpayOrder.currency,
+            keyId: process.env.RAZORPAY_KEY_ID,
+        });
+    } catch (error) {
+        console.error('Razorpay create order error:', error);
+        res.status(500).json({ message: 'Failed to create Razorpay order' });
+    }
+};
+
+export const verifyRazorpayPayment = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+        const body = razorpay_order_id + '|' + razorpay_payment_id;
+
+        const expectedSignature = crypto
+            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || '')
+            .update(body.toString())
+            .digest('hex');
+
+        const isAuthentic = expectedSignature === razorpay_signature;
+
+        if (isAuthentic) {
+            const order = await prisma.order.findFirst({
+                where: { razorpayOrderId: razorpay_order_id },
+            });
+
+            if (order) {
+                await prisma.order.update({
+                    where: { id: order.id },
+                    data: {
+                        paymentStatus: 'PAID',
+                        status: 'PREPARING', // Auto-accept paid orders
+                        razorpayPaymentId: razorpay_payment_id,
+                        razorpaySignature: razorpay_signature,
+                    },
+                });
+            }
+
+            res.json({ message: 'Payment verified successfully' });
+        } else {
+            res.status(400).json({ message: 'Invalid signature' });
+        }
+    } catch (error) {
+        console.error('Razorpay verify error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

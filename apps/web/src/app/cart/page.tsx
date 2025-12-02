@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useStore } from '@/store/useStore';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Trash2, ArrowRight, MapPin, Edit2, Plus, Check } from 'lucide-react';
 import AddressModal from '@/components/AddressModal';
 import LocationModal from '@/components/LocationModal';
@@ -23,22 +24,46 @@ export default function CartPage() {
     const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
     const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isGuestLoading, setIsGuestLoading] = useState(false);
+    const router = useRouter();
 
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     useEffect(() => {
+        console.log('CartPage mounted. User:', user);
         fetchAddresses();
-    }, []);
+    }, [user]);
+
+    const handleGuestLogin = async () => {
+        try {
+            setIsGuestLoading(true);
+            const res = await api.post('/auth/guest');
+            localStorage.setItem('token', res.data.token);
+            // Update store
+            useStore.getState().setUser(res.data.user);
+            toast.success('Continued as guest');
+            // Address modal will be available now since user is set
+        } catch (err: any) {
+            console.error('Guest login failed:', err);
+            toast.error('Failed to create guest session');
+        } finally {
+            setIsGuestLoading(false);
+        }
+    };
 
     const fetchAddresses = async () => {
+        if (!user) return;
         try {
             const res = await api.get('/users/addresses');
             setSavedAddresses(res.data);
             if (res.data.length > 0 && !selectedAddressId) {
                 setSelectedAddressId(res.data[0].id);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to fetch addresses:', error);
+            // If 401, it might be handled by interceptor, but for guest we shouldn't force logout if the token is valid but just this endpoint fails (unlikely if token is valid)
+            // However, if we are guest, we might not have addresses yet, so 401 is bad.
+            // If we are guest, we should have a valid token.
         } finally {
             setLoading(false);
         }
@@ -171,20 +196,32 @@ export default function CartPage() {
                         ) : (
                             <div className="bg-gray-50 p-6 rounded-lg border border-dashed border-gray-300 text-center">
                                 <p className="text-gray-500 mb-3">No saved addresses</p>
-                                <Button
-                                    onClick={() => {
-                                        if (!user) {
-                                            toast.error('Please login to add an address');
-                                            window.location.href = '/login';
-                                            return;
-                                        }
-                                        setIsAddressModalOpen(true);
-                                    }}
-                                    variant="outline"
-                                    className="border-orange-500 text-orange-600 hover:bg-orange-50"
-                                >
-                                    <Plus className="h-4 w-4 mr-2" /> Add New Address
-                                </Button>
+                                {!user ? (
+                                    <div className="flex flex-col gap-3 justify-center items-center">
+                                        <p className="text-sm text-gray-600">Login to access your saved addresses or continue as a guest.</p>
+                                        <div className="flex gap-3">
+                                            <Button onClick={() => router.push('/login')}>
+                                                Login
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                onClick={handleGuestLogin}
+                                                disabled={isGuestLoading}
+                                                className="border-orange-500 text-orange-600 hover:bg-orange-50"
+                                            >
+                                                {isGuestLoading ? 'Creating Guest Session...' : 'Continue as Guest'}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <Button
+                                        onClick={() => setIsAddressModalOpen(true)}
+                                        variant="outline"
+                                        className="border-orange-500 text-orange-600 hover:bg-orange-50"
+                                    >
+                                        <Plus className="h-4 w-4 mr-2" /> Add New Address
+                                    </Button>
+                                )}
                             </div>
                         )}
                     </div>

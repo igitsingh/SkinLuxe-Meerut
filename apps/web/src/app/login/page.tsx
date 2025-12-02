@@ -139,11 +139,25 @@ function LoginForm() {
         }
     };
 
+    const handleGuestLogin = async () => {
+        try {
+            setLoading(true);
+            const res = await api.post('/auth/guest');
+            localStorage.setItem('token', res.data.token);
+            setUser(res.data.user);
+            router.push('/');
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Guest login failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 relative">
             {/* Continue as Guest (Top Right) */}
             <button
-                onClick={() => router.push('/')}
+                onClick={handleGuestLogin}
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 font-medium text-sm flex items-center gap-1"
             >
                 Continue as Guest <ArrowRight className="w-4 h-4" />
@@ -234,7 +248,7 @@ function LoginForm() {
 
                         <button
                             type="button"
-                            onClick={() => router.push('/')}
+                            onClick={handleGuestLogin}
                             className="w-full py-3 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors flex items-center justify-center gap-1"
                         >
                             Continue as Guest <ArrowRight className="w-4 h-4" />

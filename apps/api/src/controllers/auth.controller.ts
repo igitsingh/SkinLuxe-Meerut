@@ -158,6 +158,31 @@ export const whatsappLogin = async (req: Request, res: Response): Promise<void> 
     }
 };
 
+export const guestLogin = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const timestamp = Date.now();
+        const email = `guest_${timestamp}@thepizzabox.com`;
+        const password = await hashPassword(`guest_${timestamp}`);
+
+        const user = await prisma.user.create({
+            data: {
+                email,
+                password,
+                name: 'GUEST USER',
+                role: 'CUSTOMER',
+                // We can add a flag or just rely on email pattern
+            },
+        });
+
+        const token = generateToken(user.id, user.role);
+        // Return isGuest: true in the response for frontend UI logic
+        res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role, isGuest: true } });
+    } catch (error) {
+        console.error('Guest login error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 export const getMe = async (req: Request, res: Response): Promise<void> => {
     try {
         // @ts-ignore - user is attached by middleware
