@@ -94,7 +94,7 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
                 items: {
                     create: orderItems,
                 },
-            },
+            } as any,
         });
 
         // Notify admins about new order
