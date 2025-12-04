@@ -190,48 +190,118 @@ export default function Home() {
                 </Link>
               </div>
             ) : (
-              bestsellers.map((item) => (
-                <Link key={item.id} href={`/menu/${item.id}`} className="group">
-                  <div className="bg-white rounded-lg md:rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all relative h-full flex flex-col">
-                    <div className="h-24 md:h-64 overflow-hidden relative shrink-0">
-                      {item.image ? (
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-2xl md:text-6xl bg-gray-100">🍕</div>
-                      )}
-                      {/* Tags Overlay */}
-                      <div className="absolute top-1 left-1 md:top-3 md:left-3 bg-white/90 backdrop-blur-sm p-0.5 md:p-1.5 rounded shadow-sm scale-75 origin-top-left md:scale-100">
-                        <ItemTags
-                          isVeg={item.isVeg}
-                          isSpicy={item.isSpicy}
-                          isBestSeller={true}
-                          isAvailable={item.isAvailable}
-                          size="sm"
-                        />
+              bestsellers.map((item) => {
+                const { addToCart, cart, removeFromCart } = useStore();
+                const isInCart = cart.some((cartItem) => cartItem.id === item.id);
+                const cartItem = cart.find((c) => c.id === item.id);
+
+                const handleAddToCart = (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  addToCart({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1,
+                    options: {},
+                    addons: []
+                  });
+                };
+
+                const handleRemoveFromCart = (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  removeFromCart(item.id);
+                };
+
+                const handleDecrement = (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (cartItem && cartItem.quantity > 1) {
+                    addToCart({
+                      id: item.id,
+                      name: item.name,
+                      price: item.price,
+                      quantity: -1,
+                      options: {},
+                      addons: []
+                    });
+                  } else {
+                    removeFromCart(item.id);
+                  }
+                };
+
+                return (
+                  <Link key={item.id} href={`/menu/${item.id}`} className="group">
+                    <div className="bg-white rounded-lg md:rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all relative h-full flex flex-col">
+                      <div className="h-24 md:h-64 overflow-hidden relative shrink-0">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-2xl md:text-6xl bg-gray-100">🍕</div>
+                        )}
+                        {/* Tags Overlay */}
+                        <div className="absolute top-1 left-1 md:top-3 md:left-3 bg-white/90 backdrop-blur-sm p-0.5 md:p-1.5 rounded shadow-sm scale-75 origin-top-left md:scale-100">
+                          <ItemTags
+                            isVeg={item.isVeg}
+                            isSpicy={item.isSpicy}
+                            isBestSeller={true}
+                            isAvailable={item.isAvailable}
+                            size="sm"
+                          />
+                        </div>
+                      </div>
+                      <div className="p-2 md:p-4 flex flex-col flex-grow">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-2 mb-1 md:mb-2">
+                          <h3 className="font-bold text-[10px] md:text-lg leading-tight line-clamp-2 md:line-clamp-1">{item.name}</h3>
+                          <span className="text-orange-600 font-bold text-[10px] md:text-lg">₹{item.price}</span>
+                        </div>
+                        <p className="text-gray-600 text-sm mb-3 line-clamp-2 hidden md:block">
+                          {item.description || 'Delicious and freshly made.'}
+                        </p>
+                        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mt-auto gap-1 md:gap-0">
+                          <span className="text-gray-500 text-[8px] md:text-xs">{item.soldCount} sold</span>
+                          {isInCart ? (
+                            <div className="flex items-center gap-1 bg-green-50 border border-green-200 rounded-md" onClick={(e) => e.preventDefault()}>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={handleDecrement}
+                                className="h-5 w-5 md:h-8 md:w-8 p-0 text-green-700 hover:bg-green-100 text-[10px] md:text-base"
+                              >
+                                -
+                              </Button>
+                              <span className="text-[10px] md:text-sm font-bold text-green-700 min-w-[15px] md:min-w-[20px] text-center">
+                                {cartItem?.quantity || 0}
+                              </span>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={handleAddToCart}
+                                className="h-5 w-5 md:h-8 md:w-8 p-0 text-green-700 hover:bg-green-100 text-[10px] md:text-base"
+                              >
+                                +
+                              </Button>
+                            </div>
+                          ) : (
+                            <Button
+                              size="sm"
+                              className="bg-gray-800 hover:bg-gray-900 rounded-full h-5 text-[8px] px-2 w-full md:w-auto md:h-9 md:text-sm md:px-4"
+                              onClick={handleAddToCart}
+                            >
+                              Add <span className="hidden md:inline ml-1">→</span>
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <div className="p-2 md:p-4 flex flex-col flex-grow">
-                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-2 mb-1 md:mb-2">
-                        <h3 className="font-bold text-[10px] md:text-lg leading-tight line-clamp-2 md:line-clamp-1">{item.name}</h3>
-                        <span className="text-orange-600 font-bold text-[10px] md:text-lg">₹{item.price}</span>
-                      </div>
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2 hidden md:block">
-                        {item.description || 'Delicious and freshly made.'}
-                      </p>
-                      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mt-auto gap-1 md:gap-0">
-                        <span className="text-gray-500 text-[8px] md:text-xs">{item.soldCount} sold</span>
-                        <Button size="sm" className="bg-gray-800 hover:bg-gray-900 rounded-full h-5 text-[8px] px-2 w-full md:w-auto md:h-9 md:text-sm md:px-4">
-                          Add <span className="hidden md:inline ml-1">→</span>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))
+                  </Link>
+                );
+              })
             )}
           </div>
 
