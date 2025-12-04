@@ -87,6 +87,9 @@ const ORDER_STATUSES = [
 
 import { Suspense } from "react"
 
+import { useSocketStore } from "@/store/useSocketStore"
+import { getSocket } from "@/lib/socket"
+
 function OrdersContent() {
     const searchParams = useSearchParams()
     const statusParam = searchParams.get('status')
@@ -109,33 +112,36 @@ function OrdersContent() {
     const [deliveryPartners, setDeliveryPartners] = useState<DeliveryPartner[]>([])
     const [selectedPartnerId, setSelectedPartnerId] = useState<string>("")
 
+    const { resetNewOrdersCount } = useSocketStore()
+
     // Sound notification ref
     const audioRef = useRef<HTMLAudioElement | null>(null)
-    const prevOrdersCountRef = useRef(0)
 
     useEffect(() => {
-        audioRef.current = new Audio("/sounds/notification.mp3") // Ensure this file exists in public/sounds
+        audioRef.current = new Audio("/sounds/notification.mp3")
         fetchOrders()
         fetchDeliveryPartners()
+        resetNewOrdersCount() // Reset badge when viewing orders
 
-        const interval = setInterval(fetchOrders, 10000) // Poll every 10s
-        return () => clearInterval(interval)
+        // Listen for new orders to refresh list immediately
+        const socket = getSocket()
+        const handleNewOrder = () => {
+            fetchOrders()
+        }
+        socket.on('new_order', handleNewOrder)
+
+        const interval = setInterval(fetchOrders, 10000) // Poll every 10s as backup
+
+        return () => {
+            clearInterval(interval)
+            socket.off('new_order', handleNewOrder)
+        }
     }, [])
 
     const fetchOrders = async () => {
         try {
             const res = await api.get("/orders")
-            const newOrders = res.data
-
-            // Check for new orders to play sound
-            if (prevOrdersCountRef.current > 0 && newOrders.length > prevOrdersCountRef.current) {
-                // New order received
-                toast.info("New order received!", { icon: <Bell className="h-4 w-4" /> })
-                audioRef.current?.play().catch(e => console.log("Audio play failed", e))
-            }
-            prevOrdersCountRef.current = newOrders.length
-
-            setOrders(newOrders)
+            setOrders(res.data)
         } catch (error) {
             console.error("Failed to fetch orders", error)
         } finally {

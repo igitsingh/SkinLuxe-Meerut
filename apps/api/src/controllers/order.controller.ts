@@ -4,76 +4,108 @@ import { z } from 'zod';
 import { getIO } from '../socket';
 
 const createOrderSchema = z.object({
-    items: z.array(
-        z.object({
-            itemId: z.string(),
-            name: z.string(),
-            price: z.number(),
-            quantity: z.number(),
-            options: z.any().optional(),
-            addons: z.any().optional(),
-        })
-    ),
-    total: z.number(),
+    items: z.array(z.object({
+        id: z.string(),
+        quantity: z.number().min(1),
+        options: z.any().optional(),
+        addons: z.array(z.any()).optional(),
+    })),
     addressId: z.string().optional(),
-    paymentMethod: z.enum(['COD', 'UPI', 'CARD', 'NET_BANKING']).default('COD'),
-    paymentStatus: z.enum(['PENDING', 'PAID', 'FAILED']).default('PENDING'),
-    paymentDetails: z.any().optional(),
+    paymentMethod: z.enum(['COD', 'UPI', 'CARD', 'NET_BANKING']),
+    instructions: z.string().optional(),
+    isGuest: z.boolean().optional(),
+    guestAddress: z.object({
+        street: z.string(),
+        city: z.string(),
+        zip: z.string(),
+    }).optional(),
+    guestPhone: z.string().optional(),
+    guestName: z.string().optional(),
 });
 
 export const createOrder = async (req: Request, res: Response): Promise<void> => {
     try {
+        const { items, addressId, paymentMethod, instructions, isGuest, guestAddress, guestPhone, guestName } = createOrderSchema.parse(req.body);
+
         // @ts-ignore
         const userId = req.user?.userId;
-        console.log('Creating order for user:', userId, 'Body:', JSON.stringify(req.body, null, 2));
-        const { items, total, addressId, paymentMethod, paymentStatus, paymentDetails } = createOrderSchema.parse(req.body);
+
+        if (!userId && !isGuest) {
+            res.status(401).json({ message: 'Unauthorized' });
+            return;
+        }
+
+        if (isGuest && !guestAddress) {
+            res.status(400).json({ message: 'Guest address is required' });
+            return;
+        }
+
+        if (!isGuest && !addressId) {
+            res.status(400).json({ message: 'Address ID is required for logged-in users' });
+            return;
+        }
+
+        // Calculate total
+        let subtotal = 0;
+        const orderItems = [];
+
+        for (const item of items) {
+            const dbItem = await prisma.item.findUnique({ where: { id: item.id } });
+            if (!dbItem) {
+                res.status(404).json({ message: `Item not found: ${item.id}` });
+                return;
+            }
+
+            let itemPrice = dbItem.price;
+            // Add options price logic here if needed
+            // Add addons price logic here if needed
+
+            subtotal += itemPrice * item.quantity;
+            orderItems.push({
+                itemId: dbItem.id,
+                name: dbItem.name,
+                price: itemPrice,
+                quantity: item.quantity,
+                options: item.options,
+                addons: item.addons,
+            });
+        }
+
+        const tax = subtotal * 0.05;
+        const deliveryFee = 50; // Fixed for now
+        const total = subtotal + tax + deliveryFee;
 
         const order = await prisma.order.create({
             data: {
-                userId,
-                total,
+                userId: userId || undefined,
                 status: 'PENDING',
-                // @ts-ignore - addressId might not be in schema yet, but we will add it
-                addressId: addressId,
+                total,
+                subtotal,
+                tax,
+                deliveryFee,
                 paymentMethod,
-                paymentStatus,
-                paymentDetails: paymentDetails || {},
+                instructions,
+                addressId: isGuest ? undefined : addressId,
+                guestInfo: isGuest ? {
+                    address: guestAddress,
+                    phone: guestPhone,
+                    name: guestName
+                } : undefined,
                 items: {
-                    create: items.map((item) => ({
-                        itemId: item.itemId,
-                        name: item.name,
-                        price: item.price,
-                        quantity: item.quantity,
-                        options: item.options,
-                        addons: item.addons,
-                    })),
+                    create: orderItems,
                 },
             },
-            include: {
-                items: true,
-            },
         });
 
-        // Notify admin (or specific room)
+        // Notify admins about new order
         getIO().of('/orders').emit('new_order', order);
-
-        // Send Notification
-        const fullOrder = await prisma.order.findUnique({
-            where: { id: order.id },
-            include: { user: true }
-        });
-
-        if (fullOrder) {
-            const { NotificationService } = require('../services/notification.service');
-            NotificationService.sendOrderConfirmation(fullOrder);
-        }
 
         res.status(201).json(order);
     } catch (error) {
+        console.error('Create order error:', error);
         if (error instanceof z.ZodError) {
             res.status(400).json({ errors: error.issues });
         } else {
-            console.error('Create order error:', error);
             res.status(500).json({ message: 'Internal server error' });
         }
     }

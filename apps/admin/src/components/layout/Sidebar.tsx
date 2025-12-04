@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button"
 import api from "@/lib/api"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { useSocketStore } from "@/store/useSocketStore"
 
 const sidebarItems = [
     {
@@ -91,6 +92,7 @@ const sidebarItems = [
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
     const pathname = usePathname()
     const router = useRouter()
+    const { newOrdersCount } = useSocketStore()
 
     const handleLogout = async () => {
         try {
@@ -131,6 +133,11 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                             >
                                 <item.icon className={cn("h-5 w-5", isActive ? "text-white" : "text-gray-400")} />
                                 {item.title}
+                                {item.title === 'Orders' && newOrdersCount > 0 && (
+                                    <span className="ml-auto bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-pulse">
+                                        +{newOrdersCount}
+                                    </span>
+                                )}
                             </Link>
                         )
                     })}

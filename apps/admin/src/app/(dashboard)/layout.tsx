@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Menu } from "lucide-react"
 import { Sidebar } from "@/components/layout/Sidebar"
 import { Button } from "@/components/ui/button"
+import { useSocketStore } from "@/store/useSocketStore"
 
 export default function DashboardLayout({
     children,
@@ -11,6 +12,11 @@ export default function DashboardLayout({
     children: React.ReactNode
 }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const { initializeSocket } = useSocketStore()
+
+    useEffect(() => {
+        initializeSocket()
+    }, [initializeSocket])
 
     return (
         <div className="flex h-screen overflow-hidden bg-slate-50">
