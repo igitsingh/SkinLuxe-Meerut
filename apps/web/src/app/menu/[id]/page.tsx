@@ -40,12 +40,16 @@ interface Item {
 export default function ItemPage() {
     const { id } = useParams();
     const router = useRouter();
-    const { addToCart } = useStore();
+    const { addToCart, cart, removeFromCart } = useStore();
 
     const [item, setItem] = useState<Item | null>(null);
     const [loading, setLoading] = useState(true);
     const [selectedOptions, setSelectedOptions] = useState<Record<string, OptionChoice>>({});
     const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
+
+    // Get cart item for this product
+    const cartItem = cart.find(c => c.id === id);
+    const isInCart = !!cartItem;
 
     useEffect(() => {
         const fetchItem = async () => {
@@ -99,8 +103,34 @@ export default function ItemPage() {
             options: selectedOptions,
             addons: selectedAddons.map(id => item.addons.find(a => a.id === id)),
         });
+    };
 
-        router.push('/menu');
+    const handleIncrement = () => {
+        if (!item) return;
+        addToCart({
+            id: item.id,
+            name: item.name,
+            price: calculateTotal(),
+            quantity: 1,
+            options: selectedOptions,
+            addons: selectedAddons.map(id => item.addons.find(a => a.id === id)),
+        });
+    };
+
+    const handleDecrement = () => {
+        if (!item || !cartItem) return;
+        if (cartItem.quantity > 1) {
+            addToCart({
+                id: item.id,
+                name: item.name,
+                price: calculateTotal(),
+                quantity: -1,
+                options: selectedOptions,
+                addons: selectedAddons.map(id => item.addons.find(a => a.id === id)),
+            });
+        } else {
+            removeFromCart(item.id);
+        }
     };
 
     if (loading) {
@@ -154,14 +184,14 @@ export default function ItemPage() {
                                 <label
                                     key={choice.id}
                                     className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-all ${selectedOptions[option.id]?.id === choice.id
-                                            ? 'border-green-600 bg-green-50'
-                                            : 'border-gray-200 hover:border-gray-300'
+                                        ? 'border-green-600 bg-green-50'
+                                        : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedOptions[option.id]?.id === choice.id
-                                                ? 'border-green-600 bg-green-600'
-                                                : 'border-gray-300'
+                                            ? 'border-green-600 bg-green-600'
+                                            : 'border-gray-300'
                                             }`}>
                                             {selectedOptions[option.id]?.id === choice.id && (
                                                 <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -195,14 +225,14 @@ export default function ItemPage() {
                                 <label
                                     key={addon.id}
                                     className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-all ${selectedAddons.includes(addon.id)
-                                            ? 'border-green-600 bg-green-50'
-                                            : 'border-gray-200 hover:border-gray-300'
+                                        ? 'border-green-600 bg-green-50'
+                                        : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${selectedAddons.includes(addon.id)
-                                                ? 'border-green-600 bg-green-600'
-                                                : 'border-gray-300'
+                                            ? 'border-green-600 bg-green-600'
+                                            : 'border-gray-300'
                                             }`}>
                                             {selectedAddons.includes(addon.id) && (
                                                 <Check className="h-3 w-3 text-white" />
@@ -237,13 +267,46 @@ export default function ItemPage() {
                         <div className="text-xs text-gray-500">Regular | New Hand Tossed</div>
                         <div className="text-lg font-bold text-gray-800">₹ {calculateTotal()}</div>
                     </div>
-                    <Button
-                        size="lg"
-                        className="bg-red-600 hover:bg-red-700 text-white font-bold px-8"
-                        onClick={handleAddToCart}
-                    >
-                        ₹ {calculateTotal()} | Add +
-                    </Button>
+                    {isInCart ? (
+                        <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 bg-green-50 border-2 border-green-200 rounded-lg px-2">
+                                <Button
+                                    size="lg"
+                                    variant="ghost"
+                                    onClick={handleDecrement}
+                                    className="h-12 w-12 p-0 text-green-700 hover:bg-green-100 text-xl font-bold"
+                                >
+                                    -
+                                </Button>
+                                <span className="text-lg font-bold text-green-700 min-w-[30px] text-center">
+                                    {cartItem?.quantity || 0}
+                                </span>
+                                <Button
+                                    size="lg"
+                                    variant="ghost"
+                                    onClick={handleIncrement}
+                                    className="h-12 w-12 p-0 text-green-700 hover:bg-green-100 text-xl font-bold"
+                                >
+                                    +
+                                </Button>
+                            </div>
+                            <Button
+                                size="lg"
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold px-6"
+                                onClick={() => router.push('/cart')}
+                            >
+                                View Cart →
+                            </Button>
+                        </div>
+                    ) : (
+                        <Button
+                            size="lg"
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold px-8"
+                            onClick={handleAddToCart}
+                        >
+                            Add to Cart +
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>
