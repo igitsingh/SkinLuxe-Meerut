@@ -43,7 +43,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             {/* Sidebar */}
             <div
                 ref={sidebarRef}
-                className={`fixed top-0 left-0 h-full w-[300px] bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                className={`fixed top-0 left-0 h-full w-[300px] bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full hidden'}`}
             >
                 <div className="p-4 flex justify-between items-center border-b">
                     <div className="flex items-center gap-2">
