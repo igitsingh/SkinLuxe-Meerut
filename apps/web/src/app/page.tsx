@@ -24,7 +24,7 @@ export default function Home() {
   const [loveCarouselSlide, setLoveCarouselSlide] = useState(0);
   const [bestsellers, setBestsellers] = useState<any[]>([]);
   const [loadingBestsellers, setLoadingBestsellers] = useState(true);
-  const { location: selectedLocation, setLocation: setSelectedLocation, user } = useStore();
+  const { location: selectedLocation, setLocation: setSelectedLocation, user, cart, addToCart, removeFromCart } = useStore();
 
   // Fetch bestsellers
   useEffect(() => {
@@ -191,7 +191,6 @@ export default function Home() {
               </div>
             ) : (
               bestsellers.map((item) => {
-                const { addToCart, cart, removeFromCart } = useStore();
                 const isInCart = cart.some((cartItem) => cartItem.id === item.id);
                 const cartItem = cart.find((c) => c.id === item.id);
 
