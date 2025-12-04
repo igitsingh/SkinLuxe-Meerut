@@ -47,6 +47,8 @@ app.use(cors({
         'http://localhost:3000',
         'http://localhost:3001',
         'http://localhost:3002',
+        'https://the-pizza-box-web.vercel.app',
+        'https://the-pizza-box-admin.vercel.app',
         process.env.FRONTEND_URL,
         process.env.ADMIN_URL
     ].filter(Boolean).map(url => (url as string).replace(/\/$/, '')),
