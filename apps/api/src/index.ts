@@ -66,6 +66,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/locations', locationRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/notifications', notificationRoutes);
+
+// Admin routes - IMPORTANT: Register specific routes BEFORE the general /api/admin route
+// to prevent the global admin middleware from being applied to auth routes
 app.use('/api/admin/auth', adminAuthRoutes);
 app.use('/api/admin/menu', adminMenuRoutes);
 app.use('/api/admin/categories', adminCategoryRoutes);
@@ -78,10 +84,7 @@ app.use('/api/admin/analytics', adminAnalyticsRoutes);
 app.use('/api/admin/stock', adminStockRoutes);
 app.use('/api/admin/payments', adminPaymentRoutes);
 app.use('/api/admin/complaints', adminComplaintRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/locations', locationRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/notifications', notificationRoutes);
+app.use('/api/admin', adminRoutes); // This must be LAST among admin routes
 
 // Basic Route
 app.get('/', (req, res) => {
