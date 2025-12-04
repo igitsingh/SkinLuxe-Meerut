@@ -92,7 +92,7 @@ export default function CheckoutPage() {
         try {
             const orderRes = await api.post('/orders', {
                 items: cart.map(item => ({
-                    itemId: item.id,
+                    id: item.id,
                     name: item.name,
                     price: item.price,
                     quantity: item.quantity,
