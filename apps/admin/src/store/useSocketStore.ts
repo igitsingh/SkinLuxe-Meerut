@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 import { getSocket } from '@/lib/socket';
 import { toast } from 'sonner';
+import api from '@/lib/api';
 
 interface SocketStore {
     newOrdersCount: number;
     isConnected: boolean;
+    totalOrders: number;
     initializeSocket: () => void;
     resetNewOrdersCount: () => void;
 }
@@ -12,6 +14,7 @@ interface SocketStore {
 export const useSocketStore = create<SocketStore>((set, get) => ({
     newOrdersCount: 0,
     isConnected: false,
+    totalOrders: 0,
     initializeSocket: () => {
         const socket = getSocket();
 
@@ -29,10 +32,40 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
 
         socket.on('new_order', (order: any) => {
             set((state) => ({ newOrdersCount: state.newOrdersCount + 1 }));
-            toast.success(`New Order Received! #${order.id.slice(-6)}`);
-
-            // Play sound? Maybe later.
+            toast.success(`New Order Received! #${String(order.orderNumber).padStart(5, '0')}`);
         });
+
+        // Polling Fallback for Vercel (Serverless doesn't support persistent sockets)
+        const pollForOrders = async () => {
+            try {
+                const res = await api.get('/admin/analytics/stats');
+                const currentTotal = res.data.totalOrders;
+                const state = get();
+
+                if (state.totalOrders === 0) {
+                    // First load, just sync
+                    set({ totalOrders: currentTotal });
+                } else if (currentTotal > state.totalOrders) {
+                    // New orders detected
+                    const diff = currentTotal - state.totalOrders;
+                    set({
+                        newOrdersCount: state.newOrdersCount + diff,
+                        totalOrders: currentTotal
+                    });
+                    toast.success(`${diff} New Order(s) Received!`);
+
+                    // Play sound
+                    const audio = new Audio("/sounds/notification.mp3");
+                    audio.play().catch(e => console.log("Audio play failed", e));
+                }
+            } catch (error) {
+                console.error("Polling failed", error);
+            }
+        };
+
+        // Poll every 15 seconds
+        pollForOrders(); // Initial check
+        setInterval(pollForOrders, 15000);
     },
     resetNewOrdersCount: () => {
         set({ newOrdersCount: 0 });
