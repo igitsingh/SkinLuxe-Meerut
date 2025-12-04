@@ -1,8 +1,27 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+const getBaseUrl = () => {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!envUrl) return 'http://localhost:5001/api/admin';
+
+  // If it already ends with /admin, use it
+  if (envUrl.endsWith('/admin')) return envUrl;
+
+  // If it ends with /api, append /admin
+  if (envUrl.endsWith('/api')) return `${envUrl}/admin`;
+
+  // Otherwise, assume it's the root and append /api/admin
+  // But to be safe, if it doesn't have /api, maybe it's just the domain?
+  // Let's assume if it doesn't end in /admin, we should append /admin if it ends in /api, 
+  // or append /api/admin if it's just a domain.
+  // However, the user instruction was to set it to .../api.
+  // So checking for /api suffix is the most important.
+  return `${envUrl}/admin`;
+};
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api/admin',
+  baseURL: getBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
   },

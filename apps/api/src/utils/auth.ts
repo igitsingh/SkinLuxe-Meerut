@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-const JWT_SECRET = 'supersecretkey'; // process.env.JWT_SECRET || 'supersecretkey';
+const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
 
 export const generateToken = (userId: string, role: string) => {
     return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: '7d' });
