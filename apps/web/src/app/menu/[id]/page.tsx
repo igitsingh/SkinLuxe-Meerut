@@ -293,9 +293,9 @@ export default function ItemPage() {
                             <Button
                                 size="lg"
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold px-6"
-                                onClick={() => router.push('/cart')}
+                                onClick={() => router.push('/menu')}
                             >
-                                View Cart →
+                                Add More
                             </Button>
                         </div>
                     ) : (
