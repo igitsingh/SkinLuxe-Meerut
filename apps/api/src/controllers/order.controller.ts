@@ -98,7 +98,11 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
         });
 
         // Notify admins about new order
-        getIO().of('/orders').emit('new_order', order);
+        try {
+            getIO().of('/orders').emit('new_order', order);
+        } catch (error) {
+            console.error("Socket notification failed:", error);
+        }
 
         res.status(201).json(order);
     } catch (error) {
