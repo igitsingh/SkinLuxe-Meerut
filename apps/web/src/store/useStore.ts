@@ -56,11 +56,11 @@ export const useStore = create<AppState>()(
                     if (existingItem) {
                         return {
                             cart: state.cart.map((i) =>
-                                i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+                                i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
                             ),
                         };
                     }
-                    return { cart: [...state.cart, { ...item, quantity: 1 }] };
+                    return { cart: [...state.cart, { ...item, quantity: item.quantity }] };
                 }),
             removeFromCart: (itemId) =>
                 set((state) => ({

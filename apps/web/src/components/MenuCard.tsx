@@ -94,12 +94,43 @@ export default function MenuCard({ item }: { item: Item }) {
                             >
                                 <Trash2 className="h-3 w-3" />
                             </Button>
-                            <Button
-                                size="sm"
-                                className="bg-green-600 text-white hover:bg-green-700 border-green-600 font-bold px-4 h-8"
-                            >
-                                ADDED
-                            </Button>
+                            <div className="flex items-center gap-1 bg-green-50 border border-green-200 rounded-md">
+                                <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => {
+                                        const cartItem = cart.find(c => c.id === item.id);
+                                        if (cartItem && cartItem.quantity > 1) {
+                                            // Decrease quantity
+                                            addToCart({
+                                                id: item.id,
+                                                name: item.name,
+                                                price: item.price,
+                                                quantity: -1,
+                                                options: {},
+                                                addons: []
+                                            });
+                                        } else {
+                                            // Remove if quantity is 1
+                                            removeFromCart(item.id);
+                                        }
+                                    }}
+                                    className="h-8 w-8 p-0 text-green-700 hover:bg-green-100"
+                                >
+                                    -
+                                </Button>
+                                <span className="text-sm font-bold text-green-700 min-w-[20px] text-center">
+                                    {cart.find(c => c.id === item.id)?.quantity || 0}
+                                </span>
+                                <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={handleAddToCart}
+                                    className="h-8 w-8 p-0 text-green-700 hover:bg-green-100"
+                                >
+                                    +
+                                </Button>
+                            </div>
                         </div>
                     ) : (
                         <Button
