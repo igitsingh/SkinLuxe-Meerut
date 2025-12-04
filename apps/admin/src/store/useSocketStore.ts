@@ -38,7 +38,7 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
         // Polling Fallback for Vercel (Serverless doesn't support persistent sockets)
         const pollForOrders = async () => {
             try {
-                const res = await api.get('/admin/analytics/stats');
+                const res = await api.get('/analytics/stats');
                 const currentTotal = res.data.totalOrders;
                 const state = get();
 
@@ -63,9 +63,9 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
             }
         };
 
-        // Poll every 15 seconds
+        // Poll every 5 seconds
         pollForOrders(); // Initial check
-        setInterval(pollForOrders, 15000);
+        setInterval(pollForOrders, 5000);
     },
     resetNewOrdersCount: () => {
         set({ newOrdersCount: 0 });
