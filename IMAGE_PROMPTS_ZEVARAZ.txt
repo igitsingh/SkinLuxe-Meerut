@@ -1,0 +1,189 @@
+═══════════════════════════════════════════════════════════════════════════════
+ZEVARAZ LUXURY JEWELLERY - AI IMAGE GENERATION PROMPTS
+═══════════════════════════════════════════════════════════════════════════════
+
+BRAND IDENTITY
+──────────────────────────────────────────────────────────────────────────────
+Brand: ZEVARAZ
+Industry: Ultra-Luxury Jewellery
+Location: Vidhyadhar Nagar, Jaipur, Rajasthan
+Aesthetic: Minimal, Cinematic, Royal, Timeless
+Color Palette: Champagne Gold (#D4AF37), Ivory White (#FDFBF7), Soft Rose Beige (#E8D5C4), Matte Black (#1A1A1A)
+
+═══════════════════════════════════════════════════════════════════════════════
+HERO SECTION IMAGES
+═══════════════════════════════════════════════════════════════════════════════
+
+1. HERO_BANNER_MAIN.jpg
+   Prompt: "Cinematic luxury jewellery hero banner, elegant Indian model wearing statement Kundan necklace and earrings, champagne gold jewelry against soft ivory background, minimal composition, studio lighting, ultra-premium aesthetic, soft focus background, Jaipur heritage inspiration, 8k quality, editorial photography style"
+
+2. HERO_BANNER_BRIDAL.jpg
+   Prompt: "Indian bridal model in elegant pose wearing complete Polki jewellery set - maang tikka, necklace, earrings, soft rose beige background, cinematic lighting, minimal luxury aesthetic, champagne gold jewelry, timeless royal elegance, professional studio photography, 8k quality"
+
+3. HERO_BANNER_HERITAGE.jpg
+   Prompt: "Close-up of hands adorned with heritage Jaipur jewellery, intricate Kundan bangles and rings, soft ivory silk fabric background, champagne gold tones, artistic minimal composition, studio lighting, luxury editorial style, 8k quality"
+
+═══════════════════════════════════════════════════════════════════════════════
+COLLECTION IMAGES
+═══════════════════════════════════════════════════════════════════════════════
+
+BRIDAL COLLECTION
+──────────────────────────────────────────────────────────────────────────────
+4. BRIDAL_NECKLACE_SET.jpg
+   Prompt: "Premium Kundan bridal necklace set with matching earrings on ivory velvet display, champagne gold jewelry, studio lit product photography, minimal luxury aesthetic, soft shadows, 8k quality, Jaipur craftsmanship"
+
+5. BRIDAL_MAANG_TIKKA.jpg
+   Prompt: "Exquisite Polki maang tikka headpiece on minimal white marble surface, champagne gold with precious stones, artistic composition, soft lighting, luxury product photography, 8k quality"
+
+6. BRIDAL_COMPLETE_SET.jpg
+   Prompt: "Complete bridal jewellery set layout - necklace, earrings, maang tikka, bangles, rings on soft rose beige silk, champagne gold Kundan jewelry, flat lay photography, minimal luxury aesthetic, studio lighting, 8k quality"
+
+FINE JEWELLERY COLLECTION
+──────────────────────────────────────────────────────────────────────────────
+7. FINE_GOLD_NECKLACE.jpg
+   Prompt: "Delicate fine gold necklace with minimal design on ivory background, champagne gold tone, elegant simplicity, studio product photography, luxury aesthetic, soft shadows, 8k quality"
+
+8. FINE_DIAMOND_EARRINGS.jpg
+   Prompt: "Premium diamond stud earrings on white marble surface, champagne gold setting, minimal composition, studio lighting, luxury product photography, 8k quality"
+
+9. FINE_GOLD_BANGLES.jpg
+   Prompt: "Set of three fine gold bangles stacked artistically, champagne gold finish, soft rose beige background, minimal luxury aesthetic, studio lighting, 8k quality"
+
+HERITAGE COLLECTION
+──────────────────────────────────────────────────────────────────────────────
+10. HERITAGE_POLKI_NECKLACE.jpg
+    Prompt: "Traditional Jaipur Polki necklace with intricate craftsmanship, champagne gold and precious stones, on ivory silk background, heritage luxury aesthetic, studio lighting, 8k quality"
+
+11. HERITAGE_KUNDAN_SET.jpg
+    Prompt: "Vintage Kundan jewellery set showcasing Jaipur heritage craftsmanship, champagne gold with colored stones, minimal display on soft background, luxury product photography, 8k quality"
+
+12. HERITAGE_CHOKER.jpg
+    Prompt: "Royal heritage choker necklace with Polki work, champagne gold jewelry, artistic minimal composition on rose beige background, studio lighting, 8k quality"
+
+EVERYDAY LUXURY COLLECTION
+──────────────────────────────────────────────────────────────────────────────
+13. EVERYDAY_PENDANT.jpg
+    Prompt: "Elegant everyday gold pendant on delicate chain, champagne gold finish, minimal design, ivory background, luxury product photography, studio lighting, 8k quality"
+
+14. EVERYDAY_HOOPS.jpg
+    Prompt: "Modern gold hoop earrings, champagne gold finish, minimal aesthetic, white marble surface, luxury product photography, soft shadows, 8k quality"
+
+15. EVERYDAY_RINGS.jpg
+    Prompt: "Collection of stackable fine gold rings, champagne gold tone, minimal composition on soft background, luxury product photography, 8k quality"
+
+═══════════════════════════════════════════════════════════════════════════════
+LIFESTYLE & MODEL PHOTOGRAPHY
+═══════════════════════════════════════════════════════════════════════════════
+
+16. MODEL_PORTRAIT_1.jpg
+    Prompt: "Elegant Indian model portrait wearing statement Kundan earrings, soft ivory background, minimal luxury aesthetic, champagne gold jewelry, natural makeup, studio lighting, editorial fashion photography, 8k quality"
+
+17. MODEL_PORTRAIT_2.jpg
+    Prompt: "Indian model in profile wearing delicate gold necklace, soft rose beige background, minimal composition, champagne gold jewelry, timeless elegance, studio photography, 8k quality"
+
+18. MODEL_HANDS_JEWELRY.jpg
+    Prompt: "Artistic close-up of Indian model's hands wearing heritage rings and bangles, champagne gold jewelry, soft ivory silk fabric, minimal luxury aesthetic, studio lighting, 8k quality"
+
+19. BRIDAL_MODEL_FULL.jpg
+    Prompt: "Indian bridal model in elegant ivory outfit wearing complete Polki jewellery set, minimal luxury setting, champagne gold jewelry, soft lighting, royal aesthetic, editorial photography, 8k quality"
+
+20. MODEL_NECK_CLOSEUP.jpg
+    Prompt: "Close-up of model's neck and collarbone wearing delicate layered gold necklaces, champagne gold jewelry, soft focus, minimal aesthetic, studio lighting, luxury editorial style, 8k quality"
+
+═══════════════════════════════════════════════════════════════════════════════
+DETAIL & CRAFTSMANSHIP SHOTS
+═══════════════════════════════════════════════════════════════════════════════
+
+21. CRAFTSMANSHIP_DETAIL_1.jpg
+    Prompt: "Extreme close-up of Kundan jewellery craftsmanship, intricate gold work detail, champagne gold tones, artistic macro photography, soft lighting, luxury aesthetic, 8k quality"
+
+22. CRAFTSMANSHIP_DETAIL_2.jpg
+    Prompt: "Macro shot of Polki stone setting in gold jewelry, champagne gold metalwork, artistic composition, studio lighting, heritage craftsmanship, 8k quality"
+
+23. GOLD_TEXTURE.jpg
+    Prompt: "Abstract close-up of hammered gold texture, champagne gold finish, artistic minimal composition, soft lighting, luxury aesthetic, 8k quality"
+
+═══════════════════════════════════════════════════════════════════════════════
+BACKGROUND & AMBIENCE IMAGES
+═══════════════════════════════════════════════════════════════════════════════
+
+24. JAIPUR_HERITAGE_BG.jpg
+    Prompt: "Soft focus background of Jaipur City Palace architecture, muted rose beige and ivory tones, minimal luxury aesthetic, cinematic photography, 8k quality"
+
+25. LUXURY_STORE_INTERIOR.jpg
+    Prompt: "Minimal luxury jewellery store interior, ivory walls, champagne gold accents, soft lighting, premium aesthetic, Jaipur inspired design, 8k quality"
+
+26. SILK_FABRIC_TEXTURE.jpg
+    Prompt: "Soft rose beige silk fabric texture background, minimal luxury aesthetic, studio lighting, elegant draping, 8k quality"
+
+27. MARBLE_SURFACE.jpg
+    Prompt: "White and beige marble surface texture, minimal luxury aesthetic, soft lighting, premium background, 8k quality"
+
+═══════════════════════════════════════════════════════════════════════════════
+CATEGORY ICONS & THUMBNAILS
+═══════════════════════════════════════════════════════════════════════════════
+
+28. CATEGORY_BRIDAL.jpg
+    Prompt: "Elegant bridal jewellery category thumbnail, Kundan necklace on soft background, champagne gold, minimal composition, luxury aesthetic, 500x500px"
+
+29. CATEGORY_FINE.jpg
+    Prompt: "Fine jewellery category thumbnail, delicate gold necklace, minimal ivory background, champagne gold, luxury aesthetic, 500x500px"
+
+30. CATEGORY_HERITAGE.jpg
+    Prompt: "Heritage jewellery category thumbnail, traditional Polki piece, rose beige background, champagne gold, luxury aesthetic, 500x500px"
+
+31. CATEGORY_EVERYDAY.jpg
+    Prompt: "Everyday luxury category thumbnail, simple gold pendant, minimal white background, champagne gold, modern aesthetic, 500x500px"
+
+32. CATEGORY_EARRINGS.jpg
+    Prompt: "Earrings category thumbnail, elegant gold hoops, minimal background, champagne gold, luxury aesthetic, 500x500px"
+
+33. CATEGORY_NECKLACES.jpg
+    Prompt: "Necklaces category thumbnail, layered gold chains, minimal ivory background, champagne gold, luxury aesthetic, 500x500px"
+
+34. CATEGORY_BANGLES.jpg
+    Prompt: "Bangles category thumbnail, stacked gold bangles, soft background, champagne gold, luxury aesthetic, 500x500px"
+
+35. CATEGORY_RINGS.jpg
+    Prompt: "Rings category thumbnail, stackable gold rings, minimal white background, champagne gold, luxury aesthetic, 500x500px"
+
+═══════════════════════════════════════════════════════════════════════════════
+BRAND STORY & ABOUT SECTION
+═══════════════════════════════════════════════════════════════════════════════
+
+36. JAIPUR_ARTISAN.jpg
+    Prompt: "Indian jewellery artisan hands working on Kundan piece, soft focus, champagne gold jewelry, heritage craftsmanship, documentary style photography, warm lighting, 8k quality"
+
+37. WORKSHOP_HERITAGE.jpg
+    Prompt: "Traditional Jaipur jewellery workshop interior, soft lighting, heritage tools, champagne gold pieces, minimal aesthetic, documentary photography, 8k quality"
+
+38. BRAND_STORY_HERO.jpg
+    Prompt: "Cinematic shot of Jaipur Pink City architecture at golden hour, soft muted tones, rose beige and ivory palette, minimal luxury aesthetic, 8k quality"
+
+═══════════════════════════════════════════════════════════════════════════════
+LOGO & BRANDING ELEMENTS
+═══════════════════════════════════════════════════════════════════════════════
+
+39. LOGO_ZEVARAZ.png
+    Prompt: "Luxury jewellery brand logo 'ZEVARAZ' in elegant serif typography, champagne gold color (#D4AF37), minimal design, transparent background, premium aesthetic, vector style"
+
+40. LOGO_ICON.png
+    Prompt: "Minimal luxury jewellery brand icon, abstract gold crown or gem symbol, champagne gold (#D4AF37), transparent background, elegant design, 200x200px"
+
+═══════════════════════════════════════════════════════════════════════════════
+TESTIMONIAL & REVIEW IMAGES
+═══════════════════════════════════════════════════════════════════════════════
+
+41. CUSTOMER_REVIEW_1.jpg
+    Prompt: "Happy Indian bride wearing ZEVARAZ jewellery, candid moment, soft lighting, champagne gold jewelry visible, natural photography, 8k quality"
+
+42. CUSTOMER_REVIEW_2.jpg
+    Prompt: "Elegant Indian woman wearing fine gold necklace, lifestyle photography, soft background, champagne gold jewelry, natural aesthetic, 8k quality"
+
+═══════════════════════════════════════════════════════════════════════════════
+END OF PROMPTS
+═══════════════════════════════════════════════════════════════════════════════
+
+Total Images: 42
+Generation Date: December 6, 2025
+Project: ZEVARAZ-WEBSITE-V1

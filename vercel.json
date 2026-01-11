@@ -1,0 +1,25 @@
+{
+    "version": 2,
+    "buildCommand": "cd apps/web && npm run build",
+    "devCommand": "cd apps/web && npm run dev",
+    "installCommand": "npm install",
+    "framework": "nextjs",
+    "outputDirectory": "apps/web/.next",
+    "env": {
+        "DATABASE_URL": "@database-url",
+        "DIRECT_URL": "@direct-url",
+        "NEXTAUTH_SECRET": "@nextauth-secret",
+        "NEXTAUTH_URL": "@nextauth-url",
+        "EMAIL_SERVER_HOST": "@email-server-host",
+        "EMAIL_SERVER_PORT": "@email-server-port",
+        "EMAIL_SERVER_USER": "@email-server-user",
+        "EMAIL_SERVER_PASSWORD": "@email-server-password",
+        "EMAIL_FROM": "@email-from",
+        "TWILIO_ACCOUNT_SID": "@twilio-account-sid",
+        "TWILIO_AUTH_TOKEN": "@twilio-auth-token",
+        "TWILIO_PHONE_NUMBER": "@twilio-phone-number"
+    },
+    "regions": [
+        "bom1"
+    ]
+}

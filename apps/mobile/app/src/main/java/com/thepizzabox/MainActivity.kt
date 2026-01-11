@@ -102,7 +102,8 @@ class MainActivity : ComponentActivity(), PaymentResultWithDataListener {
                         composable("cart") {
                             CartScreen(
                                 onBackClick = { navController.popBackStack() },
-                                onCheckoutClick = { navController.navigate("address") }
+                                onCheckoutClick = { navController.navigate("address") },
+                                onLoginClick = { navController.navigate("login") }
                             )
                         }
                         composable("address") {

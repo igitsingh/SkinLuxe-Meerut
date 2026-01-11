@@ -4,15 +4,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thepizzabox.data.remote.AddressDto
-import com.thepizzabox.data.repository.AddressRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import com.thepizzabox.data.local.GuestManager
+import com.thepizzabox.data.local.TokenManager
+import kotlinx.coroutines.flow.first
 
 @HiltViewModel
 class AddressViewModel @Inject constructor(
-    private val addressRepository: AddressRepository
+    private val addressRepository: AddressRepository,
+    private val tokenManager: TokenManager,
+    private val guestManager: GuestManager
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AddressState())
@@ -25,12 +25,34 @@ class AddressViewModel @Inject constructor(
     private fun loadAddresses() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            val result = addressRepository.getAddresses()
             
-            result.onSuccess { addresses ->
+            if (tokenManager.getToken() == null) {
+                // Guest Mode
+                val guestAddress = guestManager.guestAddress.first()
+                val addresses = if (guestAddress != null) {
+                    listOf(AddressDto(
+                        id = "guest_address",
+                        street = guestAddress.line1,
+                        city = guestAddress.city,
+                        state = guestAddress.state,
+                        zip = guestAddress.pincode
+                    ))
+                } else {
+                    emptyList()
+                }
                 _state.value = _state.value.copy(isLoading = false, addresses = addresses)
-            }.onFailure { error ->
-                _state.value = _state.value.copy(isLoading = false, error = error.message)
+                // Auto-select if exists
+                if (addresses.isNotEmpty()) {
+                    onAddressSelected(addresses.first())
+                }
+            } else {
+                // Logged In Mode
+                val result = addressRepository.getAddresses()
+                result.onSuccess { addresses ->
+                    _state.value = _state.value.copy(isLoading = false, addresses = addresses)
+                }.onFailure { error ->
+                    _state.value = _state.value.copy(isLoading = false, error = error.message)
+                }
             }
         }
     }
@@ -42,14 +64,31 @@ class AddressViewModel @Inject constructor(
     fun addAddress(street: String, city: String, state: String, zip: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            val newAddress = AddressDto(street = street, city = city, state = state, zip = zip)
-            val result = addressRepository.addAddress(newAddress)
             
-            result.onSuccess {
-                loadAddresses() // Reload list
+            if (tokenManager.getToken() == null) {
+                // Guest Mode
+                val guestAddress = com.thepizzabox.data.local.GuestAddress(
+                    line1 = street,
+                    line2 = "",
+                    locality = "",
+                    city = city,
+                    state = state,
+                    pincode = zip
+                )
+                guestManager.saveGuestAddress(guestAddress)
+                loadAddresses()
                 _state.value = _state.value.copy(showAddAddressDialog = false)
-            }.onFailure { error ->
-                _state.value = _state.value.copy(isLoading = false, error = error.message)
+            } else {
+                // Logged In Mode
+                val newAddress = AddressDto(street = street, city = city, state = state, zip = zip)
+                val result = addressRepository.addAddress(newAddress)
+                
+                result.onSuccess {
+                    loadAddresses() // Reload list
+                    _state.value = _state.value.copy(showAddAddressDialog = false)
+                }.onFailure { error ->
+                    _state.value = _state.value.copy(isLoading = false, error = error.message)
+                }
             }
         }
     }

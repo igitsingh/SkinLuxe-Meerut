@@ -32,3 +32,26 @@ export const authorizeAdmin = (req: Request, res: Response, next: NextFunction) 
     }
     next();
 };
+
+export const optionalAuthenticate = (req: Request, res: Response, next: NextFunction) => {
+    let token = req.headers.authorization?.split(' ')[1];
+
+    if (!token && req.cookies) {
+        token = req.cookies.admin_token;
+    }
+
+    if (!token) {
+        next();
+        return;
+    }
+
+    try {
+        const decoded = verifyToken(token);
+        // @ts-ignore
+        req.user = decoded;
+        next();
+    } catch (error) {
+        // If token is invalid, just proceed as guest
+        next();
+    }
+};

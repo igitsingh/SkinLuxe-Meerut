@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Patient {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  full_name     String
+  phone         String
+  date_of_birth DateTime?
+  gender        String?
+  address       String?
+  medical_history String?
+  allergies     String?
+  emergency_contact String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  
+  appointments  Appointment[]
+  records       TreatmentRecord[]
+  
+  @@map("patients")
+}
+
+model Treatment {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  category    String
+  description String
+  benefits    String[]
+  duration    Int
+  price       Decimal
+  discount_price Decimal?
+  image_url   String?
+  is_active   Boolean  @default(true)
+  is_featured Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  
+  appointments Appointment[]
+  
+  @@map("treatments")
+}
+
+model Appointment {
+  id              String   @id @default(uuid())
+  patient_id      String
+  treatment_id    String
+  appointment_date DateTime
+  appointment_time String
+  status          String   @default("pending")
+  duration        Int
+  patient_notes   String?
+  admin_notes     String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  
+  patient         Patient  @relation(fields: [patient_id], references: [id])
+  treatment       Treatment @relation(fields: [treatment_id], references: [id])
+  
+  @@map("appointments")
+}
+
+model TreatmentRecord {
+  id              String   @id @default(uuid())
+  patient_id      String
+  treatment_name  String
+  treatment_date  DateTime
+  performed_by    String
+  notes           String?
+  before_photos   String[]
+  after_photos    String[]
+  created_at      DateTime @default(now())
+  
+  patient         Patient  @relation(fields: [patient_id], references: [id])
+  
+  @@map("treatment_records")
+}
+
+model Prescription {
+  id              String   @id @default(uuid())
+  patient_id      String
+  prescribed_by   String
+  medication      String
+  dosage          String
+  frequency       String
+  duration        String
+  instructions    String?
+  prescribed_date DateTime @default(now())
+  
+  @@map("prescriptions")
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  appointment_id  String?
+  patient_id      String
+  amount          Decimal
+  payment_method  String
+  payment_status  String   @default("pending")
+  transaction_id  String?
+  payment_date    DateTime @default(now())
+  
+  @@map("payments")
+}
+
+model Notification {
+  id              String   @id @default(uuid())
+  patient_id      String?
+  admin_id        String?
+  type            String
+  title           String
+  message         String
+  is_read         Boolean  @default(false)
+  created_at      DateTime @default(now())
+  
+  @@map("notifications")
+}
+
+model AdminUser {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  full_name     String
+  role          String   @default("admin")
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now())
+  
+  @@map("admin_users")
+}
+
+model Settings {
+  id         String   @id @default(uuid())
+  key        String   @unique
+  value      String
+  updated_at DateTime @updatedAt
+  
+  @@map("settings")
+}
+
+model Inquiry {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  phone      String
+  service    String
+  message    String?
+  status     String   @default("new")
+  notes      String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  
+  @@map("inquiries")
+}

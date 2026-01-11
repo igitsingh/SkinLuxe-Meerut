@@ -4,19 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thepizzabox.data.local.CartDao
-import com.thepizzabox.data.remote.CreateOrderRequest
-import com.thepizzabox.data.remote.OrderItemDto
-import com.thepizzabox.data.repository.OrderRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import com.thepizzabox.data.local.GuestManager
+import com.thepizzabox.data.local.TokenManager
+import com.thepizzabox.data.remote.AddressDto
 
 @HiltViewModel
 class PaymentViewModel @Inject constructor(
     private val orderRepository: OrderRepository,
-    private val cartDao: CartDao
+    private val cartDao: CartDao,
+    private val tokenManager: TokenManager,
+    private val guestManager: GuestManager
 ) : ViewModel() {
 
     private val _state = mutableStateOf(PaymentState())
@@ -39,9 +36,35 @@ class PaymentViewModel @Inject constructor(
             }
 
             // 2. Create Order on Backend
-            val createOrderResult = orderRepository.createOrder(
-                CreateOrderRequest(orderItems, addressId, total)
-            )
+            val isGuest = tokenManager.getToken() == null
+            val request = if (isGuest) {
+                val guestAddress = guestManager.guestAddress.first()
+                if (guestAddress == null) {
+                    _state.value = _state.value.copy(isLoading = false, error = "Guest address not found")
+                    return@launch
+                }
+                CreateOrderRequest(
+                    items = orderItems,
+                    total = total,
+                    isGuest = true,
+                    guestAddress = AddressDto(
+                        street = guestAddress.line1,
+                        city = guestAddress.city,
+                        state = guestAddress.state,
+                        zip = guestAddress.pincode
+                    ),
+                    paymentMethod = "COD" // Default or passed param
+                )
+            } else {
+                CreateOrderRequest(
+                    items = orderItems,
+                    addressId = addressId,
+                    total = total,
+                    paymentMethod = "COD"
+                )
+            }
+
+            val createOrderResult = orderRepository.createOrder(request)
 
             createOrderResult.onSuccess { order ->
                 // 3. Create Razorpay Order
@@ -72,6 +95,9 @@ class PaymentViewModel @Inject constructor(
             
             result.onSuccess {
                 cartDao.clearCart()
+                if (tokenManager.getToken() == null) {
+                    guestManager.clearGuestData()
+                }
                 _state.value = _state.value.copy(isLoading = false, isPaymentSuccessful = true)
             }.onFailure { error ->
                 _state.value = _state.value.copy(isLoading = false, error = "Payment verification failed: ${error.message}")

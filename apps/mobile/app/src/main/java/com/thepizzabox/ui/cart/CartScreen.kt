@@ -29,6 +29,7 @@ import com.thepizzabox.data.model.CartItem
 fun CartScreen(
     onBackClick: () -> Unit,
     onCheckoutClick: () -> Unit,
+    onLoginClick: () -> Unit,
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val cartItems = viewModel.cartItems.collectAsState().value
@@ -68,14 +69,47 @@ fun CartScreen(
                         Text("₹$totalPrice", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = onCheckoutClick,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Text("Proceed to Checkout")
+
+                    val isGuest = viewModel.isGuest.collectAsState().value
+                    val hasChosenGuest = viewModel.hasChosenGuest.collectAsState().value
+
+                    if (isGuest && !hasChosenGuest) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Button(
+                                onClick = onLoginClick,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(56.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.secondary
+                                )
+                            ) {
+                                Text("Login")
+                            }
+                            Button(
+                                onClick = { viewModel.continueAsGuest() },
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(56.dp),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text("Guest")
+                            }
+                        }
+                    } else {
+                        Button(
+                            onClick = onCheckoutClick,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text("Proceed to Checkout")
+                        }
                     }
                 }
             }

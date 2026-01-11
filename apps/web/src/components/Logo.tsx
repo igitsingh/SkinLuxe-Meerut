@@ -1,12 +1,22 @@
-import { Pizza } from 'lucide-react';
+import Image from 'next/image';
 
-export default function Logo({ className = "" }: { className?: string }) {
+interface LogoProps {
+    className?: string;
+    width?: number;
+    height?: number;
+}
+
+export default function Logo({ className = "", width = 180, height = 60 }: LogoProps) {
     return (
-        <div className={`flex items-center gap-2 font-bold text-xl tracking-tight ${className}`}>
-            <div className="bg-orange-500 p-1.5 rounded-lg text-white">
-                <Pizza size={24} />
-            </div>
-            <span className="text-orange-900">The Pizza Box</span>
+        <div className={`flex items-center ${className}`}>
+            <Image
+                src="/MAIN ZEVARAZ LOGO.png"
+                alt="ZEVARAZ"
+                width={width}
+                height={height}
+                className="h-auto w-auto object-contain"
+                priority
+            />
         </div>
     );
 }

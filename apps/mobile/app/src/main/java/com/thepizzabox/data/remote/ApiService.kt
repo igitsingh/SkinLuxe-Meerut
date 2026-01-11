@@ -53,8 +53,18 @@ data class ItemDto(
     val soldCount: Int? = 0
 )
 data class AddressDto(val id: String? = null, val street: String, val city: String, val state: String, val zip: String, val country: String = "India")
-data class CreateOrderRequest(val items: List<OrderItemDto>, val addressId: String, val total: Double)
-data class OrderItemDto(val itemId: String, val quantity: Int, val price: Double, val options: String? = null)
+data class CreateOrderRequest(
+    val items: List<OrderItemDto>, 
+    val addressId: String? = null, 
+    val total: Double,
+    val isGuest: Boolean? = null,
+    val guestAddress: AddressDto? = null,
+    val guestPhone: String? = null,
+    val guestName: String? = null,
+    val paymentMethod: String = "COD",
+    val instructions: String? = null
+)
+data class OrderItemDto(val id: String, val quantity: Int, val price: Double? = null, val options: Any? = null, val addons: List<Any>? = null)
 data class OrderDto(val id: String, val total: Double, val status: String, val razorpayOrderId: String?)
 data class CreateRazorpayOrderRequest(val orderId: String)
 data class RazorpayOrderResponse(val id: String, val amount: Int, val currency: String)

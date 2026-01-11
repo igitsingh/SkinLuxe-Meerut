@@ -6,192 +6,238 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-rose-beige: var(--rose-beige);
+  --color-ivory: var(--ivory);
+  --color-black-matte: var(--black-matte);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* LUXURY BRAND SYSTEM - STRICT ENFORCEMENT */
+  
+  /* Primary Palette */
+  --background: #FFFFFF;          /* Pure Medical White */
+  --foreground: #1C1C1C;          /* Soft Charcoal (Not harsh #000) */
+  
+  /* Brand Accents - Dusty Rose System */
+  --pink: #B4838D;                /* Primary Brand Color: Muted Dusty Rose */
+  --pink-light: rgba(180, 131, 141, 0.08); /* Architectural highlight */
+  --pink-hover: #9D6B75;          /* Deep Mauve for interaction */
+  
+  /* Neutrals - The "Stone" Palette */
+  --stone-50: #F9F8F6;            /* Warm off-white */
+  --stone-100: #F2F0EB;           /* Light stone */
+  --stone-200: #E6E2DD;           /* Medium stone */
+  
+  /* Functional Colors */
+  --white: #FFFFFF;
+  --black: #0E0E0E;               /* Rich Black */
+  --border: #E6E2DD;              /* Stone border (Subtle) */
+  --input: #F9F8F6;               /* Warm input background */
+  --ring: #B4838D;                /* Focus ring */
+  --muted: rgba(180, 131, 141, 0.15);
+  
+  /* Semantic Mappings */
+  --color-primary: var(--pink);
+  --color-secondary: var(--black);
+  --color-accent: var(--pink-light);
+  --color-stone: var(--stone-50);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+    overflow-x: hidden;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#FFFFFF] text-[#1C1C1C] antialiased;
+    font-family: var(--font-sans);
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+    height: 100%;
+    overflow-x: hidden;
   }
 
-  /* Fluid Typography - Mobile Optimized */
+  /* Luxury Typography - Editorial & Architectural */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 400; /* Light/Regular weights only - No Bold */
+    letter-spacing: -0.02em; /* Tight editorial tracking */
+    color: var(--black);
+  }
+
   h1 {
-    font-size: clamp(1.75rem, 4vw + 1rem, 3rem);
-    line-height: 1.2;
+    font-size: clamp(3rem, 5vw + 1rem, 5.5rem); /* Larger, more confident */
+    line-height: 1.05;
+    letter-spacing: -0.03em;
   }
 
   h2 {
-    font-size: clamp(1.5rem, 3vw + 0.75rem, 2.25rem);
-    line-height: 1.3;
+    font-size: clamp(2.25rem, 4vw + 0.5rem, 4rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
   }
 
   h3 {
-    font-size: clamp(1.25rem, 2.5vw + 0.5rem, 1.875rem);
-    line-height: 1.4;
-  }
-
-  h4 {
-    font-size: clamp(1.125rem, 2vw + 0.5rem, 1.5rem);
-    line-height: 1.4;
+    font-size: clamp(1.75rem, 3vw + 0.5rem, 3rem);
+    line-height: 1.25;
   }
 
   p {
-    font-size: clamp(0.875rem, 1.5vw + 0.5rem, 1rem);
-    line-height: 1.6;
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1vw + 0.5rem, 1.125rem); /* Slightly larger body */
+    line-height: 1.7; /* Generous breathing room */
+    color: #4A4A4A; /* Softened text color */
+    font-weight: 300;
   }
 
-  /* Mobile-specific overrides */
-  @media (max-width: 640px) {
-    .container {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    /* Reduce section padding on mobile */
-    section {
-      padding-top: 2rem;
-      padding-bottom: 2rem;
-    }
-  }
-}
-
-@keyframes saber-rotate {
-  from {
-    transform: rotate(0deg);
+  /* Architectural Spacing */
+  section {
+    padding-top: clamp(4rem, 8vw, 8rem);
+    padding-bottom: clamp(4rem, 8vw, 8rem);
   }
 
-  to {
-    transform: rotate(360deg);
+  .container {
+    max-width: 1560px; /* Wider container for luxury feel */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1.5rem, 5vw, 4rem);
+    padding-right: clamp(1.5rem, 5vw, 4rem);
   }
 }
 
-.saber-border {
+/* Luxury Micro-Interactions (Subtle & Intentional) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Luxury button styles - Architectural */
+.btn-luxury {
+  @apply font-serif text-sm tracking-[0.1em] uppercase;
+  @apply px-10 py-4;
+  border: 1px solid var(--black);
+  @apply bg-transparent;
+  color: var(--black);
+  @apply transition-all duration-500 ease-out;
+  border-radius: 0 !important; /* STRICT: No rounded corners */
+}
+
+.btn-luxury:hover {
+  background-color: var(--black);
+  @apply text-white;
+  transform: translateY(-1px);
+}
+
+.btn-luxury-filled {
+  @apply font-serif text-sm tracking-[0.1em] uppercase;
+  @apply px-10 py-4;
+  background-color: var(--black);
+  @apply text-white;
+  @apply transition-all duration-500 ease-out;
+  border: 1px solid var(--black);
+  border-radius: 0 !important;
+}
+
+.btn-luxury-filled:hover {
+  background-color: transparent;
+  color: var(--black);
+}
+
+/* Luxury card styles - Clean Lines */
+.card-luxury {
+  @apply bg-white;
+  border: 1px solid var(--stone-200);
+  @apply transition-all duration-700;
+  border-radius: 0 !important;
+}
+
+.card-luxury:hover {
+  border-color: var(--pink);
+  background-color: var(--stone-50);
+}
+
+/* Architectural Divider */
+.divider-luxury {
+  @apply h-px my-16 w-full;
+  background-color: var(--border);
+}
+
+/* Image overlay effects */
+.img-overlay-pink {
   position: relative;
-  isolation: isolate;
+  overflow: hidden;
 }
 
-.saber-border::before {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, #FFD700 310deg, #FFA500 340deg, #FFD700 360deg);
-  border-radius: 50%;
-  animation: saber-rotate 2s linear infinite;
-  z-index: -2;
-}
-
-.saber-border::after {
-  content: "";
+.img-overlay-pink::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background: white;
-  border-radius: 50%;
-  z-index: -1;
+  background: linear-gradient(135deg,
+      rgba(233, 30, 99, 0.1) 0%,
+      transparent 50%,
+      rgba(233, 30, 99, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.img-overlay-pink:hover::after {
+  opacity: 1;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* CRITICAL FIX: Eliminate white space below footer */
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  overflow-x: hidden !important;
+}
+
+body {
+  display: block !important;
+  min-height: auto !important;
+}
+
+body>* {
+  margin: 0;
+  padding: 0;
 }
