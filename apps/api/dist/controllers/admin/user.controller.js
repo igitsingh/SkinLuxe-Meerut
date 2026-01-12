@@ -12,11 +12,8 @@ const getAllUsers = async (req, res) => {
                 email: true,
                 phone: true,
                 role: true,
-                isVIP: true,
                 createdAt: true,
-                _count: {
-                    select: { orders: true },
-                },
+                lastLogin: true
             },
             orderBy: {
                 createdAt: 'desc',
@@ -35,18 +32,12 @@ const getUserById = async (req, res) => {
         const { id } = req.params;
         const user = await prisma.user.findUnique({
             where: { id },
-            include: {
-                orders: {
-                    orderBy: { createdAt: 'desc' },
-                    take: 5
-                },
-                addresses: true
-            }
         });
+        if (!user)
+            return res.status(404).json({ message: 'User not found' });
         res.json(user);
     }
     catch (error) {
-        console.error('Get user error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -54,15 +45,14 @@ exports.getUserById = getUserById;
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { notes, isVIP } = req.body;
+        const { role, isActive } = req.body;
         const user = await prisma.user.update({
             where: { id },
-            data: { notes, isVIP }
+            data: { role, isActive }
         });
         res.json(user);
     }
     catch (error) {
-        console.error('Update user error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

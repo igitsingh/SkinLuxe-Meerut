@@ -2,49 +2,55 @@
 
 import Link from 'next/link';
 import { Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const Footer = () => {
+    const { settings } = useSettings();
+
     return (
         <footer className="bg-[#F9F8F6] border-t border-[#E6E2DD] text-[#1C1C1C]">
             <div className="container py-20">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-20">
 
                     {/* COLUMN 1: BRAND IDENTITY */}
-                    <div className="space-y-8">
+                    <div className="flex flex-col gap-6">
                         <Link href="/" className="block">
                             <img
-                                src="/skinluxe-logo.png"
-                                alt="SkinLuxe Aesthetics & Academy"
-                                className="h-16 w-auto object-contain opacity-90"
+                                src="/skinluxe-logo-dark.png"
+                                alt={settings.siteName || "SkinLuxe Aesthetics & Academy"}
+                                className="h-24 w-auto object-contain"
                             />
                         </Link>
 
-                        <div className="space-y-2">
-                            <h5 className="font-serif text-xl text-[#1C1C1C]">Alka Yadav</h5>
-                            <p className="text-sm tracking-widest uppercase text-[#B4838D] font-medium">Cosmetologist</p>
+                        {/* Profile Unit */}
+                        <div className="flex flex-col gap-3">
+                            <div>
+                                <h5 className="font-serif text-xl text-[#1C1C1C] leading-tight">Alka Yadav</h5>
+                                <p className="text-xs tracking-[0.15em] uppercase text-[#B4838D] font-medium mt-1">Cosmetologist</p>
+                            </div>
+
+                            <p className="text-[#4A4A4A] leading-relaxed text-sm font-light max-w-xs border-l-2 border-[#E6E2DD] pl-4">
+                                Advanced medical aesthetics, laser treatments, and professional cosmetology training in Meerut.
+                            </p>
                         </div>
 
-                        <p className="text-[#4A4A4A] leading-relaxed text-sm font-light max-w-xs">
-                            Advanced medical aesthetics, laser treatments, and professional cosmetology training in Meerut.
-                        </p>
-
                         {/* Socials - Architectural Style */}
-                        <div className="flex gap-4 pt-2">
+                        <div className="flex gap-4 pt-1">
                             <a
-                                href="https://instagram.com/skinluxe_clinic_meerut"
+                                href={settings.instagram || "https://instagram.com/skinluxe_clinic_meerut"}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-3 border border-[#E6E2DD] hover:border-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white transition-all duration-300"
                                 aria-label="Instagram"
                             >
-                                <Instagram className="w-5 h-5" />
+                                <Instagram className="w-4 h-4" />
                             </a>
                             <a
-                                href="mailto:skinluxemeerut@gmail.com"
+                                href={`mailto:${settings.contactEmail}`}
                                 className="p-3 border border-[#E6E2DD] hover:border-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white transition-all duration-300"
                                 aria-label="Email"
                             >
-                                <Mail className="w-5 h-5" />
+                                <Mail className="w-4 h-4" />
                             </a>
                         </div>
                     </div>
@@ -54,13 +60,18 @@ const Footer = () => {
                         <h4 className="font-serif text-lg mb-8 text-[#1C1C1C] tracking-wide">Treatments</h4>
                         <ul className="space-y-4">
                             {[
-                                { label: 'Laser Hair Reduction', href: '/laser-hair-reduction' },
-                                { label: 'HydraFacial', href: '/hydrafacial' },
-                                { label: 'Acne & Pigmentation', href: '/acne-treatment' },
-                                { label: 'Skin Lightening', href: '/skin-lightening' },
-                                { label: 'Anti-Aging Therapies', href: '/anti-aging' },
-                                { label: 'Chemical Peels', href: '/chemical-peels' },
-                                { label: 'Party / Bride Makeup', href: '/makeup' },
+                                { label: 'Medi Facials', href: '/treatments/medi-facials' },
+                                { label: 'Chemical Peels', href: '/treatments/chemical-peels' },
+                                { label: 'MicroNeedling', href: '/treatments/microneedling' },
+                                { label: 'Skin Lightening', href: '/treatments/skin-lightening' },
+                                { label: 'Glutathione IV Drip', href: '/treatments/glutathione-iv-drip' },
+                                { label: 'Scars & Acne Spots', href: '/treatments/scars-acne-spots' },
+                                { label: 'Pigmentation & Melasma', href: '/treatments/pigmentation-melasma' },
+                                { label: 'HairLoss & Hair Growth', href: '/treatments/hair-loss' },
+                                { label: 'Laser Hair Reduction', href: '/treatments/laser-hair-reduction' },
+                                { label: 'Anti-Aging Therapies', href: '/treatments/anti-aging' },
+                                { label: 'Party / Bride Makeup', href: '/treatments/party-bride-makeup' },
+                                { label: 'PMU', href: '/treatments/pmu-permanent-makeup' },
                             ].map((link) => (
                                 <li key={link.href}>
                                     <Link
@@ -81,30 +92,24 @@ const Footer = () => {
                         <div className="space-y-6">
                             <div className="flex items-start gap-4 group">
                                 <MapPin className="w-5 h-5 text-[#B4838D] mt-1 group-hover:text-[#1C1C1C] transition-colors" />
-                                <p className="text-[#4A4A4A] text-sm leading-relaxed font-light">
-                                    FF, No. 38, New Market,<br />
-                                    Begum Bridge,<br />
-                                    Near Titan Showroom, Sotiganj,<br />
-                                    Meerut, Uttar Pradesh
+                                <p className="text-[#4A4A4A] text-sm leading-relaxed font-light whitespace-pre-line">
+                                    {settings.address || "FF, No. 38, New Market,\nBegum Bridge,\nMeerut, Uttar Pradesh"}
                                 </p>
                             </div>
 
                             <div className="flex items-center gap-4 group">
                                 <Phone className="w-5 h-5 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors" />
                                 <div className="flex flex-col gap-1">
-                                    <a href="tel:9318452282" className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light">
-                                        +91 93184 52282
-                                    </a>
-                                    <a href="tel:7451910272" className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light">
-                                        +91 74519 10272
+                                    <a href={`tel:${settings.contactPhone}`} className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light">
+                                        {settings.contactPhone}
                                     </a>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-4 group">
                                 <Mail className="w-5 h-5 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors" />
-                                <a href="mailto:skinluxemeerut@gmail.com" className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light">
-                                    skinluxemeerut@gmail.com
+                                <a href={`mailto:${settings.contactEmail}`} className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light">
+                                    {settings.contactEmail}
                                 </a>
                             </div>
                         </div>

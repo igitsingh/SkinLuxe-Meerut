@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMe = exports.whatsappLogin = exports.googleLogin = exports.login = exports.signup = void 0;
+exports.getMe = exports.guestLogin = exports.googleLogin = exports.login = exports.signup = void 0;
 const db_1 = __importDefault(require("../config/db"));
 const auth_1 = require("../utils/auth");
 const zod_1 = require("zod");
@@ -31,7 +31,8 @@ const signup = async (req, res) => {
                 email,
                 password: hashedPassword,
                 name,
-                phone,
+                phone: phone || null,
+                role: 'CUSTOMER', // Default for public signup
             },
         });
         const token = (0, auth_1.generateToken)(user.id, user.role);
@@ -57,8 +58,8 @@ const login = async (req, res) => {
             user = await db_1.default.user.findUnique({ where: { email: identifier } });
         }
         else {
-            // Assuming phone is unique. If not defined as unique in schema, findFirst
-            user = await db_1.default.user.findFirst({ where: { phone: identifier } });
+            // Phone lookup
+            user = await db_1.default.user.findUnique({ where: { phone: identifier } });
         }
         if (!user) {
             res.status(400).json({ message: 'Invalid credentials' });
@@ -70,13 +71,13 @@ const login = async (req, res) => {
             return;
         }
         const token = (0, auth_1.generateToken)(user.id, user.role);
-        if (user.role === 'ADMIN') {
+        if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
             res.cookie('admin_token', token, {
                 httpOnly: true,
-                secure: false, // Allow on http for localhost
-                sameSite: 'lax', // Shared across localhost ports
-                domain: 'localhost', // Explicitly set domain
-                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                secure: false,
+                sameSite: 'lax',
+                domain: 'localhost',
+                maxAge: 24 * 60 * 60 * 1000,
             });
         }
         res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role, phone: user.phone } });
@@ -94,20 +95,19 @@ const login = async (req, res) => {
 exports.login = login;
 const googleLogin = async (req, res) => {
     try {
-        const { email, name, googleId } = req.body;
+        const { email, name } = req.body; // Remove googleId usage for now, rely on email
         if (!email) {
             res.status(400).json({ message: 'Email is required' });
             return;
         }
         let user = await db_1.default.user.findUnique({ where: { email } });
         if (!user) {
-            // Create new user
             user = await db_1.default.user.create({
                 data: {
                     email,
                     name: name || 'Google User',
-                    password: await (0, auth_1.hashPassword)(Math.random().toString(36).slice(-8)), // Random password
-                    // Store googleId if you had a field for it, or just rely on email
+                    password: await (0, auth_1.hashPassword)(Math.random().toString(36).slice(-8)),
+                    role: 'CUSTOMER',
                 },
             });
         }
@@ -120,38 +120,34 @@ const googleLogin = async (req, res) => {
     }
 };
 exports.googleLogin = googleLogin;
-const whatsappLogin = async (req, res) => {
+const guestLogin = async (req, res) => {
+    // Guest login creates a temp account or just token?
+    // Creating temp account pollutes DB.
+    // Let's create a temp account for now to keep logic consistent.
     try {
-        const { phone, otp, name } = req.body;
-        // Mock OTP verification
-        if (otp !== '1234') {
-            res.status(400).json({ message: 'Invalid OTP' });
-            return;
-        }
-        let user = await db_1.default.user.findFirst({ where: { phone } });
-        if (!user) {
-            // Create new user
-            user = await db_1.default.user.create({
-                data: {
-                    email: `${phone}@whatsapp.com`, // Placeholder email
-                    phone,
-                    name: name || 'WhatsApp User',
-                    password: await (0, auth_1.hashPassword)(Math.random().toString(36).slice(-8)),
-                },
-            });
-        }
+        const timestamp = Date.now();
+        const email = `guest_${timestamp}@skinluxe.com`;
+        const password = await (0, auth_1.hashPassword)(`guest_${timestamp}`);
+        const user = await db_1.default.user.create({
+            data: {
+                email,
+                password,
+                name: 'GUEST CUSTOMER',
+                role: 'CUSTOMER',
+            },
+        });
         const token = (0, auth_1.generateToken)(user.id, user.role);
-        res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role, phone: user.phone } });
+        res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role, isGuest: true } });
     }
     catch (error) {
-        console.error('WhatsApp login error:', error);
+        console.error('Guest login error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-exports.whatsappLogin = whatsappLogin;
+exports.guestLogin = guestLogin;
 const getMe = async (req, res) => {
     try {
-        // @ts-ignore - user is attached by middleware
+        // @ts-ignore
         const userId = req.user?.userId;
         if (!userId) {
             res.status(401).json({ message: 'Unauthorized' });
@@ -159,7 +155,7 @@ const getMe = async (req, res) => {
         }
         const user = await db_1.default.user.findUnique({
             where: { id: userId },
-            select: { id: true, email: true, name: true, role: true, phone: true, addresses: true },
+            select: { id: true, email: true, name: true, role: true, phone: true },
         });
         if (!user) {
             res.status(404).json({ message: 'User not found' });

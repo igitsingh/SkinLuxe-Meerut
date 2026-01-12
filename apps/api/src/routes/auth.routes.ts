@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { signup, login, getMe, googleLogin, whatsappLogin, guestLogin } from '../controllers/auth.controller';
-import { authenticate } from '../middlewares/auth.middleware';
+import { signup, login, googleLogin, guestLogin, getMe } from '../controllers/auth.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
 
 const router = Router();
 
 router.post('/signup', signup);
 router.post('/login', login);
 router.post('/google', googleLogin);
-router.post('/whatsapp', whatsappLogin);
 router.post('/guest', guestLogin);
-router.get('/me', authenticate, getMe);
+
+router.get('/me', authenticateToken, getMe);
 
 export default router;

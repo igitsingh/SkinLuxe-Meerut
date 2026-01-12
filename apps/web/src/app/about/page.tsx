@@ -100,6 +100,45 @@ export default function AboutPage() {
             </section>
 
             {/* -----------------------------------------------------------------------
+          THE TEAM: TRUST & EXPERTISE
+          Intent: Show the real people behind the care.
+      ----------------------------------------------------------------------- */}
+            <section className="py-24 bg-white border-t border-[#E6E2DD]">
+                <div className="container">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                        {/* Text Column (Left) */}
+                        <div className="lg:col-span-7 lg:pr-12 order-2 lg:order-1">
+                            <h2 className="text-[#1C1C1C] mb-4">Meet Your Care Team</h2>
+
+                            <div className="space-y-6 text-[#4A4A4A] font-light leading-relaxed text-lg">
+                                <p>
+                                    A clinically trained team working under the supervision of SkinLuxe’s lead cosmetologist, following strict medical protocols for every procedure.
+                                </p>
+                                <p className="text-sm border-l-2 border-[#B4838D] pl-4 italic opacity-80">
+                                    Every treatment follows standardized safety guidelines and FDA-approved technologies.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Image Column (Right) */}
+                        <div className="lg:col-span-5 relative order-1 lg:order-2">
+                            <div className="relative aspect-[4/3] w-full bg-[#E6E2DD] team-image-wrapper">
+                                <div className="absolute inset-4 border border-[#B4838D]/20 z-10 pointer-events-none"></div>
+                                <Image
+                                    src="/team-centered.png"
+                                    alt="SkinLuxe Medical Team"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            {/* -----------------------------------------------------------------------
           OUR PHILOSOPHY: VALUES
           Intent: Differentiate from low-quality salons.
       ----------------------------------------------------------------------- */}
@@ -142,13 +181,13 @@ export default function AboutPage() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* -----------------------------------------------------------------------
           LOCATION / VISIT US
           Intent: Local SEO and practical info.
       ----------------------------------------------------------------------- */}
-            <section className="py-24 bg-[#1C1C1C] text-white">
+            < section className="py-24 bg-[#1C1C1C] text-white" >
                 <div className="container">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
@@ -208,8 +247,8 @@ export default function AboutPage() {
 
                     </div>
                 </div>
-            </section>
+            </section >
 
-        </div>
+        </div >
     );
 }

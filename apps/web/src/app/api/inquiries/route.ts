@@ -1,74 +1,35 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma'; // Ensure correct import path for Next.js app
 
-// GET all inquiries
-export async function GET(request: NextRequest) {
-    try {
-        const { searchParams } = new URL(request.url);
-        const status = searchParams.get('status');
-        const search = searchParams.get('search');
-
-        const where: any = {};
-
-        if (status && status !== 'all') where.status = status;
-        if (search) {
-            where.OR = [
-                { name: { contains: search, mode: 'insensitive' } },
-                { email: { contains: search, mode: 'insensitive' } },
-                { phone: { contains: search } },
-            ];
-        }
-
-        const inquiries = await prisma.inquiry.findMany({
-            where,
-            orderBy: { created_at: 'desc' },
-        });
-
-        return NextResponse.json({ success: true, data: inquiries });
-    } catch (error: any) {
-        console.error('Error fetching inquiries:', error);
-        return NextResponse.json(
-            { success: false, error: error.message },
-            { status: 500 }
-        );
-    }
-}
-
-// POST create new inquiry
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
     try {
         const body = await request.json();
+        const { name, email, phone, service, message } = body;
 
-        // Validate required fields
-        if (!body.name || !body.email || !body.phone || !body.service) {
+        if (!name || !email || !message) {
             return NextResponse.json(
-                { success: false, error: 'Name, email, phone, and service are required' },
+                { success: false, error: 'Name, email, and message are required.' },
                 { status: 400 }
             );
         }
 
         const inquiry = await prisma.inquiry.create({
             data: {
-                name: body.name,
-                email: body.email.toLowerCase(),
-                phone: body.phone,
-                service: body.service,
-                message: body.message || null,
-                status: 'new',
+                name,
+                email,
+                phone: phone || null,
+                subject: service || 'General Inquiry',
+                message,
+                status: 'NEW', // Default status
             },
         });
 
-        return NextResponse.json({
-            success: true,
-            data: inquiry,
-            message: 'Inquiry submitted successfully!'
-        }, { status: 201 });
+        return NextResponse.json({ success: true, data: inquiry }, { status: 201 });
     } catch (error: any) {
-        console.error('Error creating inquiry:', error);
+        console.error('Inquiry submission error:', error);
         return NextResponse.json(
-            { success: false, error: 'Failed to submit inquiry. Please try again.' },
+            { success: false, error: 'Failed to submit inquiry.' },
             { status: 500 }
         );
     }

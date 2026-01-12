@@ -1,24 +1,69 @@
-import React from 'react';
+"use client";
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Sparkles, Zap, Droplets, ArrowRight, Shield, Crown, Clock, CheckCircle } from 'lucide-react';
+import api from '@/lib/api';
 
-export const metadata = {
-    title: 'Treatments Menu | SkinLuxe Aesthetics Meerut',
-    description: 'Explore our medical-grade skin, hair, and laser treatments. US-FDA approved technology curated for Indian skin.',
+// Icon Mapping Helper
+const getIcon = (iconName: string | null) => {
+    switch (iconName) {
+        case 'Zap': return Zap;
+        case 'Droplets': return Droplets;
+        case 'Shield': return Shield;
+        default: return Sparkles;
+    }
 };
 
+interface Treatment {
+    id: string;
+    name: string;
+    slug: string;
+    description: string;
+    category: string;
+    price: string;
+    duration: string;
+    icon: string | null;
+    isFeatured: boolean;
+}
+
 export default function TreatmentsPage() {
+    const [treatments, setTreatments] = useState<Treatment[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTreatments = async () => {
+            try {
+                const res = await api.get('/treatments');
+                setTreatments(res.data);
+            } catch (error) {
+                console.error("Failed to fetch treatments", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTreatments();
+    }, []);
+
+    // Filter by isFeatured first, otherwise fall back to 'Signature' category if strict transition is needed
+    // But user explicitly asked about "Mark as Featured". So let's prioritize isFeatured.
+    const featuredList = treatments.filter(t => t.isFeatured);
+    // If no featured items (e.g. existing data not migrated), fallback to Signature category to prevent empty section
+    const displayList = featuredList.length > 0 ? featuredList : treatments.filter(t => t.category === 'Signature');
+
+    const antiAging = treatments.filter(t => t.category === 'Anti-Aging' || t.category === 'Anti-Aging & Rejuvenation');
+    const glow = treatments.filter(t => t.category === 'Glow' || t.category === 'Glow & Pigmentation');
+
+    if (loading) {
+        return <div className="min-h-screen bg-white flex items-center justify-center font-serif text-[#1C1C1C]">Loading Menu...</div>;
+    }
+
     return (
         <div className="bg-white">
 
-            {/* -----------------------------------------------------------------------
-          HERO SECTION: MENU HEADER
-          Intent: Premium catalog feel.
-      ----------------------------------------------------------------------- */}
+            {/* HERO SECTION */}
             <section className="relative py-24 md:py-32 bg-[#1C1C1C] text-white">
-                {/* Abstract Background Elements */}
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#B4838D] opacity-5 blur-[100px] rounded-full pointer-events-none"></div>
-
                 <div className="container relative z-10 text-center max-w-4xl mx-auto">
                     <span className="inline-block py-2 px-4 border border-[#B4838D] text-[#B4838D] text-xs font-serif tracking-[0.2em] uppercase mb-8">
                         Clinical Aesthetics
@@ -33,10 +78,7 @@ export default function TreatmentsPage() {
                 </div>
             </section>
 
-            {/* -----------------------------------------------------------------------
-          CATEGORY 1: SIGNATURE THERAPIES
-          Intent: Highlight the "Big 3" services (Laser, Hydra, Acne).
-      ----------------------------------------------------------------------- */}
+            {/* CATEGORY 1: SIGNATURE / FEATURED THERAPIES */}
             <section className="py-24 bg-[#F9F8F6]">
                 <div className="container">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-[#E6E2DD] pb-6">
@@ -53,58 +95,30 @@ export default function TreatmentsPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border border-[#E6E2DD] bg-white">
-
-                        {/* Laser Hair Reduction */}
-                        <div className="group p-10 border-b lg:border-b-0 lg:border-r border-[#E6E2DD] hover:bg-[#1C1C1C] hover:text-white transition-all duration-500 relative overflow-hidden">
-                            <div className="relative z-10">
-                                <Zap className="w-10 h-10 text-[#B4838D] mb-6" />
-                                <h3 className="font-serif text-2xl mb-4 group-hover:text-white">Laser Hair Reduction</h3>
-                                <p className="text-[#4A4A4A] group-hover:text-white/70 font-light text-sm leading-relaxed mb-8 min-h-[5rem]">
-                                    Experience freedom from shaving and waxing. Our triple-wavelength diode laser offers painless, permanent reduction safe for all Indian skin types.
-                                </p>
-                                <Link href="/laser-hair-reduction" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#B4838D] font-medium">
-                                    View Pricing <ArrowRight className="w-4 h-4" />
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* HydraFacial */}
-                        <div className="group p-10 border-b lg:border-b-0 lg:border-r border-[#E6E2DD] hover:bg-[#1C1C1C] hover:text-white transition-all duration-500 relative overflow-hidden">
-                            <div className="relative z-10">
-                                <Droplets className="w-10 h-10 text-[#B4838D] mb-6" />
-                                <h3 className="font-serif text-2xl mb-4 group-hover:text-white">HydraFacial MD®</h3>
-                                <p className="text-[#4A4A4A] group-hover:text-white/70 font-light text-sm leading-relaxed mb-8 min-h-[5rem]">
-                                    The original 3-step treatment: Cleanse, Extract, and Hydrate. Get glass-like skin with zero downtime. Perfect for events or monthly maintenance.
-                                </p>
-                                <Link href="/hydrafacial" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#B4838D] font-medium">
-                                    See The Steps <ArrowRight className="w-4 h-4" />
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Acne Protocol */}
-                        <div className="group p-10 hover:bg-[#1C1C1C] hover:text-white transition-all duration-500 relative overflow-hidden">
-                            <div className="relative z-10">
-                                <Shield className="w-10 h-10 text-[#B4838D] mb-6" />
-                                <h3 className="font-serif text-2xl mb-4 group-hover:text-white">Acne & Scar Defense</h3>
-                                <p className="text-[#4A4A4A] group-hover:text-white/70 font-light text-sm leading-relaxed mb-8 min-h-[5rem]">
-                                    A medical protocol to control active acne and remodel deep scars using Chemical Peels, MNRF, and CO2 Laser technology.
-                                </p>
-                                <Link href="/acne-treatment" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#B4838D] font-medium">
-                                    Explore Protocol <ArrowRight className="w-4 h-4" />
-                                </Link>
-                            </div>
-                        </div>
-
+                    {/* Grid with gap-px for perfect borders across multiple rows */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-[#E6E2DD] border border-[#E6E2DD]">
+                        {displayList.map((t, idx) => {
+                            const Icon = getIcon(t.icon);
+                            return (
+                                <div key={t.id} className="group bg-white p-10 hover:bg-[#1C1C1C] hover:text-white transition-all duration-500 relative overflow-hidden">
+                                    <div className="relative z-10">
+                                        <Icon className="w-10 h-10 text-[#B4838D] mb-6" />
+                                        <h3 className="font-serif text-2xl mb-4 group-hover:text-white">{t.name}</h3>
+                                        <p className="text-[#4A4A4A] group-hover:text-white/70 font-light text-sm leading-relaxed mb-8 min-h-[5rem]">
+                                            {t.description}
+                                        </p>
+                                        <Link href={`/treatments/${t.slug}`} className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#B4838D] font-medium">
+                                            View Treatment <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
 
-            {/* -----------------------------------------------------------------------
-          CATEGORY 2: ADVANCED AESTHETICS LIST
-          Intent: Clean list for other services (Anti-Aging, Pigmentation, etc).
-      ----------------------------------------------------------------------- */}
+            {/* CATEGORY 2: ADVANCED AESTHETICS LIST */}
             <section className="py-24 bg-white">
                 <div className="container max-w-5xl mx-auto">
                     <div className="text-center mb-16">
@@ -113,49 +127,37 @@ export default function TreatmentsPage() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-
-                        {/* Column 1: Anti-Aging & Rejuvenation */}
+                        {/* Column 1: Anti-Aging */}
                         <div>
                             <h3 className="font-serif text-xl text-[#B4838D] mb-6 border-b border-[#B4838D]/20 pb-2">Anti-Aging & Rejuvenation</h3>
                             <div className="space-y-6">
-                                {[
-                                    { title: 'Botox & Fillers', desc: 'Wrinkle relaxation and volume restoration.', link: '/botox-fillers' },
-                                    { title: 'HIFU Skin Tightening', desc: 'Non-surgical facelift using ultrasound energy.', link: '/hifu-treatment' },
-                                    { title: 'Vampire Facial (PRP)', desc: 'Natural rejuvenation using growth factors.', link: '/prp-vampire-facial' },
-                                    { title: 'Skin Boosters', desc: 'Deep hydration micro-injections for glow.', link: '/skin-boosters' }
-                                ].map((item, idx) => (
-                                    <Link key={idx} href={item.link} className="block group cursor-pointer">
+                                {antiAging.map((item) => (
+                                    <Link key={item.id} href={`/treatments/${item.slug}`} className="block group cursor-pointer">
                                         <div className="flex justify-between items-baseline mb-1">
-                                            <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">{item.title}</h4>
+                                            <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">{item.name}</h4>
                                             <ArrowRight className="w-4 h-4 text-[#E6E2DD] group-hover:text-[#B4838D] transition-colors opacity-0 group-hover:opacity-100" />
                                         </div>
-                                        <p className="text-sm text-[#4A4A4A] font-light">{item.desc}</p>
+                                        <p className="text-sm text-[#4A4A4A] font-light">{item.description ? item.description.slice(0, 60) + '...' : ''}</p>
                                     </Link>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Column 2: Pigmentation & Brightening */}
+                        {/* Column 2: Glow */}
                         <div>
                             <h3 className="font-serif text-xl text-[#B4838D] mb-6 border-b border-[#B4838D]/20 pb-2">Glow & Pigmentation</h3>
                             <div className="space-y-6">
-                                {[
-                                    { title: 'Carbon Laser Peel', desc: 'Hollywood peel for instant brightening and porch reduction.', link: '/carbon-laser-peel' },
-                                    { title: 'Q-Switch Laser Toning', desc: 'Targets melanin to treat pigmentation and uneven tone.', link: '/q-switch-laser' },
-                                    { title: 'Chemical Peels', desc: 'Exfoliation for acne, spots, and dullness (Glycolic, Salicylic).', link: '/chemical-peels' },
-                                    { title: 'Medi-Facials', desc: 'Customized facials for hydration and glow.', link: '/medi-facials' }
-                                ].map((item, idx) => (
-                                    <Link key={idx} href={item.link} className="block group cursor-pointer">
+                                {glow.map((item) => (
+                                    <Link key={item.id} href={`/treatments/${item.slug}`} className="block group cursor-pointer">
                                         <div className="flex justify-between items-baseline mb-1">
-                                            <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">{item.title}</h4>
+                                            <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">{item.name}</h4>
                                             <ArrowRight className="w-4 h-4 text-[#E6E2DD] group-hover:text-[#B4838D] transition-colors opacity-0 group-hover:opacity-100" />
                                         </div>
-                                        <p className="text-sm text-[#4A4A4A] font-light">{item.desc}</p>
+                                        <p className="text-sm text-[#4A4A4A] font-light">{item.description ? item.description.slice(0, 60) + '...' : ''}</p>
                                     </Link>
                                 ))}
                             </div>
                         </div>
-
                     </div>
 
                     {/* Banner for Makeup */}
@@ -164,10 +166,9 @@ export default function TreatmentsPage() {
                         <h3 className="font-serif text-3xl text-[#1C1C1C] mb-4">Event & Bridal Services</h3>
                         <p className="text-[#4A4A4A] font-light max-w-lg mx-auto mb-8">
                             We offer premium HD and Airbrush makeup services for brides and party guests.
-                            Look flawless on your special day.
                         </p>
                         <Link href="/book-appointment">
-                            <button className="btn-luxury border-[#1C1C1C] text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white">
+                            <button className="px-8 py-3 bg-transparent border border-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white transition-colors duration-300 uppercase tracking-widest text-xs">
                                 Book Makeup Artist
                             </button>
                         </Link>
@@ -175,16 +176,12 @@ export default function TreatmentsPage() {
                 </div>
             </section>
 
-            {/* -----------------------------------------------------------------------
-          BOTTOM CTA
-          Intent: Catch-all for undecided users.
-      ----------------------------------------------------------------------- */}
-            <section className="py-24 bg-[#1C1C1C] text-white overflow-hidden relative">
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                <div className="container relative z-10 text-center">
+            {/* BOTTOM CTA */}
+            <section className="py-24 bg-[#1C1C1C] text-white">
+                <div className="container text-center">
                     <h2 className="font-serif text-4xl mb-6">Start Your Transformation</h2>
                     <p className="text-white/60 text-lg font-light mb-10 max-w-xl mx-auto">
-                        Not sure what you need? Book a consultation with Alka Yadav for a professional skin analysis.
+                        Not sure what you need? Book a consultation with a professional skin analysis.
                     </p>
                     <Link href="/book-appointment">
                         <button className="px-8 py-4 bg-[#B4838D] text-white hover:bg-white hover:text-[#1C1C1C] transition-colors duration-300 font-serif tracking-widest text-xs uppercase">

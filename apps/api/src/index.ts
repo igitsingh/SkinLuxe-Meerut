@@ -1,3 +1,4 @@
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -5,50 +6,35 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { createServer } from 'http';
-import { Server } from 'socket.io';
 
 dotenv.config();
 
-import { initSocket, getIO } from './socket';
-
 const app = express();
 const httpServer = createServer(app);
-const io = initSocket(httpServer);
 
+// Public Routes Imports
 import authRoutes from './routes/auth.routes';
-import menuRoutes from './routes/menu.routes';
-import orderRoutes from './routes/order.routes';
-import userRoutes from './routes/user.routes';
-import adminRoutes from './routes/admin.routes';
+import treatmentRoutes from './routes/treatment.routes';
+
+// Admin Routes Imports
 import adminAuthRoutes from './routes/admin/auth.routes';
-import adminMenuRoutes from './routes/admin/menu.routes';
-import adminCategoryRoutes from './routes/admin/category.routes';
-import adminOrderRoutes from './routes/admin/order.routes';
-import adminCouponRoutes from './routes/admin/coupon.routes';
 import adminUserRoutes from './routes/admin/user.routes';
 import adminSettingsRoutes from './routes/admin/settings.routes';
-import locationRoutes from './routes/location.routes';
-import paymentRoutes from './routes/payment.routes';
-import notificationRoutes from './routes/notification.routes';
+import adminTreatmentRoutes from './routes/admin/treatment.routes';
+import adminDoctorRoutes from './routes/admin/doctor.routes';
+import adminAppointmentRoutes from './routes/admin/appointment.routes';
+import adminAnalyticsRoutes from './routes/admin/analytics.routes';
+import adminBlogRoutes from './routes/admin/blog.routes';
+import adminInquiryRoutes from './routes/admin/inquiry.routes';
 
 // Middleware
-app.use(express.json({
-    verify: (req, res, buf) => {
-        // @ts-ignore
-        if (req.originalUrl.startsWith('/api/payments/webhook')) {
-            // @ts-ignore
-            req.rawBody = buf.toString();
-        }
-    }
-}));
+app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: [
         'http://localhost:3000',
         'http://localhost:3001',
         'http://localhost:3002',
-        'https://the-pizza-box-web.vercel.app',
-        'https://the-pizza-box-admin.vercel.app',
         process.env.FRONTEND_URL,
         process.env.ADMIN_URL
     ].filter(Boolean).map(url => (url as string).replace(/\/$/, '')),
@@ -57,63 +43,41 @@ app.use(cors({
 app.use(helmet());
 app.use(morgan('dev'));
 
-import adminDeliveryPartnerRoutes from './routes/admin/delivery-partner.routes';
-import adminAnalyticsRoutes from './routes/admin/analytics.routes';
-import adminStockRoutes from './routes/admin/stock.routes';
-import adminPaymentRoutes from './routes/admin/payment.routes';
-import adminComplaintRoutes from './routes/admin/complaint.routes';
+// ==========================================
+// ROUTES
+// ==========================================
 
-// Routes
+// Public
 app.use('/api/auth', authRoutes);
-app.use('/api/menu', menuRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/locations', locationRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/notifications', notificationRoutes);
+app.use('/api/treatments', treatmentRoutes);
+// Note: Blog public routes should also be added if we want public reading. I'll reuse admin route for GET for now or add public one.
+// Let's add simple public blog route too.
+app.use('/api/blog', adminBlogRoutes); // Reuse for read-only (admin route has getAllPosts)
 
-// Admin routes - IMPORTANT: Register specific routes BEFORE the general /api/admin route
-// to prevent the global admin middleware from being applied to auth routes
+// Admin
 app.use('/api/admin/auth', adminAuthRoutes);
-app.use('/api/admin/menu', adminMenuRoutes);
-app.use('/api/admin/categories', adminCategoryRoutes);
-app.use('/api/admin/orders', adminOrderRoutes);
-app.use('/api/admin/coupons', adminCouponRoutes);
 app.use('/api/admin/users', adminUserRoutes);
 app.use('/api/admin/settings', adminSettingsRoutes);
-app.use('/api/admin/delivery-partners', adminDeliveryPartnerRoutes);
 app.use('/api/admin/analytics', adminAnalyticsRoutes);
-app.use('/api/admin/stock', adminStockRoutes);
-app.use('/api/admin/payments', adminPaymentRoutes);
-app.use('/api/admin/complaints', adminComplaintRoutes);
-app.use('/api/admin', adminRoutes); // This must be LAST among admin routes
+
+// SkinLuxe Specific Admin Routes
+app.use('/api/admin/treatments', adminTreatmentRoutes);
+app.use('/api/admin/doctors', adminDoctorRoutes);
+app.use('/api/admin/appointments', adminAppointmentRoutes);
+app.use('/api/admin/blog', adminBlogRoutes);
+app.use('/api/admin/inquiries', adminInquiryRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to The Pizza Box API' });
+    res.json({ message: 'SkinLuxe Aesthetics & Academy API' });
 });
 
-import { setupOrderSockets } from './sockets/order.socket';
-
-// Socket.io connection
-setupOrderSockets(io);
-
-io.on('connection', (socket) => {
-    console.log('A user connected:', socket.id);
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected:', socket.id);
-    });
-});
-
-const PORT = 5001; // Force port 5001 to avoid conflict with AirPlay on 5000
+const PORT = 5001;
 
 if (process.env.NODE_ENV !== 'production') {
     httpServer.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+        console.log(`SkinLuxe Server running on port ${PORT}`);
     });
 }
 
 export default app;
-
-

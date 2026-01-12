@@ -19,15 +19,27 @@ export default function ContactPage() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setIsSubmitted(true);
-            setTimeout(() => {
-                setIsSubmitted(false);
+        try {
+            const res = await fetch('/api/inquiries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            if (res.ok) {
+                setIsSubmitted(true);
                 setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-            }, 3000);
-        }, 1500);
+                // Reset success message after 5 seconds
+                setTimeout(() => setIsSubmitted(false), 5000);
+            } else {
+                alert('Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Error submitting inquiry. Please check your connection.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -135,10 +147,10 @@ export default function ContactPage() {
                         {/* Contact Form */}
                         <div>
                             <h2 className="font-serif text-3xl md:text-4xl text-[#1C1C1C] mb-6">
-                                Book Your Consultation
+                                Send us an Inquiry
                             </h2>
                             <p className="text-[#4A4A4A] mb-10 font-light">
-                                Fill out the form below and we'll get back to you within 24 hours.
+                                Have a question? Fill out the form below and we'll get back to you shortly.
                             </p>
 
                             <form onSubmit={handleSubmit} className="space-y-6">
@@ -194,7 +206,7 @@ export default function ContactPage() {
 
                                 <div>
                                     <label htmlFor="service" className="block text-xs font-bold tracking-widest text-[#1C1C1C] uppercase mb-2">
-                                        Service Interested In *
+                                        Subject / Service *
                                     </label>
                                     <select
                                         id="service"
@@ -204,7 +216,7 @@ export default function ContactPage() {
                                         required
                                         className="w-full px-0 py-3 bg-transparent border-b border-[#999999] text-[#1C1C1C] focus:border-[#B4838D] focus:outline-none transition-colors"
                                     >
-                                        <option value="">Select a service</option>
+                                        <option value="">Select a subject</option>
                                         {services.map((service) => (
                                             <option key={service} value={service}>
                                                 {service}
@@ -224,7 +236,7 @@ export default function ContactPage() {
                                         onChange={handleChange}
                                         rows={4}
                                         className="w-full px-0 py-3 bg-transparent border-b border-[#999999] text-[#1C1C1C] focus:border-[#B4838D] focus:outline-none transition-colors resize-none placeholder-[#999999]/50"
-                                        placeholder="Tell us about your skin concerns..."
+                                        placeholder="Tell us about your inquiry..."
                                     />
                                 </div>
 
@@ -236,13 +248,13 @@ export default function ContactPage() {
                                     {isSubmitted ? (
                                         <>
                                             <CheckCircle className="w-4 h-4" />
-                                            Message Sent!
+                                            Inquiry Sent!
                                         </>
                                     ) : isSubmitting ? (
                                         'Sending...'
                                     ) : (
                                         <>
-                                            Send Message <Send className="w-4 h-4 ml-2" />
+                                            Send Inquiry <Send className="w-4 h-4 ml-2" />
                                         </>
                                     )}
                                 </button>

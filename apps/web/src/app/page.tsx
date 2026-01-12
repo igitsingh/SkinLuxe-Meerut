@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Star, ArrowRight, Shield, CheckCircle, Clock, MapPin, Phone } from 'lucide-react';
+import FounderJourney from '@/components/FounderJourney';
 
 export default function Home() {
   return (
@@ -109,6 +110,9 @@ export default function Home() {
                 <Link href="/about" className="inline-flex items-center gap-2 text-[#1C1C1C] border-b border-[#1C1C1C] pb-1 hover:text-[#B4838D] hover:border-[#B4838D] transition-all uppercase tracking-widest text-xs font-medium">
                   Read Full Bio <ArrowRight className="w-4 h-4" />
                 </Link>
+                <div className="block mt-2">
+                  <FounderJourney />
+                </div>
               </div>
             </div>
           </div>

@@ -31,7 +31,8 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
                 email,
                 password: hashedPassword,
                 name,
-                phone,
+                phone: phone || null,
+                role: 'CUSTOMER', // Default for public signup
             },
         });
 
@@ -57,8 +58,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         if (isEmail) {
             user = await prisma.user.findUnique({ where: { email: identifier } });
         } else {
-            // Assuming phone is unique. If not defined as unique in schema, findFirst
-            user = await prisma.user.findFirst({ where: { phone: identifier } });
+            // Phone lookup
+            user = await prisma.user.findUnique({ where: { phone: identifier } });
         }
 
         if (!user) {
@@ -74,13 +75,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
         const token = generateToken(user.id, user.role);
 
-        if (user.role === 'ADMIN') {
+        if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
             res.cookie('admin_token', token, {
                 httpOnly: true,
-                secure: false, // Allow on http for localhost
-                sameSite: 'lax', // Shared across localhost ports
-                domain: 'localhost', // Explicitly set domain
-                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                secure: false,
+                sameSite: 'lax',
+                domain: 'localhost',
+                maxAge: 24 * 60 * 60 * 1000,
             });
         }
 
@@ -97,7 +98,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 export const googleLogin = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { email, name, googleId } = req.body;
+        const { email, name } = req.body; // Remove googleId usage for now, rely on email
 
         if (!email) {
             res.status(400).json({ message: 'Email is required' });
@@ -107,13 +108,12 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
         let user = await prisma.user.findUnique({ where: { email } });
 
         if (!user) {
-            // Create new user
             user = await prisma.user.create({
                 data: {
                     email,
                     name: name || 'Google User',
-                    password: await hashPassword(Math.random().toString(36).slice(-8)), // Random password
-                    // Store googleId if you had a field for it, or just rely on email
+                    password: await hashPassword(Math.random().toString(36).slice(-8)),
+                    role: 'CUSTOMER',
                 },
             });
         }
@@ -126,56 +126,25 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
     }
 };
 
-export const whatsappLogin = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { phone, otp, name } = req.body;
-
-        // Mock OTP verification
-        if (otp !== '1234') {
-            res.status(400).json({ message: 'Invalid OTP' });
-            return;
-        }
-
-        let user = await prisma.user.findFirst({ where: { phone } });
-
-        if (!user) {
-            // Create new user
-            user = await prisma.user.create({
-                data: {
-                    email: `${phone}@whatsapp.com`, // Placeholder email
-                    phone,
-                    name: name || 'WhatsApp User',
-                    password: await hashPassword(Math.random().toString(36).slice(-8)),
-                },
-            });
-        }
-
-        const token = generateToken(user.id, user.role);
-        res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role, phone: user.phone } });
-    } catch (error) {
-        console.error('WhatsApp login error:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-};
-
 export const guestLogin = async (req: Request, res: Response): Promise<void> => {
+    // Guest login creates a temp account or just token?
+    // Creating temp account pollutes DB.
+    // Let's create a temp account for now to keep logic consistent.
     try {
         const timestamp = Date.now();
-        const email = `guest_${timestamp}@thepizzabox.com`;
+        const email = `guest_${timestamp}@skinluxe.com`;
         const password = await hashPassword(`guest_${timestamp}`);
 
         const user = await prisma.user.create({
             data: {
                 email,
                 password,
-                name: 'GUEST USER',
+                name: 'GUEST CUSTOMER',
                 role: 'CUSTOMER',
-                // We can add a flag or just rely on email pattern
             },
         });
 
         const token = generateToken(user.id, user.role);
-        // Return isGuest: true in the response for frontend UI logic
         res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role, isGuest: true } });
     } catch (error) {
         console.error('Guest login error:', error);
@@ -185,7 +154,7 @@ export const guestLogin = async (req: Request, res: Response): Promise<void> => 
 
 export const getMe = async (req: Request, res: Response): Promise<void> => {
     try {
-        // @ts-ignore - user is attached by middleware
+        // @ts-ignore
         const userId = req.user?.userId;
         if (!userId) {
             res.status(401).json({ message: 'Unauthorized' });
@@ -194,7 +163,7 @@ export const getMe = async (req: Request, res: Response): Promise<void> => {
 
         const user = await prisma.user.findUnique({
             where: { id: userId },
-            select: { id: true, email: true, name: true, role: true, phone: true, addresses: true },
+            select: { id: true, email: true, name: true, role: true, phone: true },
         });
 
         if (!user) {

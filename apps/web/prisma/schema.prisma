@@ -1,3 +1,4 @@
+// SKINLUXE CMS Database Schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,158 +6,206 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
-model Patient {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  password_hash String
-  full_name     String
-  phone         String
-  date_of_birth DateTime?
-  gender        String?
-  address       String?
-  medical_history String?
-  allergies     String?
-  emergency_contact String?
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-  
-  appointments  Appointment[]
-  records       TreatmentRecord[]
-  
-  @@map("patients")
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  VIEWER
+  CUSTOMER
 }
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  phone         String?        @unique
+  password      String
+  name          String
+  role          UserRole       @default(CUSTOMER)
+  avatar        String?
+  isActive      Boolean        @default(true)
+  lastLogin     DateTime?
+  activityLogs  ActivityLog[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model ActivityLog {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  action      String   // CREATE, UPDATE, DELETE
+  entity      String   // Treatment, Page, etc.
+  entityId    String
+  description String
+  metadata    Json?    // Store additional context
+  createdAt   DateTime @default(now())
+}
+
+// ============================================
+// CLINIC MANAGEMENT (CORE)
+// ============================================
 
 model Treatment {
+  id              String   @id @default(uuid())
+  name            String
+  slug            String   @unique
+  description     String   @db.Text
+  shortDescription String?
+  
+  // Medical Specifics
+  duration        String?  // e.g. "45 mins"
+  downtime        String?  // e.g. "None", "2-3 Days"
+  painLevel       String?  // e.g. "Mild", "None"
+  price           String?  // e.g. "Starts at 5000"
+  
+  icon            String?  // For UI icons (e.g. lucide name or url)
+  image           String?  // Hero image
+  
+  category        String?  // "Laser", "Facial", "Anti-Aging"
+  isFeatured      Boolean  @default(false)
+  
+  appointments    Appointment[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Doctor {
   id          String   @id @default(uuid())
   name        String
-  slug        String   @unique
-  category    String
-  description String
-  benefits    String[]
-  duration    Int
-  price       Decimal
-  discount_price Decimal?
-  image_url   String?
-  is_active   Boolean  @default(true)
-  is_featured Boolean  @default(false)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  role        String   // e.g. "Lead Cosmetologist"
+  image       String?
+  bio         String   @db.Text
+  qualifications String? // e.g. "MBBS, MD"
   
-  appointments Appointment[]
+  specialties String[] 
+  isHead      Boolean  @default(false)
   
-  @@map("treatments")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
 }
 
 model Appointment {
-  id              String   @id @default(uuid())
-  patient_id      String
-  treatment_id    String
-  appointment_date DateTime
-  appointment_time String
-  status          String   @default("pending")
-  duration        Int
-  patient_notes   String?
-  admin_notes     String?
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
+  id          String            @id @default(uuid())
   
-  patient         Patient  @relation(fields: [patient_id], references: [id])
-  treatment       Treatment @relation(fields: [treatment_id], references: [id])
+  // Patient Info
+  name        String
+  phone       String
+  email       String?
   
-  @@map("appointments")
+  // Booking Info
+  treatmentId String?
+  treatment   Treatment?        @relation(fields: [treatmentId], references: [id])
+  
+  date        DateTime          // The date of appointment
+  timeSlot    String            // "11:00 AM", etc.
+  
+  status      AppointmentStatus @default(PENDING)
+  notes       String?           @db.Text
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 }
 
-model TreatmentRecord {
-  id              String   @id @default(uuid())
-  patient_id      String
-  treatment_name  String
-  treatment_date  DateTime
-  performed_by    String
-  notes           String?
-  before_photos   String[]
-  after_photos    String[]
-  created_at      DateTime @default(now())
-  
-  patient         Patient  @relation(fields: [patient_id], references: [id])
-  
-  @@map("treatment_records")
+// ============================================
+// CONTENT MANAGEMENT
+// ============================================
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }
 
-model Prescription {
-  id              String   @id @default(uuid())
-  patient_id      String
-  prescribed_by   String
-  medication      String
-  dosage          String
-  frequency       String
-  duration        String
-  instructions    String?
-  prescribed_date DateTime @default(now())
-  
-  @@map("prescriptions")
-}
-
-model Payment {
-  id              String   @id @default(uuid())
-  appointment_id  String?
-  patient_id      String
-  amount          Decimal
-  payment_method  String
-  payment_status  String   @default("pending")
-  transaction_id  String?
-  payment_date    DateTime @default(now())
-  
-  @@map("payments")
-}
-
-model Notification {
-  id              String   @id @default(uuid())
-  patient_id      String?
-  admin_id        String?
-  type            String
+model BlogPost {
+  id              String     @id @default(uuid())
   title           String
-  message         String
-  is_read         Boolean  @default(false)
-  created_at      DateTime @default(now())
-  
-  @@map("notifications")
+  slug            String     @unique
+  excerpt         String?
+  content         String     @db.Text
+  featuredImage   String?
+  status          BlogStatus @default(DRAFT)
+  authorId        String?    // Optional for now
+  tags            String[]
+  seoTitle        String?
+  seoDescription  String?
+  publishedAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 }
 
-model AdminUser {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  password_hash String
-  full_name     String
-  role          String   @default("admin")
-  is_active     Boolean  @default(true)
-  created_at    DateTime @default(now())
-  
-  @@map("admin_users")
+model Testimonial {
+  id          String   @id @default(uuid())
+  name        String
+  role        String?  // e.g. "HydraFacial Patient"
+  content     String   @db.Text
+  rating      Int      @default(5)
+  image       String?
+  isApproved  Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
-model Settings {
-  id         String   @id @default(uuid())
-  key        String   @unique
-  value      String
-  updated_at DateTime @updatedAt
-  
-  @@map("settings")
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  ARCHIVED
 }
 
 model Inquiry {
-  id         String   @id @default(uuid())
-  name       String
-  email      String
-  phone      String
-  service    String
-  message    String?
-  status     String   @default("new")
-  notes      String?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  
-  @@map("inquiries")
+  id          String        @id @default(uuid())
+  name        String
+  email       String
+  phone       String?
+  subject     String?
+  message     String        @db.Text
+  status      InquiryStatus @default(NEW)
+  notes       String?       @db.Text
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+// ============================================
+// SITE SETTINGS
+// ============================================
+
+model Settings {
+  id                String   @id @default(uuid())
+  siteName          String
+  siteTagline       String?
+  logo              String?
+  contactEmail      String
+  contactPhone      String
+  address           String?
+  socialMedia       Json?    // { instagram, facebook }
+  businessHours     Json?
+  maintenanceMode   Boolean  @default(false)
+  updatedAt         DateTime @updatedAt
+}
+
+model Media {
+  id          String     @id @default(uuid())
+  filename    String
+  url         String
+  mimeType    String
+  size        Int
+  alt         String?
+  createdAt   DateTime   @default(now())
 }

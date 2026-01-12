@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authorizeAdmin = exports.authenticate = void 0;
+exports.optionalAuthenticate = exports.authorizeAdmin = exports.authenticate = void 0;
 const auth_1 = require("../utils/auth");
 const authenticate = (req, res, next) => {
     let token = req.headers.authorization?.split(' ')[1];
@@ -18,6 +18,7 @@ const authenticate = (req, res, next) => {
         next();
     }
     catch (error) {
+        console.error('Auth middleware error:', error);
         res.status(401).json({ message: 'Invalid token' });
     }
 };
@@ -31,3 +32,24 @@ const authorizeAdmin = (req, res, next) => {
     next();
 };
 exports.authorizeAdmin = authorizeAdmin;
+const optionalAuthenticate = (req, res, next) => {
+    let token = req.headers.authorization?.split(' ')[1];
+    if (!token && req.cookies) {
+        token = req.cookies.admin_token;
+    }
+    if (!token) {
+        next();
+        return;
+    }
+    try {
+        const decoded = (0, auth_1.verifyToken)(token);
+        // @ts-ignore
+        req.user = decoded;
+        next();
+    }
+    catch (error) {
+        // If token is invalid, just proceed as guest
+        next();
+    }
+};
+exports.optionalAuthenticate = optionalAuthenticate;

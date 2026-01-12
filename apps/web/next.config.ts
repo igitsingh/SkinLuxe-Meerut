@@ -11,6 +11,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/hydrafacial',
+        destination: '/treatments/hydrafacial',
+        permanent: true,
+      },
+      {
+        source: '/chemical-peels',
+        destination: '/treatments/chemical-peels',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 export default nextConfig;

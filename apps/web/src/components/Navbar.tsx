@@ -35,7 +35,7 @@ const Navbar = () => {
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-[#E6E2DD]' : 'bg-white border-b border-transparent py-2'}`}>
-            <div className="container">
+            <div className={`container transition-all duration-300 ${scrolled ? 'py-0' : 'py-2'}`}>
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
                     <Link href="/" className="flex-shrink-0 relative z-50">
@@ -44,7 +44,7 @@ const Navbar = () => {
                             alt="SkinLuxe Aesthetics & Academy"
                             width={700}
                             height={234}
-                            className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-10' : 'h-12'}`}
+                            className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-14' : 'h-24'}`}
                             priority
                         />
                     </Link>

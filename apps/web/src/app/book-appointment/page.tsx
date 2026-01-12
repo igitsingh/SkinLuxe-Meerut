@@ -63,13 +63,45 @@ Please verify availability.`;
         return `https://wa.me/919318452282?text=${encodeURIComponent(message)}`;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // In a real app, we would POST to an API here.
-        // For this demo, we simulate a submission and show the success state.
-        setTimeout(() => {
-            setIsSubmitted(true);
-        }, 800);
+
+        let dateStr = new Date().toISOString();
+        let timeSlot = 'Pending';
+
+        if (selectedDateTime) {
+            const parts = selectedDateTime.split('|');
+            if (parts.length === 2) {
+                dateStr = parts[0];
+                timeSlot = parts[1];
+            }
+        }
+
+        const treatmentName = treatments.find(t => t.id === selectedTreatment)?.name || 'General Consultation';
+        const finalNotes = `Service Requested: ${treatmentName}`;
+
+        try {
+            const response = await fetch('/api/appointments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name,
+                    phone,
+                    date: dateStr,
+                    timeSlot,
+                    notes: finalNotes
+                })
+            });
+
+            if (response.ok) {
+                setIsSubmitted(true);
+            } else {
+                alert('Something went wrong. Please try again via WhatsApp.');
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert('Connection error. Please try WhatsApp.');
+        }
     };
 
     // ------------------------------------------------------------------------

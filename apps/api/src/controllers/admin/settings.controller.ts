@@ -8,14 +8,12 @@ export const getSettings = async (req: Request, res: Response) => {
         let settings = await prisma.settings.findFirst();
 
         if (!settings) {
-            // Create default settings if not exists
             settings = await prisma.settings.create({
                 data: {
-                    restaurantName: 'The Pizza Box',
+                    siteName: 'SkinLuxe Aesthetics',
                     contactPhone: '',
                     contactEmail: '',
-                    address: '',
-                    operatingHours: '10:00 AM - 10:00 PM',
+                    maintenanceMode: false
                 },
             });
         }
@@ -29,44 +27,22 @@ export const getSettings = async (req: Request, res: Response) => {
 
 export const updateSettings = async (req: Request, res: Response) => {
     try {
-        const {
-            restaurantName,
-            contactPhone,
-            contactEmail,
-            address,
-            minOrderAmount,
-            operatingHours,
-            isOpen,
-            isPaused,
-            seoTitle,
-            seoDescription,
-            seoOgImage
-        } = req.body;
-
+        const data = req.body;
         let settings = await prisma.settings.findFirst();
-
-        const data = {
-            restaurantName,
-            contactPhone,
-            contactEmail,
-            address,
-            minOrderAmount: parseFloat(minOrderAmount),
-            operatingHours,
-            isOpen,
-            isPaused,
-            seoTitle,
-            seoDescription,
-            seoOgImage
-        };
 
         if (settings) {
             settings = await prisma.settings.update({
                 where: { id: settings.id },
-                data,
+                data: { ...data },
             });
         } else {
             settings = await prisma.settings.create({
-                data,
+                data: {
+                    siteName: 'SkinLuxe Aesthetics',
+                    contactPhone: '',
+                    contactEmail: '',
+                    ...data
+                },
             });
         }
 

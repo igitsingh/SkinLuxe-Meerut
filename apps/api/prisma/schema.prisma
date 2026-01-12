@@ -1,4 +1,4 @@
-// ZEVARAZ CMS Database Schema
+// SKINLUXE CMS Database Schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,14 +17,16 @@ enum UserRole {
   ADMIN
   EDITOR
   VIEWER
+  CUSTOMER
 }
 
 model User {
   id            String         @id @default(uuid())
   email         String         @unique
+  phone         String?        @unique
   password      String
   name          String
-  role          UserRole       @default(EDITOR)
+  role          UserRole       @default(CUSTOMER)
   avatar        String?
   isActive      Boolean        @default(true)
   lastLogin     DateTime?
@@ -38,7 +40,7 @@ model ActivityLog {
   userId      String
   user        User     @relation(fields: [userId], references: [id])
   action      String   // CREATE, UPDATE, DELETE
-  entity      String   // Page, Product, Media, etc.
+  entity      String   // Treatment, Page, etc.
   entityId    String
   description String
   metadata    Json?    // Store additional context
@@ -46,270 +48,81 @@ model ActivityLog {
 }
 
 // ============================================
-// CONTENT MANAGEMENT
+// CLINIC MANAGEMENT (CORE)
 // ============================================
 
-enum PageStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-model Page {
-  id              String      @id @default(uuid())
-  title           String
-  slug            String      @unique
-  status          PageStatus  @default(DRAFT)
-  template        String?     // home, about, contact, collection, product
-  sections        Section[]
-  seo             SEO?
-  isHomePage      Boolean     @default(false)
-  order           Int         @default(0)
-  publishedAt     DateTime?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-}
-
-enum SectionType {
-  HERO
-  TEXT
-  IMAGE
-  IMAGE_TEXT
-  GALLERY
-  COLLECTION_GRID
-  PRODUCT_GRID
-  CTA
-  TESTIMONIALS
-  FAQ
-  CONTACT_FORM
-  CUSTOM_HTML
-  VIDEO
-  STATS
-  TIMELINE
-  FEATURES
-}
-
-model Section {
-  id          String      @id @default(uuid())
-  pageId      String
-  page        Page        @relation(fields: [pageId], references: [id], onDelete: Cascade)
-  type        SectionType
-  title       String?
-  subtitle    String?
-  content     Json        // Flexible JSON structure for different section types
-  order       Int         @default(0)
-  isVisible   Boolean     @default(true)
-  settings    Json?       // Background color, padding, margins, etc.
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-}
-
-model SEO {
+model Treatment {
   id              String   @id @default(uuid())
-  pageId          String   @unique
-  page            Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
-  metaTitle       String
-  metaDescription String
-  keywords        String[]
-  ogTitle         String?
-  ogDescription   String?
-  ogImage         String?
-  twitterCard     String?
-  canonicalUrl    String?
-  noIndex         Boolean  @default(false)
-  noFollow        Boolean  @default(false)
-  structuredData  Json?    // Schema.org JSON-LD
+  name            String
+  slug            String   @unique
+  description     String   @db.Text
+  shortDescription String?
+  
+  // Medical Specifics
+  duration        String?  // e.g. "45 mins"
+  downtime        String?  // e.g. "None", "2-3 Days"
+  painLevel       String?  // e.g. "Mild", "None"
+  price           String?  // e.g. "Starts at 5000"
+  
+  icon            String?  // For UI icons (e.g. lucide name or url)
+  image           String?  // Hero image
+  
+  category        String?  // "Laser", "Facial", "Anti-Aging"
+  isFeatured      Boolean  @default(false)
+  
+  appointments    Appointment[]
+  
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
-// ============================================
-// MEDIA LIBRARY
-// ============================================
-
-enum MediaType {
-  IMAGE
-  VIDEO
-  DOCUMENT
-}
-
-model Media {
-  id          String     @id @default(uuid())
-  filename    String
-  originalName String
-  url         String
-  thumbnailUrl String?
-  type        MediaType  @default(IMAGE)
-  mimeType    String
-  size        Int        // in bytes
-  width       Int?
-  height      Int?
-  alt         String?
-  caption     String?
-  folder      String?    // For organization
-  tags        String[]
-  usageCount  Int        @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-}
-
-// ============================================
-// JEWELLERY COLLECTIONS & PRODUCTS
-// ============================================
-
-enum CollectionStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-model Collection {
-  id              String            @id @default(uuid())
-  name            String
-  slug            String            @unique
-  description     String?           @db.Text
-  shortDescription String?
-  status          CollectionStatus  @default(DRAFT)
-  featuredImage   String?
-  bannerImage     String?
-  products        Product[]
-  order           Int               @default(0)
-  isFeatured      Boolean           @default(false)
-  seoTitle        String?
-  seoDescription  String?
-  publishedAt     DateTime?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-}
-
-enum ProductStatus {
-  DRAFT
-  PUBLISHED
-  SOLD
-  ARCHIVED
-}
-
-model Product {
-  id              String         @id @default(uuid())
-  name            String
-  slug            String         @unique
-  description     String?        @db.Text
-  shortDescription String?
-  sku             String?        @unique
-  price           Float?
-  salePrice       Float?
-  status          ProductStatus  @default(DRAFT)
-  collectionId    String?
-  collection      Collection?    @relation(fields: [collectionId], references: [id])
-  images          ProductImage[]
-  categories      ProductCategory[]
-  tags            String[]
-  specifications  Json?          // Material, weight, dimensions, etc.
-  isFeatured      Boolean        @default(false)
-  order           Int            @default(0)
-  seoTitle        String?
-  seoDescription  String?
-  publishedAt     DateTime?
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-}
-
-model ProductImage {
-  id        String   @id @default(uuid())
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  url       String
-  alt       String?
-  order     Int      @default(0)
-  isPrimary Boolean  @default(false)
-  createdAt DateTime @default(now())
-}
-
-model Category {
-  id          String            @id @default(uuid())
+model Doctor {
+  id          String   @id @default(uuid())
   name        String
-  slug        String            @unique
-  description String?
+  role        String   // e.g. "Lead Cosmetologist"
   image       String?
-  parent      Category?         @relation("CategoryHierarchy", fields: [parentId], references: [id])
-  parentId    String?
-  children    Category[]        @relation("CategoryHierarchy")
-  products    ProductCategory[]
-  order       Int               @default(0)
+  bio         String   @db.Text
+  qualifications String? // e.g. "MBBS, MD"
+  
+  specialties String[] 
+  isHead      Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model Appointment {
+  id          String            @id @default(uuid())
+  
+  // Patient Info
+  name        String
+  phone       String
+  email       String?
+  
+  // Booking Info
+  treatmentId String?
+  treatment   Treatment?        @relation(fields: [treatmentId], references: [id])
+  
+  date        DateTime          // The date of appointment
+  timeSlot    String            // "11:00 AM", etc.
+  
+  status      AppointmentStatus @default(PENDING)
+  notes       String?           @db.Text
+  
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 }
 
-model ProductCategory {
-  id         String   @id @default(uuid())
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
-
-  @@unique([productId, categoryId])
-}
-
 // ============================================
-// NAVIGATION & MENUS
-// ============================================
-
-model Navigation {
-  id        String         @id @default(uuid())
-  name      String         @unique // header, footer, mobile
-  items     NavigationItem[]
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-}
-
-model NavigationItem {
-  id           String          @id @default(uuid())
-  navigationId String
-  navigation   Navigation      @relation(fields: [navigationId], references: [id], onDelete: Cascade)
-  label        String
-  url          String
-  icon         String?
-  order        Int             @default(0)
-  parent       NavigationItem? @relation("NavItemHierarchy", fields: [parentId], references: [id])
-  parentId     String?
-  children     NavigationItem[] @relation("NavItemHierarchy")
-  isExternal   Boolean         @default(false)
-  openNewTab   Boolean         @default(false)
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-}
-
-// ============================================
-// SITE SETTINGS
-// ============================================
-
-model Settings {
-  id                String   @id @default(uuid())
-  siteName          String
-  siteTagline       String?
-  logo              String?
-  favicon           String?
-  contactEmail      String
-  contactPhone      String
-  address           String?
-  socialMedia       Json?    // { instagram, facebook, twitter, etc. }
-  businessHours     Json?
-  footerText        String?
-  copyrightText     String?
-  primaryColor      String   @default("#D4AF37")
-  secondaryColor    String   @default("#1A1A1A")
-  accentColor       String   @default("#E8D5C4")
-  googleAnalyticsId String?
-  facebookPixelId   String?
-  customCSS         String?  @db.Text
-  customJS          String?  @db.Text
-  maintenanceMode   Boolean  @default(false)
-  updatedAt         DateTime @updatedAt
-}
-
-// ============================================
-// BLOG (Optional)
+// CONTENT MANAGEMENT
 // ============================================
 
 enum BlogStatus {
@@ -326,7 +139,7 @@ model BlogPost {
   content         String     @db.Text
   featuredImage   String?
   status          BlogStatus @default(DRAFT)
-  authorId        String
+  authorId        String?    // Optional for now
   tags            String[]
   seoTitle        String?
   seoDescription  String?
@@ -335,15 +148,10 @@ model BlogPost {
   updatedAt       DateTime   @updatedAt
 }
 
-// ============================================
-// TESTIMONIALS
-// ============================================
-
 model Testimonial {
   id          String   @id @default(uuid())
   name        String
-  role        String?
-  company     String?
+  role        String?  // e.g. "HydraFacial Patient"
   content     String   @db.Text
   rating      Int      @default(5)
   image       String?
@@ -353,10 +161,6 @@ model Testimonial {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
-
-// ============================================
-// CONTACT FORMS & INQUIRIES
-// ============================================
 
 enum InquiryStatus {
   NEW
@@ -376,4 +180,32 @@ model Inquiry {
   notes       String?       @db.Text
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+}
+
+// ============================================
+// SITE SETTINGS
+// ============================================
+
+model Settings {
+  id                String   @id @default(uuid())
+  siteName          String
+  siteTagline       String?
+  logo              String?
+  contactEmail      String
+  contactPhone      String
+  address           String?
+  socialMedia       Json?    // { instagram, facebook }
+  businessHours     Json?
+  maintenanceMode   Boolean  @default(false)
+  updatedAt         DateTime @updatedAt
+}
+
+model Media {
+  id          String     @id @default(uuid())
+  filename    String
+  url         String
+  mimeType    String
+  size        Int
+  alt         String?
+  createdAt   DateTime   @default(now())
 }
