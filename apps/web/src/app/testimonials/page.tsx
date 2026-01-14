@@ -66,7 +66,7 @@ export default function TestimonialsPage() {
                         Social Proof
                     </span>
                     <h1 className="font-serif text-4xl md:text-7xl mb-6 leading-tight">
-                        Stories of <span className="text-white/80 italic">Transformation</span>
+                        <span className="text-white">Stories of</span> <span className="text-white/80 italic">Transformation</span>
                     </h1>
                     <p className="text-white/70 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-10">
                         We don't just treat skin; we restore confidence. Join hundreds of happy patients who have
@@ -133,12 +133,12 @@ export default function TestimonialsPage() {
                 <div className="container">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {reviews.map((review, index) => (
-                            <div key={index} className="bg-white p-8 border border-[#E6E2DD] flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
-                                <div className="flex justify-between items-start mb-6">
+                            <div key={index} className="bg-white p-8 border border-[#E6E2DD] flex flex-col h-full hover:shadow-lg transition-shadow duration-300 text-center md:text-left items-center md:items-start">
+                                <div className="flex flex-col md:flex-row justify-between items-center md:items-start mb-6 w-full gap-4 md:gap-0">
                                     <Quote className="w-8 h-8 text-[#E6E2DD]" />
-                                    <div className="flex gap-1">
+                                    <div className="flex gap-1 text-[#B4838D]">
                                         {[...Array(review.rating)].map((_, i) => (
-                                            <Star key={i} className="w-4 h-4 text-[#B4838D] fill-current" />
+                                            <Star key={i} className="w-4 h-4 fill-current" />
                                         ))}
                                     </div>
                                 </div>
@@ -147,11 +147,11 @@ export default function TestimonialsPage() {
                                     "{review.content}"
                                 </p>
 
-                                <div className="border-t border-[#F2F2F2] pt-6 mt-auto">
+                                <div className="border-t border-[#F2F2F2] pt-6 mt-auto w-full">
                                     <h4 className="font-serif text-[#1C1C1C] text-lg">{review.name}</h4>
-                                    <div className="flex items-center gap-2 mt-1">
+                                    <div className="flex flex-col md:flex-row items-center md:items-start gap-2 mt-1 justify-center md:justify-start">
                                         <span className="text-[#B4838D] text-xs font-semibold uppercase tracking-wider">{review.treatment}</span>
-                                        <span className="text-[#E6E2DD]">•</span>
+                                        <span className="text-[#E6E2DD] hidden md:inline">•</span>
                                         <span className="text-[#999999] text-xs flex items-center gap-1">
                                             <CheckCircle className="w-3 h-3" /> Verified Patient
                                         </span>
@@ -179,13 +179,13 @@ export default function TestimonialsPage() {
       ----------------------------------------------------------------------- */}
             <section className="py-24 bg-[#1C1C1C] text-white text-center">
                 <div className="container max-w-3xl">
-                    <h2 className="font-serif text-4xl md:text-5xl mb-6">Ready to Write Your Story?</h2>
+                    <h2 className="font-serif text-4xl md:text-5xl text-white mb-6">Ready to Write Your Story?</h2>
                     <p className="text-white/60 text-lg font-light mb-10 leading-relaxed">
                         Join our community of confident, radiant individuals.
                         Book your consultation today and take the first step towards your transformation.
                     </p>
-                    <Link href="/book-appointment">
-                        <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] text-white hover:bg-white hover:text-[#1C1C1C] hover:border-white min-w-[250px]">
+                    <Link href="/book-appointment" className="w-full sm:w-auto inline-block">
+                        <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] text-white hover:bg-white hover:text-[#1C1C1C] hover:border-white w-full sm:min-w-[200px] sm:w-auto h-[54px] flex items-center justify-center font-serif tracking-widest text-xs uppercase mx-auto">
                             Book Your Consultation
                         </button>
                     </Link>

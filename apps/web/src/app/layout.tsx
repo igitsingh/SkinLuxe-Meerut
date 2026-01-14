@@ -14,81 +14,39 @@ const lato = Lato({ subsets: ["latin"], weight: ["100", "300", "400", "700"], va
 
 // Generate dynamic metadata from settings
 export async function generateMetadata(): Promise<Metadata> {
-  try {
-    // Fetch settings from API
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/settings`, {
-      cache: 'no-store'
-    });
-    const data = await response.json();
-    const settings = data.success ? data.data : null;
-
-    return {
-      title: settings?.seoTitle || "SkinLuxe Aesthetics & Academy | Laser, Skin & Aesthetic Clinic, Begum Bridge Meerut",
-      description: settings?.seoDescription || "SkinLuxe Meerut – Advanced Laser Hair Reduction, Skin Treatments, Acne & Pigmentation Cure, HydraFacial, Anti-Aging, and Aesthetic Services. Located at Begum Bridge Road, Meerut.",
-      icons: {
-        icon: settings?.favicon || '/skinluxe-logo.png',
-        apple: settings?.favicon || '/skinluxe-logo.png',
-      },
-      openGraph: {
-        title: settings?.seoTitle || "SkinLuxe Aesthetics & Academy | Premium Skin & Laser Clinic Meerut",
-        description: settings?.seoDescription || "Advanced skin treatments, laser hair reduction, and aesthetic procedures in Meerut. Expert dermatology care.",
-        url: "https://skinluxe-meerut.com",
-        type: "website",
-        siteName: settings?.siteName || "SkinLuxe Aesthetics & Academy",
-        locale: "en_IN",
-      },
-      keywords: [
-        "Skin Clinic Meerut",
-        "Laser Hair Removal Meerut",
-        "Acne Treatment Meerut",
-        "HydraFacial Meerut",
-        "SkinLuxe Aesthetics & Academy",
-        "Dermatology Meerut",
-        "Pigmentation Treatment Meerut",
-        "Anti-Aging Clinic Meerut",
-        "Aesthetic Clinic Begum Bridge"
-      ],
-      authors: [{ name: settings?.siteName || "SkinLuxe Aesthetics & Academy" }],
-      robots: {
-        index: true,
-        follow: true,
-      },
-    };
-  } catch (error) {
-    // Fallback to default metadata if fetch fails
-    return {
-      title: "SkinLuxe Aesthetics & Academy | Laser, Skin & Aesthetic Clinic, Begum Bridge Meerut",
-      description: "SkinLuxe Meerut – Advanced Laser Hair Reduction, Skin Treatments, Acne & Pigmentation Cure, HydraFacial, Anti-Aging, and Aesthetic Services. Located at Begum Bridge Road, Meerut.",
-      icons: {
-        icon: '/skinluxe-logo.png',
-        apple: '/skinluxe-logo.png',
-      },
-      openGraph: {
-        title: "SkinLuxe Aesthetics & Academy | Premium Skin & Laser Clinic Meerut",
-        description: "Advanced skin treatments, laser hair reduction, and aesthetic procedures in Meerut. Expert dermatology care.",
-        url: "https://skinluxe-meerut.com",
-        type: "website",
-        siteName: "SkinLuxe Aesthetics & Academy",
-        locale: "en_IN",
-      },
-      keywords: [
-        "Skin Clinic Meerut",
-        "Laser Hair Removal Meerut",
-        "Acne Treatment Meerut",
-        "HydraFacial Meerut",
-        "SkinLuxe Aesthetics & Academy",
-        "Dermatology Meerut",
-        "Pigmentation Treatment Meerut",
-        "Anti-Aging Clinic Meerut",
-        "Aesthetic Clinic Begum Bridge"
-      ],
-      authors: [{ name: "SkinLuxe Aesthetics & Academy" }],
-      robots: {
-        index: true,
-        follow: true,
-      },
-    };
-  }
+  // Use static metadata for now to avoid blocking on API calls
+  return {
+    title: "SkinLuxe Aesthetics & Academy | Laser, Skin & Aesthetic Clinic, Begum Bridge Meerut",
+    description: "SkinLuxe Meerut – Advanced Laser Hair Reduction, Skin Treatments, Acne & Pigmentation Cure, HydraFacial, Anti-Aging, and Aesthetic Services. Located at Begum Bridge Road, Meerut.",
+    icons: {
+      icon: '/skinluxe-logo.png',
+      apple: '/skinluxe-logo.png',
+    },
+    openGraph: {
+      title: "SkinLuxe Aesthetics & Academy | Premium Skin & Laser Clinic Meerut",
+      description: "Advanced skin treatments, laser hair reduction, and aesthetic procedures in Meerut. Expert dermatology care.",
+      url: "https://skinluxe-meerut.com",
+      type: "website",
+      siteName: "SkinLuxe Aesthetics & Academy",
+      locale: "en_IN",
+    },
+    keywords: [
+      "Skin Clinic Meerut",
+      "Laser Hair Removal Meerut",
+      "Acne Treatment Meerut",
+      "HydraFacial Meerut",
+      "SkinLuxe Aesthetics & Academy",
+      "Dermatology Meerut",
+      "Pigmentation Treatment Meerut",
+      "Anti-Aging Clinic Meerut",
+      "Aesthetic Clinic Begum Bridge"
+    ],
+    authors: [{ name: "SkinLuxe Aesthetics & Academy" }],
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
 }
 
 export default function RootLayout({

@@ -1,0 +1,69 @@
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║          🏥 SkinLuxe Aesthetics & Academy - Meerut         ║
+║              LOCAL HOSTING - QUICK REFERENCE               ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+
+📊 ALL SERVICES RUNNING ✅
+
+┌────────────────────────────────────────────────────────────┐
+│ SERVICE URLS                                               │
+├────────────────────────────────────────────────────────────┤
+│ 🌐 Customer Website:  http://localhost:3001                │
+│ 🔐 Admin Panel:       http://localhost:3002                │
+│ 🔌 Backend API:       http://localhost:5001                │
+│ 🗄️  Database:         localhost:5432                       │
+└────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────┐
+│ ADMIN CREDENTIALS                                          │
+├────────────────────────────────────────────────────────────┤
+│ Email:    admin@skinluxe.com                               │
+│ Password: admin123                                         │
+│ Login:    http://localhost:3002/login                      │
+└────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────┐
+│ QUICK COMMANDS                                             │
+├────────────────────────────────────────────────────────────┤
+│ Start All:     ./START_ALL_SERVICES.sh                     │
+│ Stop All:      ./STOP_ALL_SERVICES.sh                      │
+│ View Logs:     tail -f /tmp/skinluxe-*.log                 │
+│ Open Customer: open http://localhost:3001                  │
+│ Open Admin:    open http://localhost:3002                  │
+│ Database CLI:  psql -U isachinsingh -d the_pizza_box       │
+│ Prisma Studio: cd apps/api && npx prisma studio            │
+└────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────┐
+│ DATABASE INFO                                              │
+├────────────────────────────────────────────────────────────┤
+│ Name:       the_pizza_box                                  │
+│ Tables:     10 (User, Treatment, Appointment, etc.)        │
+│ Treatments: 21 loaded                                      │
+│ Port:       5432                                           │
+└────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────┐
+│ DOCUMENTATION                                              │
+├────────────────────────────────────────────────────────────┤
+│ Status:        LOCAL_HOSTING_STATUS.md                     │
+│ Full Guide:    LOCAL_HOSTING_GUIDE.md                      │
+│ Quick Start:   QUICK_START_GUIDE.md                        │
+│ Main README:   README.md                                   │
+└────────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────────┐
+│ TROUBLESHOOTING                                            │
+├────────────────────────────────────────────────────────────┤
+│ Port in use:   lsof -ti:3001,3002,5001 | xargs kill -9    │
+│ Check DB:      pg_isready                                  │
+│ Start DB:      brew services start postgresql@14          │
+│ View API logs: tail -f /tmp/skinluxe-api.log              │
+│ Reset all:     ./STOP_ALL_SERVICES.sh && ./START_ALL...   │
+└────────────────────────────────────────────────────────────┘
+
+✨ All systems operational! Happy coding! ✨
+
+Last Updated: January 13, 2026 at 3:53 PM IST

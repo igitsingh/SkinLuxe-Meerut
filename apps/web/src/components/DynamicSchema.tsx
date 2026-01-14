@@ -36,14 +36,13 @@ export default function DynamicSchema() {
                 "dayOfWeek": [
                     "Monday",
                     "Tuesday",
-                    "Wednesday",
                     "Thursday",
                     "Friday",
                     "Saturday",
                     "Sunday"
                 ],
-                "opens": "11:00",
-                "closes": "20:00"
+                "opens": "10:00",
+                "closes": "19:30"
             },
             "priceRange": "₹25000 - ₹5000000"
         };

@@ -51,9 +51,6 @@ export default function TreatmentsPage() {
     // If no featured items (e.g. existing data not migrated), fallback to Signature category to prevent empty section
     const displayList = featuredList.length > 0 ? featuredList : treatments.filter(t => t.category === 'Signature');
 
-    const antiAging = treatments.filter(t => t.category === 'Anti-Aging' || t.category === 'Anti-Aging & Rejuvenation');
-    const glow = treatments.filter(t => t.category === 'Glow' || t.category === 'Glow & Pigmentation');
-
     if (loading) {
         return <div className="min-h-screen bg-white flex items-center justify-center font-serif text-[#1C1C1C]">Loading Menu...</div>;
     }
@@ -69,7 +66,7 @@ export default function TreatmentsPage() {
                         Clinical Aesthetics
                     </span>
                     <h1 className="font-serif text-5xl md:text-7xl leading-tight mb-8">
-                        Treatment <span className="text-white/70 italic">Menu</span>
+                        <span className="text-white">Treatment</span> <span className="text-white/70 italic">Menu</span>
                     </h1>
                     <p className="text-white/60 text-lg font-light max-w-2xl mx-auto leading-relaxed">
                         A curated portfolio of advanced dermatological procedures and luxury facials.
@@ -81,12 +78,12 @@ export default function TreatmentsPage() {
             {/* CATEGORY 1: SIGNATURE / FEATURED THERAPIES */}
             <section className="py-24 bg-[#F9F8F6]">
                 <div className="container">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-[#E6E2DD] pb-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 border-b border-[#E6E2DD] pb-6 text-center md:text-left">
                         <div>
-                            <h2 className="text-[#1C1C1C] font-serif text-4xl mb-2">Signature Therapies</h2>
+                            <h2 className="text-[#1C1C1C] font-serif text-4xl mb-2">Featured Treatments</h2>
                             <p className="text-[#4A4A4A] font-light">Our most sought-after medical protocols.</p>
                         </div>
-                        <div className="hidden md:block">
+                        <div className="mt-6 md:mt-0">
                             <Link href="/book-appointment">
                                 <button className="text-sm font-serif border-b border-[#1C1C1C] pb-1 hover:text-[#B4838D] hover:border-[#B4838D] transition-colors">
                                     Book Consultation
@@ -100,8 +97,8 @@ export default function TreatmentsPage() {
                         {displayList.map((t, idx) => {
                             const Icon = getIcon(t.icon);
                             return (
-                                <div key={t.id} className="group bg-white p-10 hover:bg-[#1C1C1C] hover:text-white transition-all duration-500 relative overflow-hidden">
-                                    <div className="relative z-10">
+                                <div key={t.id} className="group bg-white p-10 hover:bg-[#1C1C1C] hover:text-white transition-all duration-500 relative overflow-hidden text-center md:text-left flex flex-col items-center md:items-start">
+                                    <div className="relative z-10 w-full flex flex-col items-center md:items-start transition-all duration-500">
                                         <Icon className="w-10 h-10 text-[#B4838D] mb-6" />
                                         <h3 className="font-serif text-2xl mb-4 group-hover:text-white">{t.name}</h3>
                                         <p className="text-[#4A4A4A] group-hover:text-white/70 font-light text-sm leading-relaxed mb-8 min-h-[5rem]">
@@ -126,38 +123,37 @@ export default function TreatmentsPage() {
                         <p className="text-[#4A4A4A] font-light">Targeted solutions for specific concerns.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {/* Column 1: Anti-Aging */}
-                        <div>
-                            <h3 className="font-serif text-xl text-[#B4838D] mb-6 border-b border-[#B4838D]/20 pb-2">Anti-Aging & Rejuvenation</h3>
-                            <div className="space-y-6">
-                                {antiAging.map((item) => (
-                                    <Link key={item.id} href={`/treatments/${item.slug}`} className="block group cursor-pointer">
-                                        <div className="flex justify-between items-baseline mb-1">
-                                            <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">{item.name}</h4>
-                                            <ArrowRight className="w-4 h-4 text-[#E6E2DD] group-hover:text-[#B4838D] transition-colors opacity-0 group-hover:opacity-100" />
-                                        </div>
-                                        <p className="text-sm text-[#4A4A4A] font-light">{item.description ? item.description.slice(0, 60) + '...' : ''}</p>
-                                    </Link>
-                                ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
+                        {/* Dynamic Category Rendering */}
+                        {Object.entries(
+                            treatments.reduce((acc, t) => {
+                                const cat = t.category || 'Other';
+                                if (!acc[cat]) acc[cat] = [];
+                                acc[cat].push(t);
+                                return acc;
+                            }, {} as Record<string, Treatment[]>)
+                        ).map(([category, items], index) => (
+                            <div key={category} className="mb-8 break-inside-avoid text-center md:text-left">
+                                <h3 className="font-serif text-xl text-[#B4838D] mb-6 border-b border-[#B4838D]/20 pb-2 inline-block md:block">
+                                    {category}
+                                </h3>
+                                <div className="space-y-6">
+                                    {items.map((item) => (
+                                        <Link key={item.id} href={`/treatments/${item.slug}`} className="block group cursor-pointer">
+                                            <div className="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-1">
+                                                <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">
+                                                    {item.name}
+                                                </h4>
+                                                <ArrowRight className="w-4 h-4 text-[#E6E2DD] group-hover:text-[#B4838D] transition-colors opacity-0 group-hover:opacity-100 hidden md:block" />
+                                            </div>
+                                            <p className="text-sm text-[#4A4A4A] font-light max-w-xs mx-auto md:mx-0">
+                                                {item.description ? item.description.slice(0, 60) + '...' : ''}
+                                            </p>
+                                        </Link>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-
-                        {/* Column 2: Glow */}
-                        <div>
-                            <h3 className="font-serif text-xl text-[#B4838D] mb-6 border-b border-[#B4838D]/20 pb-2">Glow & Pigmentation</h3>
-                            <div className="space-y-6">
-                                {glow.map((item) => (
-                                    <Link key={item.id} href={`/treatments/${item.slug}`} className="block group cursor-pointer">
-                                        <div className="flex justify-between items-baseline mb-1">
-                                            <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">{item.name}</h4>
-                                            <ArrowRight className="w-4 h-4 text-[#E6E2DD] group-hover:text-[#B4838D] transition-colors opacity-0 group-hover:opacity-100" />
-                                        </div>
-                                        <p className="text-sm text-[#4A4A4A] font-light">{item.description ? item.description.slice(0, 60) + '...' : ''}</p>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     {/* Banner for Makeup */}
@@ -167,8 +163,8 @@ export default function TreatmentsPage() {
                         <p className="text-[#4A4A4A] font-light max-w-lg mx-auto mb-8">
                             We offer premium HD and Airbrush makeup services for brides and party guests.
                         </p>
-                        <Link href="/book-appointment">
-                            <button className="px-8 py-3 bg-transparent border border-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white transition-colors duration-300 uppercase tracking-widest text-xs">
+                        <Link href="/book-appointment" className="w-full sm:w-auto inline-block">
+                            <button className="btn-luxury-filled w-full sm:w-auto h-[54px] min-w-[200px] flex items-center justify-center bg-transparent border !border-[#1C1C1C] !text-[#1C1C1C] hover:!bg-[#1C1C1C] hover:!text-white transition-colors duration-300 uppercase tracking-widest text-xs mx-auto">
                                 Book Makeup Artist
                             </button>
                         </Link>
@@ -179,12 +175,12 @@ export default function TreatmentsPage() {
             {/* BOTTOM CTA */}
             <section className="py-24 bg-[#1C1C1C] text-white">
                 <div className="container text-center">
-                    <h2 className="font-serif text-4xl mb-6">Start Your Transformation</h2>
+                    <h2 className="font-serif text-4xl text-white mb-6">Start Your Transformation</h2>
                     <p className="text-white/60 text-lg font-light mb-10 max-w-xl mx-auto">
                         Not sure what you need? Book a consultation with a professional skin analysis.
                     </p>
-                    <Link href="/book-appointment">
-                        <button className="px-8 py-4 bg-[#B4838D] text-white hover:bg-white hover:text-[#1C1C1C] transition-colors duration-300 font-serif tracking-widest text-xs uppercase">
+                    <Link href="/book-appointment" className="w-full sm:w-auto inline-block">
+                        <button className="btn-luxury-filled w-full sm:w-auto h-[54px] min-w-[200px] flex items-center justify-center bg-[#B4838D] border-[#B4838D] text-white hover:bg-white hover:text-[#1C1C1C] hover:border-white transition-colors duration-300 font-serif tracking-widest text-xs uppercase mx-auto">
                             Book Consultation
                         </button>
                     </Link>
@@ -194,3 +190,4 @@ export default function TreatmentsPage() {
         </div>
     );
 }
+

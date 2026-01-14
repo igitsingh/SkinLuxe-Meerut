@@ -27,7 +27,7 @@ export default function AboutPage() {
                         Established 2019
                     </span>
                     <h1 className="font-serif text-4xl md:text-7xl leading-tight mb-8 text-white">
-                        The Science of <br />
+                        <span className="text-white">The Science of</span> <br />
                         <span className="text-white/80 italic">Refined Aesthetics</span>
                     </h1>
                     <p className="text-white/70 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-0">
@@ -61,7 +61,7 @@ export default function AboutPage() {
                         </div>
 
                         {/* Text Column */}
-                        <div className="lg:col-span-7 lg:pl-12">
+                        <div className="lg:col-span-7 lg:pl-12 text-center md:text-left">
                             <h2 className="text-[#1C1C1C] mb-2">Alka Yadav</h2>
                             <p className="font-serif text-xl text-[#B4838D] mb-8">Chief Cosmetologist & Founder</p>
 
@@ -77,15 +77,15 @@ export default function AboutPage() {
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-8 mt-12 pt-12 border-t border-[#E6E2DD]">
-                                <div className="flex items-start gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 pt-12 border-t border-[#E6E2DD]">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
                                     <Award className="w-8 h-8 text-[#B4838D] flex-shrink-0" />
                                     <div>
                                         <h4 className="font-serif text-lg text-[#1C1C1C]">Certified Expert</h4>
                                         <p className="text-sm text-[#4A4A4A]">Trained in advanced laser & aesthetic medicine.</p>
                                     </div>
                                 </div>
-                                <div className="flex items-start gap-4">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
                                     <Shield className="w-8 h-8 text-[#B4838D] flex-shrink-0" />
                                     <div>
                                         <h4 className="font-serif text-lg text-[#1C1C1C]">Safety First</h4>
@@ -108,14 +108,14 @@ export default function AboutPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
                         {/* Text Column (Left) */}
-                        <div className="lg:col-span-7 lg:pr-12 order-2 lg:order-1">
+                        <div className="lg:col-span-7 lg:pr-12 order-2 lg:order-1 text-center md:text-left">
                             <h2 className="text-[#1C1C1C] mb-4">Meet Your Care Team</h2>
 
                             <div className="space-y-6 text-[#4A4A4A] font-light leading-relaxed text-lg">
                                 <p>
                                     A clinically trained team working under the supervision of SkinLuxe’s lead cosmetologist, following strict medical protocols for every procedure.
                                 </p>
-                                <p className="text-sm border-l-2 border-[#B4838D] pl-4 italic opacity-80">
+                                <p className="text-sm border-l-0 md:border-l-2 border-[#B4838D] pl-0 md:pl-4 italic opacity-80">
                                     Every treatment follows standardized safety guidelines and FDA-approved technologies.
                                 </p>
                             </div>
@@ -191,15 +191,15 @@ export default function AboutPage() {
                 <div className="container">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-                        <div className="space-y-8">
-                            <h2 className="text-white">Visit Our Clinic</h2>
+                        <div className="space-y-8 text-center md:text-left">
+                            <h2 className="text-white text-3xl font-serif">Visit Our Clinic</h2>
                             <p className="text-white/70 font-light text-lg leading-relaxed">
                                 Located in the heart of Meerut, our clinic offers a private, serene environment
                                 where you can relax while we take care of your skin.
                             </p>
 
                             <div className="space-y-6 pt-4">
-                                <div className="flex items-start gap-4">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
                                     <MapPin className="w-6 h-6 text-[#B4838D] mt-1" />
                                     <div>
                                         <h4 className="font-serif text-lg text-white mb-1">Address</h4>
@@ -211,21 +211,21 @@ export default function AboutPage() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
                                     <Clock className="w-6 h-6 text-[#B4838D] mt-1" />
                                     <div>
                                         <h4 className="font-serif text-lg text-white mb-1">Hours</h4>
                                         <p className="text-white/60 font-light">
-                                            Monday - Saturday: 11:00 AM - 7:00 PM<br />
-                                            Sunday: By Appointment Only
+                                            Mon, Tue, Thu, Fri, Sat, Sun: 10:00 AM - 7:30 PM<br />
+                                            Wednesday: Closed
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="pt-8">
-                                <Link href="/book-appointment">
-                                    <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white w-full sm:w-auto">
+                            <div className="pt-8 w-full">
+                                <Link href="/book-appointment" className="w-full sm:w-auto block">
+                                    <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white w-full sm:w-auto min-w-[200px] h-[54px] flex items-center justify-center mx-auto md:mx-0">
                                         Book a Consultation
                                     </button>
                                 </Link>

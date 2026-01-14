@@ -5,11 +5,12 @@ const prisma = new PrismaClient();
 
 export const getDashboardStats = async (req: Request, res: Response) => {
     try {
-        const [treatmentCount, inquiryCount, appointmentCount, blogCount] = await Promise.all([
+        const [treatmentCount, inquiryCount, appointmentCount, blogCount, featuredTreatmentCount] = await Promise.all([
             prisma.treatment.count(),
             prisma.inquiry.count(),
             prisma.appointment.count(),
             prisma.blogPost.count(),
+            prisma.treatment.count({ where: { isFeatured: true } })
         ]);
 
         const [statusCounts, inquiryStatusCountsRaw] = await Promise.all([
@@ -42,6 +43,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         res.json({
             stats: {
                 totalTreatments: treatmentCount,
+                totalFeaturedTreatments: featuredTreatmentCount,
                 totalInquiries: inquiryCount,
                 totalAppointments: appointmentCount,
                 totalRevenue: 0,

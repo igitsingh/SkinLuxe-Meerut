@@ -55,14 +55,14 @@ export default function HydraFacialPage() {
                         Not just a facial—it's a high-tech skin transformation. Deeply cleanse, extract, and hydrate with super serums filled with antioxidants, peptides, and hyaluronic acid.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fadeIn delay-300">
-                        <Link href="/book-appointment">
-                            <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white min-w-[250px]">
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fadeIn delay-300 w-full sm:w-auto">
+                        <Link href="/book-appointment" className="w-full sm:w-auto">
+                            <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center">
                                 Book Instant Glow
                             </button>
                         </Link>
-                        <Link href="#process">
-                            <button className="btn-luxury text-white border-white hover:bg-white hover:text-[#1C1C1C] min-w-[250px]">
+                        <Link href="#process" className="w-full sm:w-auto">
+                            <button className="btn-luxury-filled !bg-white !text-[#1C1C1C] !border-white hover:!bg-transparent hover:!text-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center">
                                 See How It Works
                             </button>
                         </Link>
@@ -97,7 +97,7 @@ export default function HydraFacialPage() {
                                 icon: <Shield className="w-10 h-10 text-[#B4838D]" />
                             }
                         ].map((item, i) => (
-                            <div key={i} className={`p-10 md:p-14 bg-white border-b lg:border-b-0 ${i !== 2 ? 'lg:border-r' : ''} border-[#E6E2DD] hover:bg-[#F9F8F6] transition-all duration-500 group relative`}>
+                            <div key={i} className={`p-10 md:p-14 bg-white border-b lg:border-b-0 ${i !== 2 ? 'lg:border-r' : ''} border-[#E6E2DD] hover:bg-[#F9F8F6] transition-all duration-500 group relative text-center lg:text-left flex flex-col items-center lg:items-start`}>
                                 <div className="absolute top-6 right-6 text-6xl font-serif text-[#F2F0EB] group-hover:text-[#E6E2DD] transition-colors">
                                     {item.step}
                                 </div>
@@ -128,22 +128,22 @@ export default function HydraFacialPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {/* Traditional */}
-                            <div className="bg-[#F9F8F6] p-10 border border-[#E6E2DD]">
+                            <div className="bg-[#F9F8F6] p-10 border border-[#E6E2DD] text-center lg:text-left">
                                 <h4 className="font-serif text-xl mb-6 text-[#1C1C1C] opacity-60">Traditional Salon Facial</h4>
-                                <ul className="space-y-4">
-                                    <li className="flex items-start gap-3">
+                                <ul className="space-y-4 inline-block lg:block text-left">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <span className="text-red-400 mt-1">✕</span>
                                         <span className="text-[#4A4A4A] text-sm font-light">Manual extraction (painful & redness)</span>
                                     </li>
-                                    <li className="flex items-start gap-3">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <span className="text-red-400 mt-1">✕</span>
                                         <span className="text-[#4A4A4A] text-sm font-light">Surface-level creams only</span>
                                     </li>
-                                    <li className="flex items-start gap-3">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <span className="text-red-400 mt-1">✕</span>
                                         <span className="text-[#4A4A4A] text-sm font-light">Results last 1-2 days</span>
                                     </li>
-                                    <li className="flex items-start gap-3">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <span className="text-red-400 mt-1">✕</span>
                                         <span className="text-[#4A4A4A] text-sm font-light">Downtime due to squeezing</span>
                                     </li>
@@ -151,25 +151,25 @@ export default function HydraFacialPage() {
                             </div>
 
                             {/* HydraFacial */}
-                            <div className="bg-[#1C1C1C] p-10 text-white relative overflow-hidden">
+                            <div className="bg-[#1C1C1C] p-10 text-white relative overflow-hidden text-center lg:text-left">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#B4838D] blur-[80px] opacity-20"></div>
-                                <h4 className="font-serif text-xl mb-6 text-white flex items-center gap-2">
+                                <h4 className="font-serif text-xl mb-6 text-white flex flex-col lg:flex-row items-center gap-2 justify-center lg:justify-start">
                                     HydraFacial MD <span className="text-[#B4838D] text-xs border border-[#B4838D] px-2 py-0.5 rounded-full">Medical Grade</span>
                                 </h4>
-                                <ul className="space-y-4">
-                                    <li className="flex items-start gap-3">
+                                <ul className="space-y-4 inline-block lg:block text-left">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <CheckCircle className="w-4 h-4 text-[#B4838D] mt-1" />
                                         <span className="text-white/90 text-sm font-light">Vortex-Fusion suction (Painless)</span>
                                     </li>
-                                    <li className="flex items-start gap-3">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <CheckCircle className="w-4 h-4 text-[#B4838D] mt-1" />
                                         <span className="text-white/90 text-sm font-light">Deep dermal infusion of serums</span>
                                     </li>
-                                    <li className="flex items-start gap-3">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <CheckCircle className="w-4 h-4 text-[#B4838D] mt-1" />
                                         <span className="text-white/90 text-sm font-light">Results last 3-4 weeks</span>
                                     </li>
-                                    <li className="flex items-start gap-3">
+                                    <li className="flex items-start gap-3 justify-start">
                                         <CheckCircle className="w-4 h-4 text-[#B4838D] mt-1" />
                                         <span className="text-white/90 text-sm font-light">Zero downtime - Party ready immediately</span>
                                     </li>
@@ -194,7 +194,7 @@ export default function HydraFacialPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
                         {/* Signature */}
-                        <div className="bg-[#2A2A2A] border border-white/10 p-8 flex flex-col hover:border-[#B4838D] transition-all duration-300">
+                        <div className="bg-[#2A2A2A] border border-white/10 p-8 flex flex-col hover:border-[#B4838D] transition-all duration-300 text-center">
                             <div className="mb-6">
                                 <h3 className="font-serif text-2xl text-white mb-2">Signature</h3>
                                 <p className="text-white/50 text-xs tracking-widest uppercase">The Classic (30 Mins)</p>
@@ -204,7 +204,7 @@ export default function HydraFacialPage() {
                                     Deeply cleanse, extract, and hydrate the skin through our super serums filled with antioxidants, peptides, and hyaluronic acid.
                                 </p>
                                 <div className="h-px bg-white/10 w-full"></div>
-                                <ul className="space-y-2 text-sm text-white/70">
+                                <ul className="space-y-2 text-sm text-white/70 inline-block text-left">
                                     <li>• 3-Step HydraFacial</li>
                                     <li>• Manual Extractions</li>
                                     <li>• Finishing Cream</li>
@@ -214,12 +214,12 @@ export default function HydraFacialPage() {
                                 {loading ? 'Loading...' : price}
                             </h4>
                             <Link href="/book-appointment">
-                                <button className="w-full btn-luxury border-white text-white hover:bg-white hover:text-[#1C1C1C]">Book Signature</button>
+                                <button className="w-full btn-luxury-filled !bg-white !text-[#1C1C1C] !border-white hover:!bg-transparent hover:!text-white h-[54px] flex items-center justify-center">Book Signature</button>
                             </Link>
                         </div>
 
                         {/* Deluxe - RECOMMENDED */}
-                        <div className="bg-[#F9F8F6] border border-[#B4838D] p-8 flex flex-col transform md:-translate-y-4 relative">
+                        <div className="bg-[#F9F8F6] border border-[#B4838D] p-8 flex flex-col transform md:-translate-y-4 relative text-center">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#B4838D] text-white text-[10px] uppercase tracking-widest px-4 py-1">
                                 Most Popular
                             </div>
@@ -232,7 +232,7 @@ export default function HydraFacialPage() {
                                     All the benefits of Signature + a specific booster to target your concerns (Acne, Pigmentation, or Aging) + LED Light Therapy.
                                 </p>
                                 <div className="h-px bg-[#E6E2DD] w-full"></div>
-                                <ul className="space-y-2 text-sm text-[#4A4A4A]">
+                                <ul className="space-y-2 text-sm text-[#4A4A4A] inline-block text-left">
                                     <li>• Everything in Signature</li>
                                     <li>• <strong>Custom Booster Serum</strong></li>
                                     <li>• <strong>LED Light Therapy</strong></li>
@@ -240,12 +240,12 @@ export default function HydraFacialPage() {
                             </div>
                             <h4 className="text-3xl font-serif text-[#1C1C1C] mb-6">₹5,499</h4>
                             <Link href="/book-appointment">
-                                <button className="w-full btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C]">Book Deluxe</button>
+                                <button className="w-full btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C] h-[54px] flex items-center justify-center">Book Deluxe</button>
                             </Link>
                         </div>
 
                         {/* Platinum */}
-                        <div className="bg-[#2A2A2A] border border-white/10 p-8 flex flex-col hover:border-[#B4838D] transition-all duration-300">
+                        <div className="bg-[#2A2A2A] border border-white/10 p-8 flex flex-col hover:border-[#B4838D] transition-all duration-300 text-center">
                             <div className="mb-6">
                                 <h3 className="font-serif text-2xl text-white mb-2">Platinum</h3>
                                 <p className="text-white/50 text-xs tracking-widest uppercase">The Ultimate (60 Mins)</p>
@@ -255,7 +255,7 @@ export default function HydraFacialPage() {
                                     The ultimate experience. Begin with Lymphatic Therapy to contour, followed by the Deluxe HydraFacial methods.
                                 </p>
                                 <div className="h-px bg-white/10 w-full"></div>
-                                <ul className="space-y-2 text-sm text-white/70">
+                                <ul className="space-y-2 text-sm text-white/70 inline-block text-left">
                                     <li>• Everything in Deluxe</li>
                                     <li>• <strong>Lymphatic Drainage</strong></li>
                                     <li>• Neck & Shoulder Massage</li>
@@ -263,7 +263,7 @@ export default function HydraFacialPage() {
                             </div>
                             <h4 className="text-2xl font-serif text-white mb-6">₹7,999</h4>
                             <Link href="/book-appointment">
-                                <button className="w-full btn-luxury border-white text-white hover:bg-white hover:text-[#1C1C1C]">Book Platinum</button>
+                                <button className="w-full btn-luxury-filled !bg-white !text-[#1C1C1C] !border-white hover:!bg-transparent hover:!text-white h-[54px] flex items-center justify-center">Book Platinum</button>
                             </Link>
                         </div>
 
@@ -278,7 +278,7 @@ export default function HydraFacialPage() {
                 <div className="container max-w-2xl">
                     <h2 className="mb-8 text-[#1C1C1C]">Ready for the best skin of your life?</h2>
                     <Link href="/book-appointment">
-                        <button className="btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C]">
+                        <button className="btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C] w-full sm:min-w-[200px] h-[54px] sm:w-auto flex items-center justify-center mx-auto">
                             Book My Appointment Now
                         </button>
                     </Link>

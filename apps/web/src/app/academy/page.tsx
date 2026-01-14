@@ -53,21 +53,21 @@ export default function AcademyPage() {
                         Est. 2019
                     </span>
                     <h1 className="font-serif text-5xl md:text-7xl leading-tight mb-8">
-                        SkinLuxe <span className="text-white/70 italic">Academy</span>
+                        <span className="text-white">SkinLuxe</span> <span className="text-white/70 italic">Academy</span>
                     </h1>
                     <p className="text-white/60 text-lg font-light max-w-2xl mx-auto leading-relaxed mb-10">
                         Forging the next generation of aesthetic leaders. We provide rigorous,
                         hands-on training bridging the gap between medical theory and clinical practice.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                        <Link href="/contact">
-                            <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white min-w-[200px]">
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center w-full sm:w-auto">
+                        <Link href="/contact" className="w-full sm:w-auto">
+                            <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center">
                                 Apply Now
                             </button>
                         </Link>
-                        <Link href="#courses">
-                            <button className="btn-luxury text-white border-white hover:bg-white hover:text-[#1C1C1C] min-w-[200px]">
+                        <Link href="#courses" className="w-full sm:w-auto">
+                            <button className="btn-luxury-filled !bg-white !text-[#1C1C1C] !border-white hover:!bg-transparent hover:!text-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center">
                                 View Curriculum
                             </button>
                         </Link>
@@ -96,7 +96,7 @@ export default function AcademyPage() {
                         </div>
 
                         {/* Content */}
-                        <div>
+                        <div className="text-center md:text-left">
                             <h2 className="text-[#1C1C1C] mb-6">Master the Art of<br />Clinical Aesthetics</h2>
                             <p className="text-[#4A4A4A] font-light text-lg leading-relaxed mb-8">
                                 Most aesthetic courses teach you 'how' to use a machine. At SkinLuxe Academy, we teach you 'why'.
@@ -111,7 +111,7 @@ export default function AcademyPage() {
                                     { icon: Award, title: 'Certification', desc: 'Industry recognized diploma upon completion.' },
                                     { icon: CheckCircle, title: 'Placement', desc: 'Job assistance in top clinics.' },
                                 ].map((item, i) => (
-                                    <div key={i} className="flex gap-4 items-start">
+                                    <div key={i} className="flex flex-col md:flex-row gap-4 items-center md:items-start text-center md:text-left">
                                         <item.icon className="w-6 h-6 text-[#B4838D] mt-1 flex-shrink-0" />
                                         <div>
                                             <h4 className="font-serif text-[#1C1C1C] text-lg">{item.title}</h4>
@@ -187,18 +187,18 @@ export default function AcademyPage() {
       ----------------------------------------------------------------------- */}
             <section className="py-24 bg-[#1C1C1C] text-white">
                 <div className="container max-w-4xl text-center">
-                    <h2 className="font-serif text-4xl mb-6">Admissions Open for {new Date().getFullYear()}</h2>
+                    <h2 className="font-serif text-4xl text-white mb-6">Admissions Open for {new Date().getFullYear()}</h2>
                     <p className="text-white/60 text-lg font-light mb-10">
                         Seats are limited to ensure personalized attention. Batch size is restricted to 5 students per intake.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                        <Link href="/contact">
-                            <button className="px-10 py-4 bg-[#B4838D] text-white font-serif tracking-widest text-xs uppercase hover:bg-white hover:text-[#1C1C1C] transition-colors duration-300">
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center w-full sm:w-auto">
+                        <Link href="/contact" className="w-full sm:w-auto">
+                            <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] text-white hover:bg-white hover:text-[#1C1C1C] hover:border-white w-full sm:w-auto min-w-[200px] h-[54px] flex items-center justify-center font-serif tracking-widest text-xs uppercase">
                                 Apply for Admission
                             </button>
                         </Link>
-                        <a href="tel:+917451910272">
-                            <button className="px-10 py-4 border border-white text-white font-serif tracking-widest text-xs uppercase hover:bg-white hover:text-[#1C1C1C] transition-colors duration-300">
+                        <a href="tel:+917451910272" className="w-full sm:w-auto">
+                            <button className="btn-luxury-filled bg-transparent border border-white text-white hover:bg-white hover:text-[#1C1C1C] w-full sm:w-auto min-w-[200px] h-[54px] flex items-center justify-center font-serif tracking-widest text-xs uppercase">
                                 Talk to Counselor
                             </button>
                         </a>

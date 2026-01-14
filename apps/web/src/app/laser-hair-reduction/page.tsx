@@ -183,7 +183,7 @@ export default function LaserHairReductionPage() {
 
                         {/* Visual Comparison Chart */}
                         <div className="bg-[#2A2A2A] p-8 border border-white/10">
-                            <h4 className="font-serif text-xl border-b border-white/10 pb-4 mb-6">Lifetime Cost Comparison</h4>
+                            <h4 className="font-serif text-xl border-b border-white/10 pb-4 mb-6 text-white">Lifetime Cost Comparison</h4>
                             <div className="space-y-6">
                                 {/* Waxing Bar */}
                                 <div>

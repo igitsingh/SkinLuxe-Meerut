@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles } from "lucide-react";
 import api from "@/lib/api";
 
 export default function LoginPage() {
@@ -43,14 +42,12 @@ export default function LoginPage() {
         <div className="absolute bottom-0 left-0 w-64 h-64 border-r border-t border-white/10"></div>
 
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-              <Sparkles className="w-7 h-7 text-white" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-serif text-white">SkinLuxe</h1>
-              <p className="text-xs text-white/60 tracking-widest uppercase">Aesthetics & Academy</p>
-            </div>
+          <div className="flex items-center gap-4 mb-8">
+            <img
+              src="/skinluxe-logo-white.png"
+              alt="SkinLuxe Aesthetics & Academy"
+              className="h-24 w-auto"
+            />
           </div>
         </div>
 
@@ -77,10 +74,11 @@ export default function LoginPage() {
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-12">
             <div className="inline-flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-3xl font-serif text-dark">SkinLuxe</h1>
+              <img
+                src="/skinluxe-logo-dark.png"
+                alt="SkinLuxe Aesthetics & Academy"
+                className="h-24 w-auto"
+              />
             </div>
             <p className="text-sm text-gray-600 tracking-wider uppercase">Admin Panel</p>
           </div>
@@ -142,6 +140,25 @@ export default function LoginPage() {
               className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
             >
               {loading ? "Signing in..." : "Sign In"}
+            </button>
+
+            {/* Quick Login Button for Development */}
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("admin@skinluxe.com");
+                setPassword("adminpassword");
+                // Auto-submit after a brief delay to show the filled values
+                setTimeout(() => {
+                  const form = document.querySelector('form');
+                  if (form) {
+                    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                  }
+                }, 100);
+              }}
+              className="w-full bg-gradient-to-r from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-dark font-medium py-3 px-6 rounded-lg transition-all shadow-sm hover:shadow-md border border-secondary/20"
+            >
+              ⚡ Quick Login (Dev)
             </button>
           </form>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, Plus, Search, Mail, Phone, Calendar } from "lucide-react";
+import { Users, Plus, Search, Mail, Phone, Calendar, X, Clock, FileText } from "lucide-react";
 import api from "@/lib/api";
 
 interface User {
@@ -12,10 +12,25 @@ interface User {
     createdAt: string;
 }
 
+interface Appointment {
+    id: string;
+    date: string;
+    timeSlot: string;
+    status: string;
+    treatment: { name: string } | null;
+    notes: string;
+}
+
 export default function ClientsPage() {
     const [clients, setClients] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // History Modal State
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const [selectedClient, setSelectedClient] = useState<User | null>(null);
+    const [historyAppointments, setHistoryAppointments] = useState<Appointment[]>([]);
+    const [historyLoading, setHistoryLoading] = useState(false);
 
     // Form
     const [formData, setFormData] = useState({
@@ -50,6 +65,21 @@ export default function ClientsPage() {
         } catch (error) {
             console.error("Failed to create client", error);
             alert("Failed to create client. Check email/phone uniqueness.");
+        }
+    };
+
+    const handleViewHistory = async (client: User) => {
+        setSelectedClient(client);
+        setIsHistoryOpen(true);
+        setHistoryLoading(true);
+        try {
+            // Fetch appointments filtering by email
+            const res = await api.get(`/admin/appointments?email=${client.email}`);
+            setHistoryAppointments(res.data);
+        } catch (error) {
+            console.error("Failed to fetch history", error);
+        } finally {
+            setHistoryLoading(false);
         }
     };
 
@@ -124,7 +154,12 @@ export default function ClientsPage() {
                                         </div>
                                     </td>
                                     <td className="p-4 text-right">
-                                        <button className="text-primary hover:underline text-sm font-medium">View History</button>
+                                        <button
+                                            onClick={() => handleViewHistory(client)}
+                                            className="text-primary hover:underline text-sm font-medium"
+                                        >
+                                            View History
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -133,14 +168,14 @@ export default function ClientsPage() {
                 </div>
             )}
 
-            {/* Modal */}
+            {/* Create Client Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg">
                         <form onSubmit={handleCreate}>
                             <div className="flex items-center justify-between p-6 border-b border-gray-100">
                                 <h2 className="text-xl font-serif text-dark">Add New Client</h2>
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">×</button>
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
                             </div>
 
                             <div className="p-6 space-y-4">
@@ -173,6 +208,59 @@ export default function ClientsPage() {
                                 <button type="submit" className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Add Client</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* History Modal */}
+            {isHistoryOpen && selectedClient && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col">
+                        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                            <div>
+                                <h2 className="text-xl font-serif text-dark">{selectedClient.name}</h2>
+                                <p className="text-sm text-gray-500">Appointment History</p>
+                            </div>
+                            <button onClick={() => setIsHistoryOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+                        </div>
+
+                        <div className="p-6 overflow-y-auto flex-1">
+                            {historyLoading ? (
+                                <div className="text-center py-8 text-gray-500">Loading history...</div>
+                            ) : historyAppointments.length === 0 ? (
+                                <div className="text-center py-8 border-2 border-dashed border-gray-100 rounded-lg">
+                                    <p className="text-gray-500">No appointments found for this client.</p>
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    {historyAppointments.map((apt) => (
+                                        <div key={apt.id} className="border border-gray-100 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <h4 className="font-medium text-gray-900">{apt.treatment?.name || 'General Appointment'}</h4>
+                                                    <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(apt.date)}</span>
+                                                        <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {apt.timeSlot}</span>
+                                                    </div>
+                                                </div>
+                                                <span className={`px-2 py-1 rounded text-xs font-medium 
+                                                    ${apt.status === 'CONFIRMED' ? 'bg-green-100 text-green-700' :
+                                                        apt.status === 'COMPLETED' ? 'bg-blue-100 text-blue-700' :
+                                                            'bg-yellow-100 text-yellow-700'}`}>
+                                                    {apt.status}
+                                                </span>
+                                            </div>
+                                            {apt.notes && (
+                                                <div className="bg-gray-50 p-2 rounded text-xs text-gray-600 flex gap-2 mt-2">
+                                                    <FileText className="w-3 h-3 shrink-0 mt-0.5" />
+                                                    {apt.notes}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

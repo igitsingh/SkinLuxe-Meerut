@@ -41,27 +41,27 @@ export default function Home() {
         {/* Cinematic Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#1C1C1C]/90 via-[#1C1C1C]/60 to-transparent z-10"></div>
 
-        <div className="container relative z-20 h-full flex items-center">
-          <div className="max-w-2xl text-white">
-            <span className="inline-block py-2 px-4 border border-white/30 text-white/80 text-xs font-serif tracking-[0.2em] uppercase mb-8 backdrop-blur-sm">
+        <div className="container relative z-20 h-full flex items-center justify-center md:justify-start">
+          <div className="max-w-2xl text-white text-center md:text-left">
+            <span className="inline-block py-2 px-4 border border-white/30 text-white/80 text-xs font-serif tracking-[0.2em] uppercase mb-8 backdrop-blur-sm mx-auto md:mx-0">
               Meerut's Premier Aesthetic Clinic
             </span>
             <h1 className="font-serif text-5xl md:text-7xl leading-[1.1] mb-8">
               Medical Precision <br />
               <span className="italic font-light text-[#E6E2DD]">Meets</span> Luxury.
             </h1>
-            <p className="text-lg md:text-xl text-white/80 font-light leading-relaxed mb-12 max-w-lg">
+            <p className="text-lg md:text-xl text-white/80 font-light leading-relaxed mb-12 max-w-lg mx-auto md:mx-0">
               Advanced dermatology and cosmetology treatments curated for Indian skin. Experience the perfect balance of science and art.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6">
-              <Link href="/book-appointment">
-                <button className="btn-luxury-filled bg-white text-[#1C1C1C] border-white hover:bg-transparent hover:text-white min-w-[200px]">
+            <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+              <Link href="/book-appointment" className="w-full sm:w-auto">
+                <button className="btn-luxury-filled bg-white text-[#1C1C1C] border-white hover:bg-transparent hover:text-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center">
                   Book Consultation
                 </button>
               </Link>
-              <Link href="/treatments">
-                <button className="btn-luxury text-white border-white hover:bg-white hover:text-[#1C1C1C] min-w-[200px]">
+              <Link href="/treatments" className="w-full sm:w-auto">
+                <button className="btn-luxury-filled !bg-white !text-[#1C1C1C] !border-white hover:!bg-transparent hover:!text-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center">
                   Explore Treatments
                 </button>
               </Link>
@@ -123,15 +123,15 @@ export default function Home() {
           FEATURED TREATMENTS
           Intent: Direct traffic to high-value pages.
       ----------------------------------------------------------------------- */}
-      <section className="py-32 bg-white">
+      <section className="py-20 md:py-32 bg-white">
         <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-6 text-center md:text-left">
             <div className="max-w-xl">
               <span className="text-[#B4838D] text-xs font-serif tracking-widest uppercase mb-4 block">Medical Grade Care</span>
               <h2 className="text-[#1C1C1C]">Signature Treatments</h2>
             </div>
-            <Link href="/treatments">
-              <button className="btn-luxury border-[#1C1C1C] text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white">
+            <Link href="/treatments" className="w-full md:w-auto flex justify-center md:block">
+              <button className="btn-luxury border-[#1C1C1C] text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white w-full md:w-auto min-w-[200px] h-[54px] flex items-center justify-center">
                 View All Services
               </button>
             </Link>
@@ -191,16 +191,16 @@ export default function Home() {
       ----------------------------------------------------------------------- */}
       <section className="py-24 bg-[#1C1C1C] text-white">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 border-t border-white/10 pt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 border-t border-white/10 pt-12 text-center md:text-left">
             {[
-              { title: 'Medical Grade', desc: 'All treatments are supervised by certified cosmetologists.', icon: <Shield className="w-8 h-8 text-[#B4838D] mb-4" /> },
-              { title: 'FDA Approved', desc: 'We only use US-FDA approved lasers and equipment.', icon: <CheckCircle className="w-8 h-8 text-[#B4838D] mb-4" /> },
-              { title: 'Zero Downtime', desc: 'Protocols designed for immediate return to social life.', icon: <Clock className="w-8 h-8 text-[#B4838D] mb-4" /> },
-              { title: 'Prime Location', desc: 'Located in the heart of Meerut at Begum Bridge.', icon: <MapPin className="w-8 h-8 text-[#B4838D] mb-4" /> },
+              { title: 'Medical Grade', desc: 'All treatments are supervised by certified cosmetologists.', icon: <Shield className="w-8 h-8 text-[#B4838D] mb-4 mx-auto md:mx-0" /> },
+              { title: 'FDA Approved', desc: 'We only use US-FDA approved lasers and equipment.', icon: <CheckCircle className="w-8 h-8 text-[#B4838D] mb-4 mx-auto md:mx-0" /> },
+              { title: 'Zero Downtime', desc: 'Protocols designed for immediate return to social life.', icon: <Clock className="w-8 h-8 text-[#B4838D] mb-4 mx-auto md:mx-0" /> },
+              { title: 'Prime Location', desc: 'Located in the heart of Meerut at Begum Bridge.', icon: <MapPin className="w-8 h-8 text-[#B4838D] mb-4 mx-auto md:mx-0" /> },
             ].map((item, i) => (
               <div key={i} className="group">
                 {item.icon}
-                <h4 className="font-serif text-xl mb-3">{item.title}</h4>
+                <h4 className="font-serif text-xl text-white mb-3">{item.title}</h4>
                 <p className="text-white/60 font-light text-sm leading-relaxed">
                   {item.desc}
                 </p>
@@ -213,7 +213,7 @@ export default function Home() {
       {/* -----------------------------------------------------------------------
           FINAL CTA
       ----------------------------------------------------------------------- */}
-      <section className="relative py-32 bg-[#F9F8F6] text-center overflow-hidden">
+      <section className="relative py-20 md:py-32 bg-[#F9F8F6] text-center overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute top-0 left-0 w-64 h-64 border-r border-b border-[#E6E2DD]"></div>
         <div className="absolute bottom-0 right-0 w-64 h-64 border-l border-t border-[#E6E2DD]"></div>
@@ -223,14 +223,14 @@ export default function Home() {
           <p className="text-[#4A4A4A] text-xl font-light mb-12">
             Don't guess with your skin. Visit SkinLuxe for a professional assessment and tailored treatment plan.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Link href="/book-appointment">
-              <button className="btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C] min-w-[200px]">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 w-full sm:w-auto">
+            <Link href="/book-appointment" className="w-full sm:w-auto">
+              <button className="btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C] w-full sm:min-w-[200px] h-[54px] flex items-center justify-center">
                 Book Appointment
               </button>
             </Link>
-            <a href="tel:9318452282">
-              <button className="btn-luxury border-[#1C1C1C] text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white min-w-[200px] flex items-center justify-center gap-2">
+            <a href="tel:9318452282" className="w-full sm:w-auto">
+              <button className="btn-luxury border-[#1C1C1C] text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center gap-2">
                 <Phone className="w-4 h-4" /> Call Clinic
               </button>
             </a>

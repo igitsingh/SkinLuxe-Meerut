@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Heart, User, Menu, X } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import { useSettings } from '@/contexts/SettingsContext';
 import Image from 'next/image';
 
@@ -34,9 +34,9 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-[#E6E2DD]' : 'bg-white border-b border-transparent py-2'}`}>
-            <div className={`container transition-all duration-300 ${scrolled ? 'py-0' : 'py-2'}`}>
-                <div className="flex items-center justify-between h-20">
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-[#E6E2DD]' : 'bg-white border-b border-transparent py-1 lg:py-2'}`}>
+            <div className={`container transition-all duration-300 ${scrolled ? 'py-0' : 'py-0 lg:py-2'}`}>
+                <div className="flex items-center justify-between h-14 lg:h-24">
                     {/* Logo */}
                     <Link href="/" className="flex-shrink-0 relative z-50">
                         <Image
@@ -44,7 +44,7 @@ const Navbar = () => {
                             alt="SkinLuxe Aesthetics & Academy"
                             width={700}
                             height={234}
-                            className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-14' : 'h-24'}`}
+                            className={`w-auto object-contain transition-all duration-300 ${scrolled ? 'h-14 lg:h-16' : 'h-16 lg:h-24'}`}
                             priority
                         />
                     </Link>
@@ -55,7 +55,7 @@ const Navbar = () => {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="text-xs tracking-[0.15em] uppercase text-[#1C1C1C] hover:text-[#B4838D] transition-colors font-medium relative group"
+                                className="text-xs tracking-[0.15em] uppercase text-[#1C1C1C] hover:text-[#B4838D] transition-colors font-serif relative group"
                             >
                                 {link.label}
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#B4838D] transition-all duration-300 group-hover:w-full"></span>
@@ -69,9 +69,7 @@ const Navbar = () => {
                             <button className="text-[#1C1C1C] hover:text-[#B4838D] transition-colors">
                                 <Search className="w-4 h-4" />
                             </button>
-                            <Link href="/account" className="text-[#1C1C1C] hover:text-[#B4838D] transition-colors">
-                                <User className="w-4 h-4" />
-                            </Link>
+
                         </div>
 
                         {/* CTA Button - CRO Focused */}

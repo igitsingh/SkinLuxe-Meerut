@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // This function can be marked `async` if using `await` inside
+// This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
@@ -24,38 +25,13 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // Check maintenance mode
+    // MAINTENANCE MODE CHECK DISABLED (Static for now to prevent blocking)
+    /*
     try {
-        // Fetch settings from API
         const baseUrl = request.nextUrl.origin;
-        const settingsResponse = await fetch(`${baseUrl}/api/settings`, {
-            cache: 'no-store',
-            headers: {
-                'Cache-Control': 'no-cache',
-            },
-        });
-
-        if (settingsResponse.ok) {
-            const settingsData = await settingsResponse.json();
-            const isMaintenanceMode = settingsData?.data?.maintenanceMode === true ||
-                settingsData?.data?.maintenanceMode === 'true';
-
-            // If maintenance mode is enabled and not on maintenance page
-            if (isMaintenanceMode && pathname !== '/maintenance') {
-                // Redirect to maintenance page
-                return NextResponse.redirect(new URL('/maintenance', request.url));
-            }
-
-            // If maintenance mode is disabled and on maintenance page
-            if (!isMaintenanceMode && pathname === '/maintenance') {
-                // Redirect to home
-                return NextResponse.redirect(new URL('/', request.url));
-            }
-        }
-    } catch (error) {
-        console.error('Middleware error checking maintenance mode:', error);
-        // On error, allow the request to proceed
-    }
+        // ... fetch logic commented out ...
+    } catch (error) { ... }
+    */
 
     return NextResponse.next();
 }

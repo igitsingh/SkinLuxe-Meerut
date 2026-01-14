@@ -58,10 +58,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                 </div>
                             ) : (
                                 <div>
-                                    <p className="font-bold text-sm">Welcome Guest</p>
-                                    <Link href="/login" onClick={onClose}>
-                                        <span className="text-xs text-primary font-bold hover:underline">Login / Signup</span>
-                                    </Link>
+                                    <p className="font-bold text-sm">Welcome to SkinLuxe</p>
                                 </div>
                             )}
                         </div>

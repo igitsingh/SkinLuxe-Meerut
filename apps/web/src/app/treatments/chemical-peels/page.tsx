@@ -23,8 +23,8 @@ export default function ChemicalPeelsPage() {
                         Shed dullness and reveal the fresh, healthy skin underneath. Our medical-grade peels are
                         significantly more effective than salon facials or over-the-counter serums.
                     </p>
-                    <Link href="/book-appointment">
-                        <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white min-w-[200px]">
+                    <Link href="/book-appointment" className="w-full sm:w-auto">
+                        <button className="btn-luxury-filled bg-[#B4838D] border-[#B4838D] hover:bg-white hover:text-[#1C1C1C] hover:border-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center mx-auto">
                             Book Skin Analysis
                         </button>
                     </Link>
@@ -42,26 +42,26 @@ export default function ChemicalPeelsPage() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-white p-10 border border-[#E6E2DD]">
-                            <h3 className="font-serif text-2xl text-[#1C1C1C] mb-6 flex items-center gap-3">
+                        <div className="bg-white p-10 border border-[#E6E2DD] text-center lg:text-left">
+                            <h3 className="font-serif text-2xl text-[#1C1C1C] mb-6 flex flex-col lg:flex-row items-center gap-3 justify-center lg:justify-start">
                                 <AlertTriangle className="w-6 h-6 text-gray-400" /> Salon Facials
                             </h3>
-                            <ul className="space-y-4 text-sm text-[#4A4A4A]">
-                                <li className="flex gap-3"><span className="text-red-400">✕</span> Works only on superficial layer (epidermis)</li>
-                                <li className="flex gap-3"><span className="text-red-400">✕</span> Results last 2-3 days max</li>
-                                <li className="flex gap-3"><span className="text-red-400">✕</span> Generic products for all skin types</li>
+                            <ul className="space-y-4 text-sm text-[#4A4A4A] inline-block lg:block text-left">
+                                <li className="flex gap-3 justify-start"><span className="text-red-400">✕</span> Works only on superficial layer (epidermis)</li>
+                                <li className="flex gap-3 justify-start"><span className="text-red-400">✕</span> Results last 2-3 days max</li>
+                                <li className="flex gap-3 justify-start"><span className="text-red-400">✕</span> Generic products for all skin types</li>
                             </ul>
                         </div>
 
-                        <div className="bg-[#1C1C1C] p-10 text-white relative overflow-hidden">
+                        <div className="bg-[#1C1C1C] p-10 text-white relative overflow-hidden text-center lg:text-left">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-[#B4838D] opacity-10 rounded-full blur-2xl"></div>
-                            <h3 className="font-serif text-2xl text-white mb-6 flex items-center gap-3 relative z-10">
+                            <h3 className="font-serif text-2xl text-white mb-6 flex flex-col lg:flex-row items-center gap-3 relative z-10 justify-center lg:justify-start">
                                 <Shield className="w-6 h-6 text-[#B4838D]" /> SkinLuxe Medical Peels
                             </h3>
-                            <ul className="space-y-4 text-sm text-white/80 relative z-10">
-                                <li className="flex gap-3"><span className="text-[#B4838D]">✓</span> Penetrates vertically to treat root cause</li>
-                                <li className="flex gap-3"><span className="text-[#B4838D]">✓</span> Long-term structural improvement</li>
-                                <li className="flex gap-3"><span className="text-[#B4838D]">✓</span> Customized acids (Glycolic, Salicylic, Lactic)</li>
+                            <ul className="space-y-4 text-sm text-white/80 relative z-10 inline-block lg:block text-left">
+                                <li className="flex gap-3 justify-start"><span className="text-[#B4838D]">✓</span> Penetrates vertically to treat root cause</li>
+                                <li className="flex gap-3 justify-start"><span className="text-[#B4838D]">✓</span> Long-term structural improvement</li>
+                                <li className="flex gap-3 justify-start"><span className="text-[#B4838D]">✓</span> Customized acids (Glycolic, Salicylic, Lactic)</li>
                             </ul>
                         </div>
                     </div>
@@ -98,7 +98,7 @@ export default function ChemicalPeelsPage() {
                         Using the wrong acid can burn your skin. Trust only certified experts.
                     </p>
                     <Link href="/book-appointment">
-                        <button className="btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C]">
+                        <button className="btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-transparent hover:text-[#1C1C1C] w-full sm:min-w-[200px] h-[54px] sm:w-auto flex items-center justify-center mx-auto">
                             Consult a Dermatologist
                         </button>
                     </Link>

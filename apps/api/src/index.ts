@@ -6,15 +6,35 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { createServer } from 'http';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
 const app = express();
 const httpServer = createServer(app);
 
+// Rate limiting configuration
+const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: process.env.NODE_ENV === 'production' ? 100 : 1000, // Higher limit for development
+    message: 'Too many requests from this IP, please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const formLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: process.env.NODE_ENV === 'production' ? 5 : 50, // Higher limit for development
+    message: 'Too many form submissions, please wait a minute.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
 // Public Routes Imports
 import authRoutes from './routes/auth.routes';
 import treatmentRoutes from './routes/treatment.routes';
+import publicAppointmentRoutes from './routes/public/appointment.routes';
+import publicInquiryRoutes from './routes/public/inquiry.routes';
 
 // Admin Routes Imports
 import adminAuthRoutes from './routes/admin/auth.routes';
@@ -32,11 +52,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: [
+        // Development
         'http://localhost:3000',
         'http://localhost:3001',
         'http://localhost:3002',
+        // Production (update these with your actual Vercel URLs)
         process.env.FRONTEND_URL,
-        process.env.ADMIN_URL
+        process.env.ADMIN_URL,
+        'https://skinluxe-meerut.vercel.app',
+        'https://admin-skinluxe-meerut.vercel.app'
     ].filter(Boolean).map(url => (url as string).replace(/\/$/, '')),
     credentials: true,
 }));
@@ -47,12 +71,17 @@ app.use(morgan('dev'));
 // ROUTES
 // ==========================================
 
+// Apply general rate limiting to all API routes
+app.use('/api/', generalLimiter);
+
 // Public
 app.use('/api/auth', authRoutes);
 app.use('/api/treatments', treatmentRoutes);
+app.use('/api/appointments', formLimiter, publicAppointmentRoutes); // Public appointment bookings with rate limit
 // Note: Blog public routes should also be added if we want public reading. I'll reuse admin route for GET for now or add public one.
 // Let's add simple public blog route too.
 app.use('/api/blog', adminBlogRoutes); // Reuse for read-only (admin route has getAllPosts)
+app.use('/api/inquiries', formLimiter, publicInquiryRoutes); // Public inquiry submissions with rate limit (SECURED: POST ONLY)
 
 // Admin
 app.use('/api/admin/auth', adminAuthRoutes);
@@ -70,6 +99,10 @@ app.use('/api/admin/inquiries', adminInquiryRoutes);
 // Basic Route
 app.get('/', (req, res) => {
     res.json({ message: 'SkinLuxe Aesthetics & Academy API' });
+});
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
 const PORT = 5001;

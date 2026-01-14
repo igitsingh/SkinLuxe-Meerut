@@ -20,7 +20,8 @@ export default function ContactPage() {
         setIsSubmitting(true);
 
         try {
-            const res = await fetch('/api/inquiries', {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+            const res = await fetch(`${API_URL}/inquiries`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
@@ -50,24 +51,31 @@ export default function ContactPage() {
         {
             icon: MapPin,
             title: 'Visit Us',
-            details: ['Begum Bridge Road', 'Near Kalyan Jewellers', 'Meerut, Uttar Pradesh'],
+            description: (
+                <div className="flex flex-col gap-1">
+                    <span>First floor, Plot No 38, New Market</span>
+                    <span>Lala Lajpat Raj market, Begum Bridge</span>
+                    <span>Sotiganj, Meerut, Uttar Pradesh 250001</span>
+                </div>
+            ),
+            link: "https://www.google.com/maps/place/SkinLuxe+Aesthetics+%26+Academy/@28.993371,77.7023805,17z/data=!3m1!4b1!4m6!3m5!1s0x390c65d6274281b3:0x1dfdaa095a1907a5!8m2!3d28.9933663!4d77.7049608!16s%2Fg%2F11yn1gjxqj?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D",
         },
         {
             icon: Phone,
             title: 'Call Us',
-            details: ['+91 74519 10272', '+91 93184 52282'],
-            links: ['tel:+917451910272', 'tel:+919318452282'],
+            details: ['9318452282 / 7451910272'],
+            links: ['tel:+919318452282'],
         },
         {
             icon: Mail,
             title: 'Email Us',
-            details: ['info@skinluxe-meerut.com'],
-            links: ['mailto:info@skinluxe-meerut.com'],
+            details: ['skinluxemeerut@gmail.com'],
+            links: ['mailto:skinluxemeerut@gmail.com'],
         },
         {
             icon: Clock,
             title: 'Working Hours',
-            details: ['Monday - Sunday', '10:00 AM - 8:00 PM'],
+            details: ['Mon, Tue, Thu, Fri, Sat, Sun', '10:00 AM - 7:30 PM', 'Wednesday: Closed'],
         },
     ];
 
@@ -93,7 +101,7 @@ export default function ContactPage() {
                         Get In Touch
                     </span>
                     <h1 className="font-serif text-4xl md:text-7xl mb-6 leading-tight">
-                        Contact <span className="text-white/80 italic">SkinLuxe</span>
+                        <span className="text-white">Contact</span> <span className="text-white/80 italic">SkinLuxe</span>
                     </h1>
                     <p className="text-white/70 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
                         Ready to begin your skin transformation journey? We're here to help you achieve radiant, healthy skin.
@@ -112,24 +120,35 @@ export default function ContactPage() {
                             return (
                                 <div
                                     key={index}
-                                    className="p-10 border-b md:border-b-0 md:border-r border-[#E6E2DD] last:border-r-0 hover:bg-[#F9F8F6] transition-colors group"
+                                    className="p-10 border-b md:border-b-0 md:border-r border-[#E6E2DD] last:border-r-0 hover:bg-[#F9F8F6] transition-colors group text-center md:text-left flex flex-col items-center md:items-start"
                                 >
                                     <Icon className="w-8 h-8 text-[#1C1C1C] mb-6 group-hover:text-[#B4838D] transition-colors" />
                                     <h3 className="font-serif text-xl text-[#1C1C1C] mb-4">{info.title}</h3>
                                     <div className="space-y-1">
-                                        {info.details.map((detail, idx) => (
-                                            info.links && info.links[idx] ? (
-                                                <a
-                                                    key={idx}
-                                                    href={info.links[idx]}
-                                                    className="block text-[#4A4A4A] font-light text-sm hover:text-[#B4838D] transition-colors"
-                                                >
-                                                    {detail}
-                                                </a>
-                                            ) : (
-                                                <p key={idx} className="text-[#4A4A4A] font-light text-sm">{detail}</p>
-                                            )
-                                        ))}
+                                        {info.link ? (
+                                            <a
+                                                href={info.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="block text-[#4A4A4A] font-light text-sm hover:text-[#B4838D] transition-colors"
+                                            >
+                                                {info.description}
+                                            </a>
+                                        ) : (
+                                            info.details && info.details.map((detail, idx) => (
+                                                info.links && info.links[idx] ? (
+                                                    <a
+                                                        key={idx}
+                                                        href={info.links[idx]}
+                                                        className="block text-[#4A4A4A] font-light text-sm hover:text-[#B4838D] transition-colors"
+                                                    >
+                                                        {detail}
+                                                    </a>
+                                                ) : (
+                                                    <p key={idx} className="text-[#4A4A4A] font-light text-sm">{detail}</p>
+                                                )
+                                            ))
+                                        )}
                                     </div>
                                 </div>
                             );
@@ -145,7 +164,7 @@ export default function ContactPage() {
                 <div className="container">
                     <div className="grid lg:grid-cols-2 gap-16">
                         {/* Contact Form */}
-                        <div>
+                        <div className="text-center md:text-left">
                             <h2 className="font-serif text-3xl md:text-4xl text-[#1C1C1C] mb-6">
                                 Send us an Inquiry
                             </h2>
@@ -153,7 +172,7 @@ export default function ContactPage() {
                                 Have a question? Fill out the form below and we'll get back to you shortly.
                             </p>
 
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-6 text-left">
                                 <div>
                                     <label htmlFor="name" className="block text-xs font-bold tracking-widest text-[#1C1C1C] uppercase mb-2">
                                         Full Name *
@@ -240,29 +259,31 @@ export default function ContactPage() {
                                     />
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting || isSubmitted}
-                                    className="bg-[#1C1C1C] text-white px-8 py-4 text-sm tracking-widest uppercase hover:bg-[#B4838D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-[200px]"
-                                >
-                                    {isSubmitted ? (
-                                        <>
-                                            <CheckCircle className="w-4 h-4" />
-                                            Inquiry Sent!
-                                        </>
-                                    ) : isSubmitting ? (
-                                        'Sending...'
-                                    ) : (
-                                        <>
-                                            Send Inquiry <Send className="w-4 h-4 ml-2" />
-                                        </>
-                                    )}
-                                </button>
+                                <div className="flex justify-center md:justify-start w-full">
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting || isSubmitted}
+                                        className="btn-luxury-filled bg-[#1C1C1C] border-[#1C1C1C] text-white hover:bg-[#B4838D] hover:border-[#B4838D] px-8 py-4 text-sm tracking-widest uppercase transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 w-full sm:min-w-[200px] sm:w-auto h-[54px]"
+                                    >
+                                        {isSubmitted ? (
+                                            <>
+                                                <CheckCircle className="w-4 h-4" />
+                                                Inquiry Sent!
+                                            </>
+                                        ) : isSubmitting ? (
+                                            'Sending...'
+                                        ) : (
+                                            <>
+                                                Send Inquiry <Send className="w-4 h-4 ml-2" />
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
                             </form>
                         </div>
 
                         {/* Map */}
-                        <div>
+                        <div className="text-center md:text-left">
                             <h2 className="font-serif text-3xl md:text-4xl text-[#1C1C1C] mb-6">
                                 Find Us
                             </h2>
@@ -272,7 +293,7 @@ export default function ContactPage() {
 
                             <div className="h-[400px] bg-[#E6E2DD] border border-[#E6E2DD] grayscale hover:grayscale-0 transition-all duration-700">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13962.338421838!2d77.7011667!3d28.9715578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390c64c483984e73%3A0x6291a8eeb248e833!2sBegum%20Bridge%20Rd%2C%20Meerut%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3490.875323869269!2d77.7023805!3d28.993371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390c65d6274281b3%3A0x1dfdaa095a1907a5!2sSkinLuxe%20Aesthetics%20%26%20Academy!5e0!3m2!1sen!2sin!4v1705863248387!5m2!1sen!2sin"
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}
@@ -285,9 +306,13 @@ export default function ContactPage() {
                             <div className="mt-8 bg-white p-8 border border-[#E6E2DD]">
                                 <h3 className="font-serif text-xl text-[#1C1C1C] mb-4">Directions</h3>
                                 <p className="text-[#4A4A4A] font-light text-sm mb-6">
-                                    We're located on Begum Bridge Road, near Kalyan Jewellers. Easily accessible by car, auto, or public transport.
+                                    We're located at First floor, Plot Number 38, New Market, Lala Lajpat Raj market, Begum Bridge, Sotiganj, Meerut. Easily accessible by car, auto, or public transport.
                                 </p>
-                                <Link href="https://maps.google.com" target="_blank" className="text-[#1C1C1C] border-b border-[#1C1C1C] pb-1 hover:text-[#B4838D] hover:border-[#B4838D] transition-colors text-sm uppercase tracking-wider">
+                                <Link
+                                    href="https://www.google.com/maps/place/SkinLuxe+Aesthetics+%26+Academy/@28.993371,77.7023805,17z/data=!3m1!4b1!4m6!3m5!1s0x390c65d6274281b3:0x1dfdaa095a1907a5!8m2!3d28.9933663!4d77.7049608!16s%2Fg%2F11yn1gjxqj?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
+                                    target="_blank"
+                                    className="text-[#1C1C1C] border-b border-[#1C1C1C] pb-1 hover:text-[#B4838D] hover:border-[#B4838D] transition-colors text-sm uppercase tracking-wider"
+                                >
                                     Get Directions
                                 </Link>
                             </div>

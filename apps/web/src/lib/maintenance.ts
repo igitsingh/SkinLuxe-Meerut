@@ -1,22 +1,19 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+// import { PrismaClient } from '@prisma/client';
+// const prisma = new PrismaClient();
 
 /**
  * Check if the site is in maintenance mode
  * @returns Promise<boolean>
  */
 export async function isMaintenanceMode(): Promise<boolean> {
-    try {
-        const setting = await prisma.settings.findUnique({
-            where: { key: 'maintenanceMode' }
-        });
+    // TODO: Fetch from Main API instead of direct DB
+    // const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+    // try {
+    //     const res = await fetch(`${API_URL}/settings/maintenance`);
+    //     return res.json().enabled;
+    // } catch (e) { return false; }
 
-        return setting?.value === 'true' || setting?.value === true;
-    } catch (error) {
-        console.error('Error checking maintenance mode:', error);
-        return false; // Default to false on error
-    }
+    return false;
 }
 
 /**
@@ -24,17 +21,18 @@ export async function isMaintenanceMode(): Promise<boolean> {
  * @returns Promise<boolean>
  */
 export async function enableMaintenanceMode(): Promise<boolean> {
-    try {
-        await prisma.settings.upsert({
-            where: { key: 'maintenanceMode' },
-            update: { value: 'true' },
-            create: { key: 'maintenanceMode', value: 'true' },
-        });
-        return true;
-    } catch (error) {
-        console.error('Error enabling maintenance mode:', error);
-        return false;
-    }
+    // try {
+    //     await prisma.settings.upsert({
+    //         where: { key: 'maintenanceMode' },
+    //         update: { value: 'true' },
+    //         create: { key: 'maintenanceMode', value: 'true' },
+    //     });
+    //     return true;
+    // } catch (error) {
+    //     console.error('Error enabling maintenance mode:', error);
+    //     return false;
+    // }
+    return true; // No-op
 }
 
 /**
@@ -42,17 +40,18 @@ export async function enableMaintenanceMode(): Promise<boolean> {
  * @returns Promise<boolean>
  */
 export async function disableMaintenanceMode(): Promise<boolean> {
-    try {
-        await prisma.settings.upsert({
-            where: { key: 'maintenanceMode' },
-            update: { value: 'false' },
-            create: { key: 'maintenanceMode', value: 'false' },
-        });
-        return true;
-    } catch (error) {
-        console.error('Error disabling maintenance mode:', error);
-        return false;
-    }
+    // try {
+    //     await prisma.settings.upsert({
+    //         where: { key: 'maintenanceMode' },
+    //         update: { value: 'false' },
+    //         create: { key: 'maintenanceMode', value: 'false' },
+    //     });
+    //     return true;
+    // } catch (error) {
+    //     console.error('Error disabling maintenance mode:', error);
+    //     return false;
+    // }
+    return true; // No-op
 }
 
 /**

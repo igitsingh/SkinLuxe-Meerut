@@ -13,8 +13,7 @@ interface Appointment {
     email?: string; // New Schema
     notes?: string;
     user?: {
-        firstName: string;
-        lastName: string;
+        name: string;
         email: string;
         phone: string | null;
     };
@@ -26,8 +25,8 @@ interface Appointment {
 
 interface User {
     id: string;
-    firstName: string;
-    lastName: string;
+    name: string;
+    email: string;
     phone: string | null;
 }
 
@@ -185,7 +184,7 @@ export default function AppointmentsPage() {
                         <tbody className="divide-y divide-gray-50">
                             {appointments.map((appt) => {
                                 // Name Resolution
-                                const clientName = appt.name || (appt.user ? `${appt.user.firstName} ${appt.user.lastName}` : 'Unknown Client');
+                                const clientName = appt.name || appt.user?.name || 'Unknown Client';
                                 const clientContact = appt.phone || appt.user?.phone || appt.user?.email || 'No Contact';
 
                                 // Treatment Resolution
@@ -250,7 +249,7 @@ export default function AppointmentsPage() {
                                 </div>
                                 <div>
                                     <h3 className="font-medium text-gray-900 text-lg">
-                                        {selectedAppointment.name || (selectedAppointment.user ? `${selectedAppointment.user.firstName} ${selectedAppointment.user.lastName}` : 'Unknown')}
+                                        {selectedAppointment.name || selectedAppointment.user?.name || 'Unknown'}
                                     </h3>
                                     <p className="text-gray-500">{selectedAppointment.phone || selectedAppointment.user?.phone || 'No Phone'}</p>
                                     <p className="text-gray-400 text-sm">{selectedAppointment.email || selectedAppointment.user?.email}</p>
@@ -323,7 +322,7 @@ export default function AppointmentsPage() {
                                             value={formData.userId} onChange={(e) => setFormData({ ...formData, userId: e.target.value })}>
                                             <option value="">-- Choose Client --</option>
                                             {users.map(u => (
-                                                <option key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.phone})</option>
+                                                <option key={u.id} value={u.id}>{u.name} ({u.phone || u.email})</option>
                                             ))}
                                         </select>
                                     )}

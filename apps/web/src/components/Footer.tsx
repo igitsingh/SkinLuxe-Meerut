@@ -9,33 +9,33 @@ const Footer = () => {
 
     return (
         <footer className="bg-[#F9F8F6] border-t border-[#E6E2DD] text-[#1C1C1C]">
-            <div className="container py-20">
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-20">
+            <div className="container py-12 lg:py-20 text-center lg:text-left">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-20">
 
                     {/* COLUMN 1: BRAND IDENTITY */}
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-6 items-center lg:items-start">
                         <Link href="/" className="block">
                             <img
                                 src="/skinluxe-logo-dark.png"
                                 alt={settings.siteName || "SkinLuxe Aesthetics & Academy"}
-                                className="h-24 w-auto object-contain"
+                                className="h-20 lg:h-24 w-auto object-contain"
                             />
                         </Link>
 
                         {/* Profile Unit */}
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-3 items-center lg:items-start">
                             <div>
                                 <h5 className="font-serif text-xl text-[#1C1C1C] leading-tight">Alka Yadav</h5>
                                 <p className="text-xs tracking-[0.15em] uppercase text-[#B4838D] font-medium mt-1">Cosmetologist</p>
                             </div>
 
-                            <p className="text-[#4A4A4A] leading-relaxed text-sm font-light max-w-xs border-l-2 border-[#E6E2DD] pl-4">
+                            <p className="text-[#4A4A4A] leading-relaxed text-sm font-light max-w-xs border-none lg:border-l-2 lg:border-[#E6E2DD] p-0 lg:pl-4">
                                 Advanced medical aesthetics, laser treatments, and professional cosmetology training in Meerut.
                             </p>
                         </div>
 
                         {/* Socials - Architectural Style */}
-                        <div className="flex gap-4 pt-1">
+                        <div className="flex gap-4 pt-1 justify-center lg:justify-start">
                             <a
                                 href={settings.instagram || "https://instagram.com/skinluxe_clinic_meerut"}
                                 target="_blank"
@@ -57,8 +57,8 @@ const Footer = () => {
 
                     {/* COLUMN 2: QUICK LINKS (TREATMENTS) */}
                     <div>
-                        <h4 className="font-serif text-lg mb-8 text-[#1C1C1C] tracking-wide">Treatments</h4>
-                        <ul className="space-y-4">
+                        <h4 className="font-serif text-lg mb-6 lg:mb-8 text-[#1C1C1C] tracking-wide">Treatments</h4>
+                        <ul className="grid grid-cols-2 gap-x-4 gap-y-3 lg:block lg:space-y-4 text-center lg:text-left">
                             {[
                                 { label: 'Medi Facials', href: '/treatments/medi-facials' },
                                 { label: 'Chemical Peels', href: '/treatments/chemical-peels' },
@@ -73,12 +73,12 @@ const Footer = () => {
                                 { label: 'Party / Bride Makeup', href: '/treatments/party-bride-makeup' },
                                 { label: 'PMU', href: '/treatments/pmu-permanent-makeup' },
                             ].map((link) => (
-                                <li key={link.href}>
+                                <li key={link.href} className="flex justify-center lg:justify-start">
                                     <Link
                                         href={link.href}
                                         className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light tracking-wide flex items-center gap-2 group"
                                     >
-                                        <span className="w-1.5 h-px bg-[#B4838D] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                        <span className="w-1.5 h-px bg-[#B4838D] opacity-0 group-hover:opacity-100 transition-opacity hidden lg:block"></span>
                                         {link.label}
                                     </Link>
                                 </li>
@@ -88,26 +88,31 @@ const Footer = () => {
 
                     {/* COLUMN 3: CONTACT INFORMATION */}
                     <div>
-                        <h4 className="font-serif text-lg mb-8 text-[#1C1C1C] tracking-wide">Visit Us</h4>
-                        <div className="space-y-6">
-                            <div className="flex items-start gap-4 group">
-                                <MapPin className="w-5 h-5 text-[#B4838D] mt-1 group-hover:text-[#1C1C1C] transition-colors" />
-                                <p className="text-[#4A4A4A] text-sm leading-relaxed font-light whitespace-pre-line">
-                                    {settings.address || "FF, No. 38, New Market,\nBegum Bridge,\nMeerut, Uttar Pradesh"}
-                                </p>
+                        <h4 className="font-serif text-lg mb-6 lg:mb-8 text-[#1C1C1C] tracking-wide">Visit Us</h4>
+                        <div className="space-y-6 flex flex-col items-center lg:block">
+                            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4 group">
+                                <MapPin className="w-8 h-8 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors flex-shrink-0" />
+                                <a
+                                    href="https://www.google.com/maps/place/SkinLuxe+Aesthetics+%26+Academy/@28.993371,77.7023805,17z/data=!3m1!4b1!4m6!3m5!1s0x390c65d6274281b3:0x1dfdaa095a1907a5!8m2!3d28.9933663!4d77.7049608!16s%2Fg%2F11yn1gjxqj?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[#4A4A4A] text-sm leading-relaxed font-light whitespace-pre-line hover:text-[#B4838D] transition-colors"
+                                >
+                                    {settings.address || "First floor, Plot Number 38,\nNew Market, Lala Lajpat Raj market,\nBegum Bridge, Sotiganj, Meerut,\nUttar Pradesh 250001"}
+                                </a>
                             </div>
 
-                            <div className="flex items-center gap-4 group">
-                                <Phone className="w-5 h-5 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors" />
-                                <div className="flex flex-col gap-1">
+                            <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 group">
+                                <Phone className="w-5 h-5 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors flex-shrink-0" />
+                                <div className="flex flex-col gap-1 text-center lg:text-left">
                                     <a href={`tel:${settings.contactPhone}`} className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light">
                                         {settings.contactPhone}
                                     </a>
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4 group">
-                                <Mail className="w-5 h-5 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors" />
+                            <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 group">
+                                <Mail className="w-5 h-5 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors flex-shrink-0" />
                                 <a href={`mailto:${settings.contactEmail}`} className="text-[#4A4A4A] hover:text-[#B4838D] transition-colors text-sm font-light">
                                     {settings.contactEmail}
                                 </a>
@@ -116,9 +121,9 @@ const Footer = () => {
                     </div>
 
                     {/* COLUMN 4: MAP EMBED */}
-                    <div className="h-full min-h-[250px] w-full bg-[#E6E2DD] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                    <div className="h-[200px] lg:h-full min-h-[200px] lg:min-h-[250px] w-full bg-[#E6E2DD] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 mx-auto max-w-md lg:max-w-none">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1544.6042973719266!2d77.7056636585191!3d29.013589332560384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390c65c697072c8d%3A0x67175e95085447!2sBegum%20Bridge%20Rd%2C%20Begumbagh%2C%20Meerut%2C%20Uttar%20Pradesh%20250001!5e0!3m2!1sen!2sin!4v1705863248387!5m2!1sen!2sin"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3490.875323869269!2d77.7023805!3d28.993371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390c65d6274281b3%3A0x1dfdaa095a1907a5!2sSkinLuxe%20Aesthetics%20%26%20Academy!5e0!3m2!1sen!2sin!4v1705863248387!5m2!1sen!2sin"
                             width="100%"
                             height="100%"
                             style={{ border: 0 }}
@@ -133,12 +138,12 @@ const Footer = () => {
 
             {/* BOTTOM BAR - ARCHITECTURAL */}
             <div className="border-t border-[#E6E2DD]">
-                <div className="container py-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="container py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
                     <p className="text-[#4A4A4A]/60 text-xs tracking-wide">
                         © {new Date().getFullYear()} SkinLuxe Aesthetics & Academy. All rights reserved.
                     </p>
 
-                    <div className="flex gap-8 text-xs tracking-wide font-medium text-[#4A4A4A]/80">
+                    <div className="flex gap-8 text-xs tracking-wide font-medium text-[#4A4A4A]/80 justify-center">
                         <Link href="/privacy" className="hover:text-[#1C1C1C] transition-colors uppercase">Privacy Policy</Link>
                         <Link href="/terms" className="hover:text-[#1C1C1C] transition-colors uppercase">Terms of Service</Link>
                     </div>

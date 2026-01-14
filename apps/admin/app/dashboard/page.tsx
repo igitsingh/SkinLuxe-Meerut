@@ -9,6 +9,7 @@ interface DashboardStats {
     totalAppointments: number;
     totalInquiries: number;
     totalTreatments: number;
+    totalFeaturedTreatments: number;
     totalRevenue: number;
     recentAppointments: {
         id: string;
@@ -28,6 +29,7 @@ export default function DashboardPage() {
         totalAppointments: 0,
         totalInquiries: 0,
         totalTreatments: 0,
+        totalFeaturedTreatments: 0,
         totalRevenue: 0,
         recentAppointments: []
     });
@@ -111,7 +113,7 @@ export default function DashboardPage() {
             {/* Header */}
             <div className="mb-10">
                 <h1 className="text-4xl font-serif text-dark mb-3">Dashboard</h1>
-                <p className="text-gray-600 text-lg">Welcome back to SkinLuxe Admin</p>
+                <p className="text-gray-600 text-lg">Welcome back, Miss. Alka Yadav</p>
             </div>
 
             {/* Stats Grid */}
@@ -179,6 +181,15 @@ export default function DashboardPage() {
                                     )}
                                 </div>
                             )}
+
+                            {/* Treatments Breakdown */}
+                            {stat.title === "Active Treatments" && (
+                                <div className="flex flex-wrap gap-2 mt-2 pt-3 border-t border-gray-100">
+                                    <span className="text-[10px] font-bold px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                                        {stats.totalFeaturedTreatments} Featured
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </Link>
                 ))}
@@ -200,7 +211,7 @@ export default function DashboardPage() {
                     <h3 className="text-xl font-serif text-dark mb-2">Add Treatment</h3>
                     <p className="text-gray-600 text-sm mb-6">Create a new service offering</p>
                     <Link href="/dashboard/treatments" className="inline-block bg-secondary text-dark px-6 py-2 rounded-lg text-sm font-medium hover:bg-secondary/80 transition text-center">
-                        Add Service
+                        Add Service ({stats.totalFeaturedTreatments} Featured)
                     </Link>
                 </div>
 
