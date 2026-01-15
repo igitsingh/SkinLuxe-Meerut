@@ -110,6 +110,7 @@ const ALLOWED_ORIGINS = [
     'https://skinluxe-meerut.vercel.app',
     'https://admin-skinluxe-meerut.vercel.app',
     'https://skinluxe-meerut-admin-og.vercel.app', // Added specific user URL
+    'https://skinluxe-meerut-web-og.vercel.app', // <--- ADDED: Production Customer Website
     // Local Development
     'http://localhost:3000',
     'http://localhost:3001',
