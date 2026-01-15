@@ -44,9 +44,12 @@ export const login = async (req: Request, res: Response) => {
             },
             token, // Also returning token for client-side usage if needed (though cookie is preferred)
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Login error:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({
+            message: error.message || 'Internal server error',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
     }
 };
 
