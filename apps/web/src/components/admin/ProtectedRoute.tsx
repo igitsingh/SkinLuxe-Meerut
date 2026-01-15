@@ -24,7 +24,7 @@ export default function ProtectedRoute({
             return;
         }
 
-        if (requiredRole && !requiredRole.includes(session.user.role)) {
+        if (requiredRole && session?.user && !requiredRole.includes(session.user.role)) {
             router.push('/admin/unauthorized');
         }
     }, [session, status, router, requiredRole]);
@@ -44,7 +44,7 @@ export default function ProtectedRoute({
         return null;
     }
 
-    if (requiredRole && !requiredRole.includes(session.user.role)) {
+    if (requiredRole && session?.user && !requiredRole.includes(session.user.role)) {
         return null;
     }
 
