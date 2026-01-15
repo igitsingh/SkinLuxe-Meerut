@@ -85,6 +85,15 @@ const Navbar = () => {
                             </button>
                         </Link>
 
+                        {/* Mobile Search Icon */}
+                        <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="md:hidden p-2 text-[#1C1C1C] hover:text-[#B4838D] transition-colors"
+                            aria-label="Search"
+                        >
+                            <Search className="w-5 h-5" />
+                        </button>
+
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
