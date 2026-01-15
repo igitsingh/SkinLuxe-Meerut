@@ -108,6 +108,7 @@ const ALLOWED_ORIGINS = [
     process.env.ADMIN_URL,
     'https://skinluxe-meerut.vercel.app',
     'https://admin-skinluxe-meerut.vercel.app',
+    'https://skinluxe-meerut-admin-og.vercel.app', // Added specific user URL
     // Local Development
     'http://localhost:3000',
     'http://localhost:3001',
