@@ -13,6 +13,7 @@ export const getSettings = async (req: Request, res: Response) => {
                     siteName: 'SkinLuxe Aesthetics',
                     contactPhone: '',
                     contactEmail: '',
+                    address: '',
                     maintenanceMode: false
                 },
             });
