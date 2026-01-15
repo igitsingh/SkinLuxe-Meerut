@@ -152,7 +152,8 @@ app.get('/healthz', async (req, res) => {
 const PORT = process.env.PORT || 5001;
 
 // 404 Handler for undefined routes
-app.all('*', (req, res, next) => {
+// 404 Handler for undefined routes
+app.all(/(.*)/, (req, res, next) => {
     next(new AppError(`Route ${req.originalUrl} not found`, 404, 'NOT_FOUND'));
 });
 
