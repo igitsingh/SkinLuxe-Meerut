@@ -8,7 +8,7 @@
     "build": "tsc",
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && tsc",
-    "start": "npx prisma migrate deploy && node dist/index.js",
+    "start": "node fix-migration.js && npx prisma migrate deploy && node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
   "keywords": [],
