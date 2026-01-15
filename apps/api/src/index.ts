@@ -101,8 +101,25 @@ app.get('/', (req, res) => {
     res.json({ message: 'SkinLuxe Aesthetics & Academy API' });
 });
 
-app.get('/healthz', (req, res) => {
-    res.status(200).json({ status: 'ok', uptime: process.uptime() });
+import prisma from './config/db';
+
+app.get('/healthz', async (req, res) => {
+    try {
+        await prisma.$queryRaw`SELECT 1`;
+        res.status(200).json({
+            status: 'ok',
+            uptime: process.uptime(),
+            env: process.env.NODE_ENV,
+            db: 'connected'
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: 'error',
+            uptime: process.uptime(),
+            env: process.env.NODE_ENV,
+            db: 'disconnected'
+        });
+    }
 });
 
 const PORT = process.env.PORT || 5001;
