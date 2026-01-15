@@ -1,19 +1,18 @@
-// import { PrismaClient } from '@prisma/client';
-// const prisma = new PrismaClient();
+const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://skinluxe-meerut-api.onrender.com/api';
 
 /**
  * Check if the site is in maintenance mode
  * @returns Promise<boolean>
  */
 export async function isMaintenanceMode(): Promise<boolean> {
-    // TODO: Fetch from Main API instead of direct DB
-    // const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
-    // try {
-    //     const res = await fetch(`${API_URL}/settings/maintenance`);
-    //     return res.json().enabled;
-    // } catch (e) { return false; }
-
-    return false;
+    try {
+        const res = await fetch(`${API_URL}/settings/maintenance`, { next: { revalidate: 60 } });
+        if (!res.ok) return false;
+        const data = await res.json();
+        return !!data.enabled;
+    } catch (e) {
+        return false;
+    }
 }
 
 /**
@@ -21,18 +20,9 @@ export async function isMaintenanceMode(): Promise<boolean> {
  * @returns Promise<boolean>
  */
 export async function enableMaintenanceMode(): Promise<boolean> {
-    // try {
-    //     await prisma.settings.upsert({
-    //         where: { key: 'maintenanceMode' },
-    //         update: { value: 'true' },
-    //         create: { key: 'maintenanceMode', value: 'true' },
-    //     });
-    //     return true;
-    // } catch (error) {
-    //     console.error('Error enabling maintenance mode:', error);
-    //     return false;
-    // }
-    return true; // No-op
+    // Admin only action - requires auth context which this lib function may not have
+    // Should be handled via Admin API hook
+    return false;
 }
 
 /**
@@ -40,18 +30,8 @@ export async function enableMaintenanceMode(): Promise<boolean> {
  * @returns Promise<boolean>
  */
 export async function disableMaintenanceMode(): Promise<boolean> {
-    // try {
-    //     await prisma.settings.upsert({
-    //         where: { key: 'maintenanceMode' },
-    //         update: { value: 'false' },
-    //         create: { key: 'maintenanceMode', value: 'false' },
-    //     });
-    //     return true;
-    // } catch (error) {
-    //     console.error('Error disabling maintenance mode:', error);
-    //     return false;
-    // }
-    return true; // No-op
+    // Admin only action
+    return false;
 }
 
 /**
@@ -59,12 +39,6 @@ export async function disableMaintenanceMode(): Promise<boolean> {
  * @returns Promise<boolean> - New state
  */
 export async function toggleMaintenanceMode(): Promise<boolean> {
-    const currentState = await isMaintenanceMode();
-    if (currentState) {
-        await disableMaintenanceMode();
-        return false;
-    } else {
-        await enableMaintenanceMode();
-        return true;
-    }
+    return false;
 }
+
