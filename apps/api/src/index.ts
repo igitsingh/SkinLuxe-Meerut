@@ -13,19 +13,31 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 
+// Trust Proxy (Required for proper Rate Limiting on Render)
+app.set('trust proxy', 1);
+
+// Rate limiting configuration
 // Rate limiting configuration
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: process.env.NODE_ENV === 'production' ? 100 : 1000, // Higher limit for development
-    message: 'Too many requests from this IP, please try again later.',
+    limit: 100, // Fixed limit
+    message: { success: false, error: { code: 'RATE_LIMIT_EXCEEDED', message: 'Too many requests, please try again later.' } },
     standardHeaders: true,
     legacyHeaders: false,
 });
 
 const formLimiter = rateLimit({
     windowMs: 60 * 1000, // 1 minute
-    max: process.env.NODE_ENV === 'production' ? 5 : 50, // Higher limit for development
-    message: 'Too many form submissions, please wait a minute.',
+    limit: 5, // Strict for forms
+    message: { success: false, error: { code: 'RATE_LIMIT_EXCEEDED', message: 'Too many form submissions, please wait a minute.' } },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 20, // Strict for login/auth endpoints
+    message: { success: false, error: { code: 'RATE_LIMIT_EXCEEDED', message: 'Too many login attempts, please try again later.' } },
     standardHeaders: true,
     legacyHeaders: false,
 });
@@ -47,21 +59,36 @@ import adminAnalyticsRoutes from './routes/admin/analytics.routes';
 import adminBlogRoutes from './routes/admin/blog.routes';
 import adminInquiryRoutes from './routes/admin/inquiry.routes';
 
+// Error Handler Import
+import { globalErrorHandler } from './middleware/error.middleware';
+import { AppError } from './utils/AppError';
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+// CORS Lockdown
+const ALLOWED_ORIGINS = [
+    // Production Frontends
+    process.env.FRONTEND_URL,
+    process.env.ADMIN_URL,
+    'https://skinluxe-meerut.vercel.app',
+    'https://admin-skinluxe-meerut.vercel.app',
+    // Local Development
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3002'
+].filter(Boolean).map(url => (url as string).replace(/\/$/, ''));
+
 app.use(cors({
-    origin: [
-        // Development
-        'http://localhost:3000',
-        'http://localhost:3001',
-        'http://localhost:3002',
-        // Production (update these with your actual Vercel URLs)
-        process.env.FRONTEND_URL,
-        process.env.ADMIN_URL,
-        'https://skinluxe-meerut.vercel.app',
-        'https://admin-skinluxe-meerut.vercel.app'
-    ].filter(Boolean).map(url => (url as string).replace(/\/$/, '')),
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (ALLOWED_ORIGINS.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.warn(`BLOCKED CORS ORIGIN: ${origin}`);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
 app.use(helmet());
@@ -75,7 +102,7 @@ app.use(morgan('dev'));
 app.use('/api/', generalLimiter);
 
 // Public
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/treatments', treatmentRoutes);
 app.use('/api/appointments', formLimiter, publicAppointmentRoutes); // Public appointment bookings with rate limit
 // Note: Blog public routes should also be added if we want public reading. I'll reuse admin route for GET for now or add public one.
@@ -84,7 +111,7 @@ app.use('/api/blog', adminBlogRoutes); // Reuse for read-only (admin route has g
 app.use('/api/inquiries', formLimiter, publicInquiryRoutes); // Public inquiry submissions with rate limit (SECURED: POST ONLY)
 
 // Admin
-app.use('/api/admin/auth', adminAuthRoutes);
+app.use('/api/admin/auth', authLimiter, adminAuthRoutes);
 app.use('/api/admin/users', adminUserRoutes);
 app.use('/api/admin/settings', adminSettingsRoutes);
 app.use('/api/admin/analytics', adminAnalyticsRoutes);
@@ -123,6 +150,14 @@ app.get('/healthz', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
+
+// 404 Handler for undefined routes
+app.all('*', (req, res, next) => {
+    next(new AppError(`Route ${req.originalUrl} not found`, 404, 'NOT_FOUND'));
+});
+
+// GLOBAL ERROR HANDLER (MUST BE LAST)
+app.use(globalErrorHandler);
 
 httpServer.listen(PORT, () => {
     console.log(`SkinLuxe Server running on port ${PORT}`);
