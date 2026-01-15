@@ -19,9 +19,13 @@ export const getSettings = async (req: Request, res: Response) => {
         }
 
         res.json(settings);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Get settings error:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({
+            message: error.message || 'Internal server error',
+            code: error.code,
+            meta: error.meta
+        });
     }
 };
 
