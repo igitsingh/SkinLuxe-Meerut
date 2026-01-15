@@ -123,8 +123,23 @@ async function main() {
         console.log(`Created treatment with id: ${treatment.id}`);
     }
 
-    // Seed Admin User (if needed)
-    // ...
+    // Seed Admin User
+    const adminPasswordHash = '$2b$10$LFXOI/JjFtjWdjbD79clRu/mljStW0EBegtsym61G4avw8cOliI8C'; // adminpassword
+
+    const admin = await prisma.user.upsert({
+        where: { email: 'admin@skinluxe.com' },
+        update: {
+            role: 'ADMIN',
+            password: adminPasswordHash,
+        },
+        create: {
+            email: 'admin@skinluxe.com',
+            name: 'SkinLuxe Admin',
+            role: 'ADMIN',
+            password: adminPasswordHash,
+        },
+    });
+    console.log(`Created admin user: ${admin.email}`);
 
     console.log('Seeding finished.');
 }
