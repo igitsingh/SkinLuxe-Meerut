@@ -12,21 +12,13 @@ datasource db {
 // USER & AUTHENTICATION
 // ============================================
 
-enum UserRole {
-  SUPER_ADMIN
-  ADMIN
-  EDITOR
-  VIEWER
-  CUSTOMER
-}
-
 model User {
   id            String         @id @default(uuid())
   email         String         @unique
   phone         String?        @unique
   password      String
   name          String
-  role          UserRole       @default(CUSTOMER)
+  role          String         @default("CUSTOMER")
   avatar        String?
   isActive      Boolean        @default(true)
   lastLogin     DateTime?
