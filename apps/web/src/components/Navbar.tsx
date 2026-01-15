@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
 import { useSettings } from '@/contexts/SettingsContext';
 import Image from 'next/image';
+import SearchModal from './SearchModal';
 
 const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { settings } = useSettings();
 
@@ -66,7 +68,11 @@ const Navbar = () => {
                     {/* Right Icons & CTA */}
                     <div className="flex items-center gap-6">
                         <div className="hidden md:flex items-center gap-4 border-r border-[#E6E2DD] pr-6">
-                            <button className="text-[#1C1C1C] hover:text-[#B4838D] transition-colors">
+                            <button
+                                onClick={() => setIsSearchOpen(true)}
+                                className="text-[#1C1C1C] hover:text-[#B4838D] transition-colors"
+                                aria-label="Search"
+                            >
                                 <Search className="w-4 h-4" />
                             </button>
 
@@ -119,6 +125,8 @@ const Navbar = () => {
                     </Link>
                 </div>
             </div>
+            {/* Search Modal */}
+            <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
         </nav>
     );
 };

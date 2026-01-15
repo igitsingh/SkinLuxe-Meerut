@@ -91,7 +91,7 @@ const Footer = () => {
                         <h4 className="font-serif text-lg mb-6 lg:mb-8 text-[#1C1C1C] tracking-wide">Visit Us</h4>
                         <div className="space-y-6 flex flex-col items-center lg:block">
                             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4 group">
-                                <MapPin className="w-8 h-8 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors flex-shrink-0" />
+                                <MapPin className="w-5 h-5 mt-1 text-[#B4838D] group-hover:text-[#1C1C1C] transition-colors flex-shrink-0" />
                                 <a
                                     href="https://www.google.com/maps/place/SkinLuxe+Aesthetics+%26+Academy/@28.993371,77.7023805,17z/data=!3m1!4b1!4m6!3m5!1s0x390c65d6274281b3:0x1dfdaa095a1907a5!8m2!3d28.9933663!4d77.7049608!16s%2Fg%2F11yn1gjxqj?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
                                     target="_blank"
