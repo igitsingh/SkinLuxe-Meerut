@@ -101,7 +101,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'SkinLuxe Aesthetics & Academy API' });
 });
 
-app.get('/health', (req, res) => {
+app.get('/healthz', (req, res) => {
     res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
