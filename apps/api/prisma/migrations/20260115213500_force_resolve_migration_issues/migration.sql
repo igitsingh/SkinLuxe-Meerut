@@ -1,0 +1,1 @@
+UPDATE "_prisma_migrations" SET "finished_at" = NOW(), "logs" = NULL, "rolled_back_at" = NULL, "started_at" = NOW(), "applied_steps_count" = 1 WHERE "migration_name" = "20260115205500_create_role_enum";
