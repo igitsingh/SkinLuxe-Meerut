@@ -22,7 +22,7 @@ interface PageProps {
 
 // Helper to fetch treatment data from the Main API (server-side)
 async function getTreatment(slug: string): Promise<Treatment | null> {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001/api';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://skinluxe-meerut-api.onrender.com/api';
     try {
         const res = await fetch(`${API_URL}/treatments/${slug}`, {
             cache: 'no-store' // Ensure fresh data
