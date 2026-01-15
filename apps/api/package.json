@@ -8,7 +8,7 @@
     "build": "tsc",
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && tsc",
-    "start": "node dist/index.js",
+    "start": "npx prisma migrate deploy && node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
   "keywords": [],
@@ -20,6 +20,11 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.10.8",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
@@ -32,21 +37,16 @@
     "json2csv": "^6.0.0-alpha.2",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.1",
-    "prisma": "^5.22.0",
     "razorpay": "^2.9.6",
     "socket.io": "^4.8.1",
     "stripe": "^20.0.0",
-    "zod": "^4.1.13",
-    "@types/cookie-parser": "^1.4.10",
-    "@types/express": "^5.0.6",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/morgan": "^1.9.10",
-    "@types/node": "^24.10.8"
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
     "@types/json2csv": "^5.0.7",
+    "prisma": "^5.22.0",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
