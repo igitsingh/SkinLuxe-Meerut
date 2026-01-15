@@ -105,12 +105,10 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 
-if (process.env.NODE_ENV !== 'production') {
-    httpServer.listen(PORT, () => {
-        console.log(`SkinLuxe Server running on port ${PORT}`);
-    });
-}
+httpServer.listen(PORT, () => {
+    console.log(`SkinLuxe Server running on port ${PORT}`);
+});
 
 export default app;
