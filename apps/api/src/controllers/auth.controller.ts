@@ -78,9 +78,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
             res.cookie('admin_token', token, {
                 httpOnly: true,
-                secure: false,
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'lax',
-                domain: 'localhost',
+                domain: process.env.COOKIE_DOMAIN,
                 maxAge: 24 * 60 * 60 * 1000,
             });
         }
