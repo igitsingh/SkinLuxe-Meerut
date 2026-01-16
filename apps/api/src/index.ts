@@ -135,20 +135,12 @@ import prisma from './config/db';
 
 app.get('/healthz', async (req, res) => {
     try {
+        // Verify database connectivity without exposing details
         await prisma.$queryRaw`SELECT 1`;
-        res.status(200).json({
-            status: 'ok',
-            uptime: process.uptime(),
-            env: process.env.NODE_ENV,
-            db: 'connected'
-        });
+        res.status(200).json({ status: 'ok' });
     } catch (error) {
-        res.status(500).json({
-            status: 'error',
-            uptime: process.uptime(),
-            env: process.env.NODE_ENV,
-            db: 'disconnected'
-        });
+        // Return 503 Service Unavailable if database is down
+        res.status(503).json({ status: 'unavailable' });
     }
 });
 
