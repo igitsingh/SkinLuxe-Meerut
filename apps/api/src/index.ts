@@ -8,8 +8,12 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { createServer } from 'http';
 import rateLimit from 'express-rate-limit';
+import { initSentry } from './config/monitoring';
 
 dotenv.config();
+
+// Initialize monitoring (Sentry, etc.)
+initSentry();
 
 const app = express();
 const httpServer = createServer(app);
