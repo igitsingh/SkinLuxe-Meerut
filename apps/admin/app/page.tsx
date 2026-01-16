@@ -26,6 +26,7 @@ export default function LoginPage() {
 
       if (response.data.token) {
         localStorage.setItem("admin_token", response.data.token);
+        localStorage.setItem("admin_user", JSON.stringify(response.data.user));
         router.push("/dashboard");
       }
     } catch (err: any) {

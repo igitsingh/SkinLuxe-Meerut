@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -36,11 +36,30 @@ export default function DashboardLayout({
     const router = useRouter();
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("admin_user");
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error("Failed to parse user data", e);
+            }
+        }
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("admin_token");
+        localStorage.removeItem("admin_user");
         router.push("/");
     };
+
+    const displayName = user?.name || "Admin User";
+    // Check if the specific user (Miss Alka Yadav) is logged in to show her specific photo
+    const profileImage = user?.email === 'ay@skinluxe.com'
+        ? "/alka-yadav-profile.png"
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=FFE4E6&color=4A4A4A`;
 
     return (
         <div className="flex h-screen bg-light">
@@ -113,13 +132,13 @@ export default function DashboardLayout({
                 <div className="p-6 border-t border-secondary space-y-4">
                     <div className="px-4 py-3 bg-light rounded-xl flex items-center gap-3">
                         <img
-                            src="/alka-yadav-profile.png"
-                            alt="Alka Yadav"
+                            src={profileImage}
+                            alt={displayName}
                             className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
                         />
-                        <div>
+                        <div className="overflow-hidden">
                             <p className="text-xs text-gray-500 uppercase tracking-wider mb-0.5">Logged in as</p>
-                            <p className="text-sm font-medium text-dark">Miss. Alka Yadav</p>
+                            <p className="text-sm font-medium text-dark truncate" title={displayName}>{displayName}</p>
                         </div>
                     </div>
                     <button
