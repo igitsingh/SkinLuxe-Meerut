@@ -4,7 +4,17 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
+
+// CRITICAL: JWT_SECRET must be set in environment variables
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+    throw new Error(
+        'FATAL SECURITY ERROR: JWT_SECRET environment variable is not set. ' +
+        'Admin authentication cannot function securely without it. ' +
+        'Please configure JWT_SECRET in your environment variables.'
+    );
+}
 
 export const login = async (req: Request, res: Response) => {
     try {
