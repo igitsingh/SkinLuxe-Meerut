@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Calendar, Plus, Clock, User, FileText, Check, X, Search, Filter } from "lucide-react";
 import api from "@/lib/api";
+import LoadingSpinner from "@/lib/LoadingSpinner";
 
 interface Appointment {
     id: string;
@@ -158,7 +159,7 @@ export default function AppointmentsPage() {
 
             {/* Content */}
             {loading ? (
-                <div className="p-12 text-center text-gray-500">Loading appointments...</div>
+                <LoadingSpinner className="py-12" />
             ) : appointments.length === 0 ? (
                 <div className="bg-white rounded-lg shadow-sm border border-secondary p-12">
                     <div className="text-center text-gray-500">

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { MessageSquare, Clock, CheckCircle, Archive, Trash2, Mail, User } from "lucide-react";
 import api from "@/lib/api";
+import LoadingSpinner from "@/lib/LoadingSpinner";
 
 interface Inquiry {
     id: string;
@@ -80,7 +81,7 @@ export default function InquiriesPage() {
 
             {/* Content */}
             {loading ? (
-                <div className="p-12 text-center text-gray-500">Loading inquiries...</div>
+                <LoadingSpinner className="py-12" />
             ) : inquiries.length === 0 ? (
                 <div className="bg-white rounded-lg shadow-sm border border-secondary p-12">
                     <div className="text-center text-gray-500">

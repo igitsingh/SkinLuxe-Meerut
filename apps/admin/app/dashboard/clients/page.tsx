@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Users, Plus, Search, Mail, Phone, Calendar, X, Clock, FileText } from "lucide-react";
 import api from "@/lib/api";
+import LoadingSpinner from "@/lib/LoadingSpinner";
 
 interface User {
     id: string;
@@ -109,7 +110,7 @@ export default function ClientsPage() {
 
             {/* Content */}
             {loading ? (
-                <div className="p-12 text-center text-gray-500">Loading clients...</div>
+                <LoadingSpinner className="py-12" />
             ) : clients.length === 0 ? (
                 <div className="bg-white rounded-lg shadow-sm border border-secondary p-12">
                     <div className="text-center text-gray-500">

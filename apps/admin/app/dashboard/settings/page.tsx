@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Settings as SettingsIcon, Save, Loader2 } from "lucide-react";
 import api from "@/lib/api";
+import LoadingSpinner from "@/lib/LoadingSpinner";
 
 interface Settings {
     siteName: string;
@@ -49,7 +50,7 @@ export default function SettingsPage() {
         }
     };
 
-    if (loading) return <div className="p-12 text-center text-gray-500">Loading settings...</div>;
+    if (loading) return <LoadingSpinner className="min-h-screen" />;
 
     return (
         <div>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { FileText, Plus, Search, Edit2, Trash2, Globe, Eye } from "lucide-react";
 import api from "@/lib/api";
+import LoadingSpinner from "@/lib/LoadingSpinner";
 
 interface BlogPost {
     id: string;
@@ -85,7 +86,7 @@ export default function BlogPage() {
 
             {/* Content */}
             {loading ? (
-                <div className="p-12 text-center text-gray-500">Loading posts...</div>
+                <LoadingSpinner className="py-12" />
             ) : posts.length === 0 ? (
                 <div className="bg-white rounded-lg shadow-sm border border-secondary p-12">
                     <div className="text-center text-gray-500">

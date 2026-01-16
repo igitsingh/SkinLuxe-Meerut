@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Sparkles, Plus, Edit2, Trash2, Clock, X, Save } from "lucide-react";
 import api from "@/lib/api";
+import LoadingSpinner from "@/lib/LoadingSpinner";
 
 interface Treatment {
     id: string;
@@ -99,7 +100,7 @@ export default function TreatmentsPage() {
     };
 
     if (loading) {
-        return <div className="p-12 text-center text-gray-500">Loading treatments...</div>;
+        return <LoadingSpinner className="min-h-screen" />;
     }
 
     return (
