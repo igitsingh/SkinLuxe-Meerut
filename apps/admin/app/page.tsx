@@ -74,7 +74,8 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-8 bg-light">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
-          <div className="lg:hidden mb-12 flex items-center justify-center gap-3">
+          {/* Mobile Logo */}
+          <div className="lg:hidden mb-8 flex items-center justify-center gap-3">
             <img
               src="/skinluxe-logo-dark.png"
               alt="SkinLuxe Aesthetics & Academy"
@@ -85,9 +86,9 @@ export default function LoginPage() {
           </div>
 
           {/* Welcome Text */}
-          <div className="mb-8">
-            <h2 className="text-3xl font-serif text-dark mb-2">Welcome Back</h2>
-            <p className="text-gray-600">Sign in to access your dashboard</p>
+          <div className="mb-8 text-center lg:text-left">
+            <h2 className="text-3xl md:text-4xl font-serif text-dark mb-2">Welcome Back</h2>
+            <p className="text-gray-500 font-light tracking-wide">Sign in to access your dashboard</p>
           </div>
 
           {/* Error Message */}
@@ -151,7 +152,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+              className="w-full bg-gradient-to-r from-primary to-primary/90 text-white font-medium py-3.5 px-6 rounded-lg hover:from-primary/95 hover:to-primary hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-md disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 tracking-wide"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
