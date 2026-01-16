@@ -1,29 +1,47 @@
 
 import { PrismaClient } from '@prisma/client';
 
+// CRITICAL: DATABASE_URL must be set - no fallback allowed
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (!DATABASE_URL) {
+    throw new Error(
+        'FATAL DATABASE ERROR: DATABASE_URL environment variable is not set. ' +
+        'Database connection is required for the API to function. ' +
+        'Please configure DATABASE_URL in your environment variables.'
+    );
+}
+
 const prisma = new PrismaClient();
 
-const DATABASE_URL = process.env.DATABASE_URL || '';
-
-// SAFETY GUARD: Prevent writes if connected to wrong DB in Production-like contexts
-// This is a soft-check helper. Ideally, this runs on server start.
-
+// SAFETY GUARD: Prevent accidental cross-project database usage
 function checkDatabaseSafety() {
-    if (!DATABASE_URL) return;
-
-    // If we are definitely NOT targeting skinluxe_meerut BUT we think we are in production...
-    // Use a heuristic or explicit check.
+    // DATABASE_URL is guaranteed to be defined here due to the check above
+    const dbUrl = DATABASE_URL!;
 
     const isProd = process.env.NODE_ENV === 'production';
-    const dbName = DATABASE_URL.split('/').pop()?.split('?')[0];
+    const dbName = dbUrl.split('/').pop()?.split('?')[0];
 
     console.log(`[DB SAFETY] Connected to: ${dbName} (Env: ${process.env.NODE_ENV})`);
 
-    if (isProd && dbName !== 'skinluxe_meerut' && dbName !== 'skinluxe_production') {
-        // NOTE: Render DB names are random strings (e.g. dpg-...), so strict name check fails on Render.
-        // Instead, we verify we are NOT using the known restricted Pizza Box DB in prod.
-        if (dbName === 'the_pizza_box') {
-            throw new Error('CRITICAL: Attempting to use "the_pizza_box" database in PRODUCTION mode. Operation Aborted.');
+    // Explicit blocklist: Prevent using other project databases
+    const FORBIDDEN_DBS = ['the_pizza_box', 'zevaraz_cms', 'test_db'];
+
+    if (FORBIDDEN_DBS.includes(dbName || '')) {
+        throw new Error(
+            `CRITICAL DATABASE ERROR: Attempting to use forbidden database "${dbName}" in ${process.env.NODE_ENV} mode. ` +
+            'This appears to be a different project\'s database. Operation aborted for data safety.'
+        );
+    }
+
+    // Production-specific validation
+    if (isProd) {
+        // Ensure we're using a production-grade database (not SQLite, not local)
+        if (dbUrl.includes('sqlite') || dbUrl.includes('localhost')) {
+            throw new Error(
+                'CRITICAL: Production mode cannot use SQLite or localhost database. ' +
+                'Please configure a production PostgreSQL database URL.'
+            );
         }
     }
 }
