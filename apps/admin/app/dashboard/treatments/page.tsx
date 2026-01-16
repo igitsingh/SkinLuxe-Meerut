@@ -112,10 +112,11 @@ export default function TreatmentsPage() {
                 </div>
                 <button
                     onClick={handleOpenAdd}
-                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition shadow-md"
+                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg transition shadow-md text-sm md:text-base"
                 >
-                    <Plus className="w-5 h-5" />
-                    Add Treatment
+                    <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="hidden sm:inline">Add Treatment</span>
+                    <span className="sm:hidden">Add</span>
                 </button>
             </div>
 
@@ -131,50 +132,93 @@ export default function TreatmentsPage() {
                     </div>
                 </div>
             ) : (
-                <div className="bg-white rounded-lg shadow-sm border border-secondary overflow-hidden">
-                    <table className="w-full text-left">
-                        <thead className="bg-gray-50 border-b border-gray-100">
-                            <tr>
-                                <th className="p-4 font-serif text-gray-700">Name</th>
-                                <th className="p-4 font-serif text-gray-700">Category</th>
-                                <th className="p-4 font-serif text-gray-700">Duration</th>
-                                <th className="p-4 font-serif text-gray-700">Price</th>
-                                <th className="p-4 font-serif text-gray-700 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-50">
-                            {treatments.map((t) => (
-                                <tr key={t.id} className="hover:bg-gray-50/50 transition-colors">
-                                    <td className="p-4 font-medium text-gray-900">
-                                        {t.name}
-                                        {t.isFeatured && (
-                                            <span className="ml-2 text-[10px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full uppercase tracking-wider">Featured</span>
-                                        )}
-                                    </td>
-                                    <td className="p-4 text-gray-600">
-                                        <span className="bg-gray-100/50 border border-gray-200 text-gray-600 text-xs px-2 py-1 rounded-md">
-                                            {t.category}
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-gray-600 flex items-center gap-1">
-                                        <Clock className="w-3 h-3 opacity-50" /> {t.duration}
-                                    </td>
-                                    <td className="p-4 text-gray-600 font-medium">{t.price}</td>
-                                    <td className="p-4 text-right">
-                                        <div className="flex items-center justify-end gap-2">
-                                            <button onClick={() => handleEdit(t)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full">
-                                                <Edit2 className="w-4 h-4" />
-                                            </button>
-                                            <button onClick={() => handleDelete(t.id)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full">
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    </td>
+                <>
+                    {/* Desktop Table */}
+                    <div className="hidden md:block bg-white rounded-lg shadow-sm border border-secondary overflow-hidden">
+                        <table className="w-full text-left">
+                            <thead className="bg-gray-50 border-b border-gray-100">
+                                <tr>
+                                    <th className="p-4 font-serif text-gray-700">Name</th>
+                                    <th className="p-4 font-serif text-gray-700">Category</th>
+                                    <th className="p-4 font-serif text-gray-700">Duration</th>
+                                    <th className="p-4 font-serif text-gray-700">Price</th>
+                                    <th className="p-4 font-serif text-gray-700 text-right">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className="divide-y divide-gray-50">
+                                {treatments.map((t) => (
+                                    <tr key={t.id} className="hover:bg-gray-50/50 transition-colors">
+                                        <td className="p-4 font-medium text-gray-900">
+                                            {t.name}
+                                            {t.isFeatured && (
+                                                <span className="ml-2 text-[10px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full uppercase tracking-wider">Featured</span>
+                                            )}
+                                        </td>
+                                        <td className="p-4 text-gray-600">
+                                            <span className="bg-gray-100/50 border border-gray-200 text-gray-600 text-xs px-2 py-1 rounded-md">
+                                                {t.category}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 text-gray-600 flex items-center gap-1">
+                                            <Clock className="w-3 h-3 opacity-50" /> {t.duration}
+                                        </td>
+                                        <td className="p-4 text-gray-600 font-medium">{t.price}</td>
+                                        <td className="p-4 text-right">
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button onClick={() => handleEdit(t)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full">
+                                                    <Edit2 className="w-4 h-4" />
+                                                </button>
+                                                <button onClick={() => handleDelete(t.id)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full">
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Mobile Cards */}
+                    <div className="md:hidden space-y-3">
+                        {treatments.map((t) => (
+                            <div key={t.id} className="bg-white rounded-lg border border-secondary p-4 shadow-sm">
+                                <div className="flex items-start justify-between mb-3">
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="font-medium text-gray-900 text-sm truncate">{t.name}</h3>
+                                        <p className="text-xs text-gray-500">{t.category}</p>
+                                    </div>
+                                    {t.isFeatured && (
+                                        <span className="text-[9px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full uppercase font-bold ml-2 flex-shrink-0">★</span>
+                                    )}
+                                </div>
+
+                                <div className="space-y-2 mb-3">
+                                    <div className="flex items-center gap-2 text-xs text-gray-600">
+                                        <Clock className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                                        <span>{t.duration}</span>
+                                    </div>
+                                    <div className="text-sm font-medium text-gray-900">{t.price}</div>
+                                </div>
+
+                                <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
+                                    <button
+                                        onClick={() => handleEdit(t)}
+                                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-xs text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
+                                    >
+                                        <Edit2 className="w-3 h-3" /> Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(t.id)}
+                                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-xs text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition"
+                                    >
+                                        <Trash2 className="w-3 h-3" /> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
             )}
 
             {/* Modal */}
