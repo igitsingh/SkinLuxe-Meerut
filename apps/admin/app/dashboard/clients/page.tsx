@@ -99,10 +99,11 @@ export default function ClientsPage() {
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition shadow-md"
+                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg transition shadow-md text-sm md:text-base"
                 >
-                    <Plus className="w-5 h-5" />
-                    Add Client
+                    <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="hidden sm:inline">Add Client</span>
+                    <span className="sm:hidden">Add</span>
                 </button>
             </div>
 
@@ -121,51 +122,86 @@ export default function ClientsPage() {
                     </div>
                 </div>
             ) : (
-                <div className="bg-white rounded-lg shadow-sm border border-secondary overflow-hidden">
-                    <table className="w-full text-left">
-                        <thead className="bg-gray-50 border-b border-gray-100">
-                            <tr>
-                                <th className="p-4 font-serif text-gray-700">Name</th>
-                                <th className="p-4 font-serif text-gray-700">Contact</th>
-                                <th className="p-4 font-serif text-gray-700">Joined</th>
-                                <th className="p-4 font-serif text-gray-700 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-50">
-                            {clients.map((client) => (
-                                <tr key={client.id} className="hover:bg-gray-50/50 transition-colors">
-                                    <td className="p-4 font-medium text-gray-900">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
-                                                {client.name ? client.name[0].toUpperCase() : 'U'}
-                                            </div>
-                                            {client.name}
-                                        </div>
-                                    </td>
-                                    <td className="p-4 text-gray-600">
-                                        <div className="flex flex-col gap-1 text-sm">
-                                            <div className="flex items-center gap-2"><Mail className="w-3 h-3" /> {client.email}</div>
-                                            {client.phone && <div className="flex items-center gap-2"><Phone className="w-3 h-3" /> {client.phone}</div>}
-                                        </div>
-                                    </td>
-                                    <td className="p-4 text-gray-600 text-sm">
-                                        <div className="flex items-center gap-2">
-                                            <Calendar className="w-3 h-3" /> {formatDate(client.createdAt)}
-                                        </div>
-                                    </td>
-                                    <td className="p-4 text-right">
-                                        <button
-                                            onClick={() => handleViewHistory(client)}
-                                            className="text-primary hover:underline text-sm font-medium"
-                                        >
-                                            View History
-                                        </button>
-                                    </td>
+                <>
+                    {/* Desktop Table */}
+                    <div className="hidden md:block bg-white rounded-lg shadow-sm border border-secondary overflow-hidden">
+                        <table className="w-full text-left">
+                            <thead className="bg-gray-50 border-b border-gray-100">
+                                <tr>
+                                    <th className="p-4 font-serif text-gray-700">Name</th>
+                                    <th className="p-4 font-serif text-gray-700">Contact</th>
+                                    <th className="p-4 font-serif text-gray-700">Joined</th>
+                                    <th className="p-4 font-serif text-gray-700 text-right">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className="divide-y divide-gray-50">
+                                {clients.map((client) => (
+                                    <tr key={client.id} className="hover:bg-gray-50/50 transition-colors">
+                                        <td className="p-4 font-medium text-gray-900">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
+                                                    {client.name ? client.name[0].toUpperCase() : 'U'}
+                                                </div>
+                                                {client.name}
+                                            </div>
+                                        </td>
+                                        <td className="p-4 text-gray-600">
+                                            <div className="flex flex-col gap-1 text-sm">
+                                                <div className="flex items-center gap-2"><Mail className="w-3 h-3" /> {client.email}</div>
+                                                {client.phone && <div className="flex items-center gap-2"><Phone className="w-3 h-3" /> {client.phone}</div>}
+                                            </div>
+                                        </td>
+                                        <td className="p-4 text-gray-600 text-sm">
+                                            <div className="flex items-center gap-2">
+                                                <Calendar className="w-3 h-3" /> {formatDate(client.createdAt)}
+                                            </div>
+                                        </td>
+                                        <td className="p-4 text-right">
+                                            <button
+                                                onClick={() => handleViewHistory(client)}
+                                                className="text-primary hover:underline text-sm font-medium"
+                                            >
+                                                View History
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Mobile Cards */}
+                    <div className="md:hidden space-y-3">
+                        {clients.map((client) => (
+                            <div
+                                key={client.id}
+                                className="bg-white rounded-lg border border-secondary p-4 shadow-sm"
+                                onClick={() => handleViewHistory(client)}
+                            >
+                                <div className="flex items-start gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-bold flex-shrink-0">
+                                        {client.name ? client.name[0].toUpperCase() : 'U'}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="font-medium text-gray-900 text-sm truncate">{client.name}</h3>
+                                        <p className="text-xs text-gray-500 truncate">{client.phone || 'No phone'}</p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-2 text-xs text-gray-600">
+                                        <Mail className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                                        <span className="truncate">{client.email}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-xs text-gray-600">
+                                        <Calendar className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                                        <span>Joined {formatDate(client.createdAt)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
             )}
 
             {/* Create Client Modal */}
