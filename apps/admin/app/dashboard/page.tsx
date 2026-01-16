@@ -222,7 +222,16 @@ export default function DashboardPage() {
 
             {/* Recent Activity */}
             <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-secondary p-4 md:p-8">
-                <h2 className="text-xl md:text-2xl font-serif text-dark mb-4 md:mb-6">Recent Activity (Appointments)</h2>
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                    <h2 className="text-xl md:text-2xl font-serif text-dark">Recent Activity</h2>
+                    <Link
+                        href="/dashboard/appointments"
+                        className="text-xs md:text-sm text-primary hover:text-primary/80 font-medium flex items-center gap-1 transition"
+                    >
+                        View All
+                        <ArrowUpRight className="w-3 h-3 md:w-4 md:h-4" />
+                    </Link>
+                </div>
                 {stats.recentAppointments.length === 0 ? (
                     <div className="text-center py-12 md:py-16 text-gray-500">
                         <Calendar className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 md:mb-4 opacity-20" />
