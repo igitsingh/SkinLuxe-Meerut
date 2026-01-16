@@ -112,7 +112,7 @@ export default function DashboardLayout({
                 <div className="p-6 border-t border-secondary space-y-4">
                     <div className="px-4 py-3 bg-light rounded-xl flex items-center gap-3">
                         <img
-                            src="/founder-alka-yadav.png"
+                            src="/alka-yadav-profile.png"
                             alt="Alka Yadav"
                             className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
                         />
