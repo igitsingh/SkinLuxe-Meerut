@@ -165,7 +165,7 @@ export default function TreatmentsPage() {
                             We offer premium HD and Airbrush makeup services for brides and party guests.
                         </p>
                         <Link href="/book-appointment" className="w-full sm:w-auto inline-block">
-                            <button className="btn-luxury-filled w-full sm:w-auto h-[54px] min-w-[200px] flex items-center justify-center bg-transparent border !border-[#1C1C1C] !text-[#1C1C1C] hover:!bg-[#1C1C1C] hover:!text-white transition-colors duration-300 uppercase tracking-widest text-xs mx-auto">
+                            <button className="bg-[#1C1C1C] text-white hover:bg-[#B4838D] transition-all duration-300 px-8 py-4 text-xs tracking-[0.2em] uppercase font-medium w-full sm:w-auto">
                                 Book Makeup Artist
                             </button>
                         </Link>
