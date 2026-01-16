@@ -46,9 +46,10 @@ export default function DashboardLayout({
         <div className="flex h-screen bg-light">
             {/* Mobile Header */}
             <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-secondary z-40 flex items-center justify-between px-4">
-                <Link href="/dashboard" className="flex items-center gap-2 pl-2">
+                <Link href="/dashboard" className="flex items-center gap-3 pl-2">
                     <img src="/skinluxe-logo-dark.png" alt="Logo" className="h-12 w-auto object-contain" />
-                    <span className="font-serif text-sm text-dark tracking-wider pt-1">Admin Panel</span>
+                    <div className="h-6 w-[1px] bg-secondary/30"></div>
+                    <span className="font-serif text-sm text-dark tracking-wider">Admin Panel</span>
                 </Link>
                 <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-dark">
                     {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
