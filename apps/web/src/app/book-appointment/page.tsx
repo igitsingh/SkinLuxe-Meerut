@@ -16,6 +16,7 @@ export default function BookAppointmentPage() {
     // Treatment options - Service Menu
     interface ServiceOption {
         id: string;
+        slug?: string;
         name: string;
         icon: string;
         desc: string;
@@ -50,7 +51,8 @@ export default function BookAppointmentPage() {
                 if (res.ok) {
                     const data = await res.json();
                     const mappedServices = data.map((t: any) => ({
-                        id: t.slug,
+                        id: t.id,  // Use the actual UUID from database
+                        slug: t.slug,
                         name: t.name,
                         icon: getEmoji(t.name, t.category),
                         desc: t.category || 'Premium Service'
@@ -157,8 +159,11 @@ Please verify availability.`;
             }
         }
 
-        const treatmentName = treatments.find(t => t.id === selectedTreatment)?.name || 'General Consultation';
-        const finalNotes = `Service Requested: ${treatmentName}`;
+        const selectedTreatmentData = treatments.find(t => t.id === selectedTreatment);
+        const treatmentName = selectedTreatmentData?.name || 'General Consultation';
+
+        // Determine treatmentId: use UUID if available, null for "General Consultation"
+        const treatmentId = selectedTreatment === 'consult' ? null : selectedTreatment;
 
         try {
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://skinluxe-meerut-api.onrender.com/api';
@@ -170,7 +175,8 @@ Please verify availability.`;
                     phone,
                     date: finalDateTime.toISOString(),
                     timeSlot,
-                    notes: finalNotes
+                    treatmentId,  // Send the UUID to link to Treatment table
+                    notes: `Service: ${treatmentName}`
                 })
             });
 

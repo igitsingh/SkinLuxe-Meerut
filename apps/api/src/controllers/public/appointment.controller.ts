@@ -10,6 +10,7 @@ const appointmentSchema = z.object({
     email: z.string().email("Invalid email format").optional().or(z.literal('')),
     date: z.string().refine((val) => !isNaN(Date.parse(val)), "Invalid date"),
     timeSlot: z.string().optional(),
+    treatmentId: z.string().uuid().optional().nullable(),  // Accept treatment UUID
     notes: z.string().optional()
 });
 
@@ -25,7 +26,7 @@ export const createPublicAppointment = async (req: Request, res: Response) => {
             });
         }
 
-        const { name, phone, email, date, timeSlot, notes } = validation.data;
+        const { name, phone, email, date, timeSlot, treatmentId, notes } = validation.data;
 
         const appointment = await prisma.appointment.create({
             data: {
@@ -34,6 +35,7 @@ export const createPublicAppointment = async (req: Request, res: Response) => {
                 email: email?.toLowerCase().trim() || null,
                 date: new Date(date),
                 timeSlot: timeSlot || 'Pending',
+                treatmentId: treatmentId || null,  // Link to Treatment if provided
                 notes: notes?.trim() || null,
                 status: 'PENDING'
             }
