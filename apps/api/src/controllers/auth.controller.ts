@@ -146,9 +146,49 @@ export const guestLogin = async (req: Request, res: Response): Promise<void> => 
 
         const token = generateToken(user.id, user.role);
         res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role, isGuest: true } });
+
+        // Lazy Cleanup: Trigger cleanup of guests older than 24 hours
+        // Fire and forget (don't await) avoids delaying the response
+        cleanupOldGuests().catch(err => console.error('Background cleanup failed', err));
+
     } catch (error) {
         console.error('Guest login error:', error);
         res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Helper to clean up old guest accounts (Retention Policy: 24 Hours)
+const cleanupOldGuests = async () => {
+    try {
+        // 1. Identify guests created > 24 hours ago
+        const retentionLimit = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+        const oldGuests = await prisma.user.findMany({
+            where: {
+                email: { startsWith: 'guest_' },
+                createdAt: { lt: retentionLimit }
+            },
+            select: { id: true }
+        });
+
+        if (oldGuests.length === 0) return;
+
+        const guestIds = oldGuests.map(u => u.id);
+        console.log(`Found ${guestIds.length} expired guest accounts to clean up.`);
+
+        // 2. Delete related ActivityLogs first (Foreign Key constraint)
+        await prisma.activityLog.deleteMany({
+            where: { userId: { in: guestIds } }
+        });
+
+        // 3. Delete the Guest Users
+        const deleted = await prisma.user.deleteMany({
+            where: { id: { in: guestIds } }
+        });
+
+        console.log(`Successfully cleaned up ${deleted.count} old guest accounts.`);
+    } catch (error) {
+        console.error('Retention policy execution failed:', error);
     }
 };
 
