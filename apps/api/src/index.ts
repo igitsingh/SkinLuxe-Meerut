@@ -59,6 +59,7 @@ import adminAppointmentRoutes from './routes/admin/appointment.routes';
 import adminAnalyticsRoutes from './routes/admin/analytics.routes';
 import adminBlogRoutes from './routes/admin/blog.routes';
 import adminInquiryRoutes from './routes/admin/inquiry.routes';
+import adminPasswordResetRoutes from './routes/admin/password-reset.routes';
 
 // Error Handler Import
 import { globalErrorHandler } from './middleware/error.middleware';
@@ -115,6 +116,7 @@ app.use('/api/inquiries', formLimiter, publicInquiryRoutes); // Public inquiry s
 
 // Admin
 app.use('/api/admin/auth', authLimiter, adminAuthRoutes);
+app.use('/api/admin/password-reset', formLimiter, adminPasswordResetRoutes); // Password reset (public but rate-limited)
 app.use('/api/admin/users', adminUserRoutes);
 app.use('/api/admin/settings', adminSettingsRoutes);
 app.use('/api/admin/analytics', adminAnalyticsRoutes);

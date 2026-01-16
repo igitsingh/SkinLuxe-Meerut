@@ -22,6 +22,11 @@ model User {
   avatar        String?
   isActive      Boolean        @default(true)
   lastLogin     DateTime?
+  
+  // Password Reset Fields
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  
   activityLogs  ActivityLog[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
