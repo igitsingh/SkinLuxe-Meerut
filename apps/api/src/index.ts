@@ -120,7 +120,9 @@ app.use('/api/inquiries', formLimiter, publicInquiryRoutes); // Public inquiry s
 
 // Admin
 app.use('/api/admin/auth', authLimiter, adminAuthRoutes);
-app.use('/api/admin/password-reset', formLimiter, adminPasswordResetRoutes); // Password reset (public but rate-limited)
+// TEMPORARILY DISABLED: Password reset requires database migration (resetToken fields)
+// Uncomment after running: npx prisma db push
+// app.use('/api/admin/password-reset', formLimiter, adminPasswordResetRoutes);
 app.use('/api/admin/users', adminUserRoutes);
 app.use('/api/admin/settings', adminSettingsRoutes);
 app.use('/api/admin/analytics', adminAnalyticsRoutes);
