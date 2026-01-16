@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, User, ArrowRight, Clock } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api'; // Using web api client
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface BlogPost {
     id: string;
@@ -90,7 +91,9 @@ export default function BlogPage() {
             <section className="py-16">
                 <div className="container mx-auto px-4">
                     {loading ? (
-                        <div className="text-center py-20 text-gray-400">Loading articles...</div>
+                        <div className="flex justify-center py-20">
+                            <LoadingSpinner size="lg" />
+                        </div>
                     ) : posts.length === 0 ? (
                         <div className="text-center py-20">
                             <h3 className="text-xl font-serif text-[#1C1C1C] mb-2">No Articles Yet</h3>
