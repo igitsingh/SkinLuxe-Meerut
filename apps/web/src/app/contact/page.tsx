@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
@@ -14,13 +14,34 @@ export default function ContactPage() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [services, setServices] = useState<string[]>(['General Inquiry']);
+    const [isLoadingServices, setIsLoadingServices] = useState(true);
+
+    useEffect(() => {
+        const fetchTreatments = async () => {
+            try {
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://skinluxe-meerut-api.onrender.com/api';
+                const res = await fetch(`${API_URL}/treatments`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const treatmentNames = data.map((t: any) => t.name);
+                    setServices(['General Inquiry', ...treatmentNames]);
+                }
+            } catch (error) {
+                console.error('Failed to fetch treatments:', error);
+            } finally {
+                setIsLoadingServices(false);
+            }
+        };
+        fetchTreatments();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
 
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://skinluxe-meerut-api.onrender.com/api';
             const res = await fetch(`${API_URL}/inquiries`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -30,7 +51,6 @@ export default function ContactPage() {
             if (res.ok) {
                 setIsSubmitted(true);
                 setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-                // Reset success message after 5 seconds
                 setTimeout(() => setIsSubmitted(false), 5000);
             } else {
                 alert('Something went wrong. Please try again.');
@@ -79,15 +99,7 @@ export default function ContactPage() {
         },
     ];
 
-    const services = [
-        'Laser Hair Reduction',
-        'HydraFacial',
-        'Acne & Pigmentation Treatment',
-        'Anti-Aging & Rejuvenation',
-        'Skin Glow & Brightening',
-        'Hair & Scalp Treatments',
-        'Other',
-    ];
+
 
     return (
         <div className="bg-white">

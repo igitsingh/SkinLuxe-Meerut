@@ -45,7 +45,7 @@ export default function BookAppointmentPage() {
         const fetchTreatments = async () => {
             try {
                 // Determine API URL - use env var or default to same logic as other pages
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://skinluxe-meerut-api.onrender.com/api';
                 const res = await fetch(`${API_URL}/treatments`);
                 if (res.ok) {
                     const data = await res.json();
@@ -144,7 +144,7 @@ Please verify availability.`;
         const finalNotes = `Service Requested: ${treatmentName}`;
 
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://skinluxe-meerut-api.onrender.com/api';
             const response = await fetch(`${API_URL}/appointments`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
