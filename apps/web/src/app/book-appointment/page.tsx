@@ -129,14 +129,31 @@ Please verify availability.`;
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        let dateStr = new Date().toISOString();
+        let finalDateTime = new Date();
         let timeSlot = 'Pending';
 
         if (selectedDateTime) {
             const parts = selectedDateTime.split('|');
             if (parts.length === 2) {
-                dateStr = parts[0];
-                timeSlot = parts[1];
+                const dateStr = parts[0]; // e.g., "2026-01-19"
+                const timeStr = parts[1]; // e.g., "02:00 PM"
+                timeSlot = timeStr;
+
+                // Parse the time string (e.g., "02:00 PM")
+                const [time, period] = timeStr.split(' ');
+                const [hours, minutes] = time.split(':').map(Number);
+
+                // Convert to 24-hour format
+                let hour24 = hours;
+                if (period === 'PM' && hours !== 12) {
+                    hour24 = hours + 12;
+                } else if (period === 'AM' && hours === 12) {
+                    hour24 = 0;
+                }
+
+                // Create date object with correct time in IST
+                const [year, month, day] = dateStr.split('-').map(Number);
+                finalDateTime = new Date(year, month - 1, day, hour24, minutes, 0);
             }
         }
 
@@ -151,7 +168,7 @@ Please verify availability.`;
                 body: JSON.stringify({
                     name,
                     phone,
-                    date: dateStr,
+                    date: finalDateTime.toISOString(),
                     timeSlot,
                     notes: finalNotes
                 })
@@ -240,11 +257,12 @@ Please verify availability.`;
                             <span className="w-8 h-8 flex items-center justify-center border border-[#1C1C1C] text-sm rounded-full">1</span>
                             Select Service
                         </h2>
-                        {/* Mobile Dropdown */}
-                        <div className="md:hidden relative">
+                        {/* Service Selection - Dropdown for All Devices */}
+                        <div className="relative">
                             <select
                                 value={selectedTreatment}
                                 onChange={(e) => setSelectedTreatment(e.target.value)}
+                                required
                                 className="w-full bg-white border border-[#E6E2DD] p-4 pr-10 text-[#1C1C1C] outline-none focus:border-[#B4838D] transition-all font-serif text-lg appearance-none rounded-none"
                             >
                                 <option value="" disabled>Select a Treatment</option>
@@ -257,33 +275,6 @@ Please verify availability.`;
                             <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-[#1C1C1C]">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
-                        </div>
-
-                        {/* Desktop Grid */}
-                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {treatments.map((t) => (
-                                <button
-                                    key={t.id}
-                                    type="button"
-                                    onClick={() => setSelectedTreatment(t.id)}
-                                    className={`p-6 text-left border transition-all duration-300 group
-                                        ${selectedTreatment === t.id
-                                            ? 'bg-[#1C1C1C] border-[#1C1C1C] text-white'
-                                            : 'bg-white border-[#E6E2DD] hover:border-[#B4838D] text-[#1C1C1C]'
-                                        }`}
-                                >
-                                    <div className="flex justify-between items-start mb-2">
-                                        <span className="text-2xl">{t.icon}</span>
-                                        {selectedTreatment === t.id && <CheckCircle className="w-5 h-5 text-[#B4838D]" />}
-                                    </div>
-                                    <h3 className={`font-serif text-lg mb-1 ${selectedTreatment === t.id ? 'text-white' : 'text-[#1C1C1C]'}`}>
-                                        {t.name}
-                                    </h3>
-                                    <p className={`text-sm ${selectedTreatment === t.id ? 'text-white/60' : 'text-[#4A4A4A]'}`}>
-                                        {t.desc}
-                                    </p>
-                                </button>
-                            ))}
                         </div>
                     </div>
 
