@@ -123,18 +123,20 @@ async function main() {
         console.log(`Created treatment with id: ${treatment.id}`);
     }
 
-    // Seed Admin User
-    const adminPasswordHash = '$2b$10$LFXOI/JjFtjWdjbD79clRu/mljStW0EBegtsym61G4avw8cOliI8C'; // adminpassword
+    // Seed Admin User - Miss. Alka Yadav (Clinic Owner)
+    // Password: alkayadav (hashed with bcrypt rounds=10)
+    const adminPasswordHash = '$2b$10$MckeDObyg0bajY80co9goe6U/V2qGFaYxF4R48bVywAR.J9Xv5VBS';
 
     const admin = await prisma.user.upsert({
-        where: { email: 'admin@skinluxe.com' },
+        where: { email: 'ay@skinluxe.com' },
         update: {
+            name: 'Miss. Alka Yadav',
             role: 'ADMIN',
-            password: adminPasswordHash,
+            // Password remains unchanged on update to preserve any password changes
         },
         create: {
-            email: 'admin@skinluxe.com',
-            name: 'SkinLuxe Admin',
+            email: 'ay@skinluxe.com',
+            name: 'Miss. Alka Yadav',
             role: 'ADMIN',
             password: adminPasswordHash,
         },
