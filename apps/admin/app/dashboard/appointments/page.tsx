@@ -148,10 +148,11 @@ export default function AppointmentsPage() {
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition shadow-md"
+                    className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg transition shadow-md text-sm md:text-base"
                 >
-                    <Plus className="w-5 h-5" />
-                    New Appointment
+                    <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="hidden sm:inline">New Appointment</span>
+                    <span className="sm:hidden">New</span>
                 </button>
             </div>
 
