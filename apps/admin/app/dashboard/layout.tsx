@@ -75,7 +75,7 @@ export default function DashboardLayout({
                 </div>
 
                 {/* Mobile Menu Header for Logo */}
-                <div className="md:hidden p-6 border-b border-secondary flex justify-between items-center">
+                <div className="md:hidden px-6 py-4 border-b border-secondary flex justify-between items-center">
                     <span className="font-serif text-lg font-bold">Menu</span>
                     <button onClick={() => setIsMobileMenuOpen(false)}>
                         <X className="w-5 h-5" />
