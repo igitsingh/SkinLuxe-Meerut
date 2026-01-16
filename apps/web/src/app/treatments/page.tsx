@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Sparkles, Zap, Droplets, ArrowRight, Shield, Crown, Clock, CheckCircle } from 'lucide-react';
 import api from '@/lib/api';
+import PageLoader from '@/components/PageLoader';
 
 // Icon Mapping Helper
 const getIcon = (iconName: string | null) => {
@@ -52,7 +53,7 @@ export default function TreatmentsPage() {
     const displayList = featuredList.length > 0 ? featuredList : treatments.filter(t => t.category === 'Signature');
 
     if (loading) {
-        return <div className="min-h-screen bg-white flex items-center justify-center font-serif text-[#1C1C1C]">Loading Menu...</div>;
+        return <PageLoader />;
     }
 
     return (

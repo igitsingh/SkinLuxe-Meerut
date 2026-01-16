@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { X, Search, ChevronRight, Loader2 } from 'lucide-react';
 import api from '@/lib/api';
+import LoadingSpinner from './LoadingSpinner';
 
 interface SearchModalProps {
     isOpen: boolean;
@@ -117,8 +118,8 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 {/* Results Area */}
                 <div className="space-y-2">
                     {loading && (
-                        <div className="flex items-center gap-2 text-[#4A4A4A]">
-                            <Loader2 className="w-5 h-5 animate-spin" /> Loading data...
+                        <div className="flex justify-center py-8">
+                            <LoadingSpinner size="md" />
                         </div>
                     )}
 
