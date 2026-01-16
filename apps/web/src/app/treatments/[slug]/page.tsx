@@ -74,9 +74,8 @@ export default async function TreatmentPage({ params }: PageProps) {
             {/* -----------------------------------------------------------------------
           HERO SECTION: ARCHITECTURAL & PREMIUM (Restored Original Design)
       ----------------------------------------------------------------------- */}
-            <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-center justify-center bg-[#1C1C1C] text-white pt-32 pb-20 overflow-hidden">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#B4838D] opacity-10 blur-[120px] rounded-full pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#FFFFFF] opacity-5 blur-[100px] rounded-full pointer-events-none"></div>
+            <section className="relative bg-[#1C1C1C] text-white pt-32 pb-24 md:pt-40 md:pb-32 overflow-visible">
+                <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
 
                 <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div className="text-center lg:text-left animate-fadeIn">
@@ -97,7 +96,7 @@ export default async function TreatmentPage({ params }: PageProps) {
                         </Link>
                     </div>
 
-                    <div className="hidden lg:flex justify-end relative animate-fadeIn delay-100">
+                    <div className="hidden lg:flex justify-end relative animate-fadeIn delay-100 py-8">
                         <div className="relative w-[400px] h-[500px] border border-white/10 p-4">
                             {treatment.image_url ? (
                                 <img src={treatment.image_url} alt={`${treatment.name} Treatment Meerut`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
