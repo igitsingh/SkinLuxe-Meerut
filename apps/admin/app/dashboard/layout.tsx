@@ -110,9 +110,16 @@ export default function DashboardLayout({
 
                 {/* User Info & Logout */}
                 <div className="p-6 border-t border-secondary space-y-4">
-                    <div className="px-4 py-3 bg-light rounded-xl">
-                        <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Logged in as</p>
-                        <p className="text-sm font-medium text-dark">Miss. Alka Yadav</p>
+                    <div className="px-4 py-3 bg-light rounded-xl flex items-center gap-3">
+                        <img
+                            src="/founder-alka-yadav.png"
+                            alt="Alka Yadav"
+                            className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+                        />
+                        <div>
+                            <p className="text-xs text-gray-500 uppercase tracking-wider mb-0.5">Logged in as</p>
+                            <p className="text-sm font-medium text-dark">Miss. Alka Yadav</p>
+                        </div>
                     </div>
                     <button
                         onClick={handleLogout}
