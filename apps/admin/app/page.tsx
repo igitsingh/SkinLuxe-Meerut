@@ -74,15 +74,13 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-8 bg-light">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
-          <div className="lg:hidden text-center mb-12">
-            <div className="inline-flex items-center gap-3 mb-4">
-              <img
-                src="/skinluxe-logo-dark.png"
-                alt="SkinLuxe Aesthetics & Academy"
-                className="h-24 w-auto"
-              />
-            </div>
-            <p className="text-sm text-gray-600 tracking-wider uppercase">Admin Panel</p>
+          <div className="lg:hidden text-center mb-12 flex flex-col items-center gap-2">
+            <img
+              src="/skinluxe-logo-dark.png"
+              alt="SkinLuxe Aesthetics & Academy"
+              className="h-16 w-auto"
+            />
+            <p className="font-serif text-xl text-dark tracking-wide">Admin Panel</p>
           </div>
 
           {/* Welcome Text */}
