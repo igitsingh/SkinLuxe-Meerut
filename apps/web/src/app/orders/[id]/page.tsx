@@ -5,6 +5,7 @@ import api from '@/lib/api';
 import { useParams } from 'next/navigation';
 import { io } from 'socket.io-client';
 import { Loader2, CheckCircle, Clock, ChefHat, Truck, Package } from 'lucide-react';
+import { getSocketUrl } from '@/lib/api-config';
 
 interface OrderItem {
     id: string;
@@ -56,7 +57,8 @@ export default function OrderTrackingPage() {
         if (id) fetchOrder();
 
         // Socket.io connection
-        const socket = io(process.env.NEXT_PUBLIC_API_URL?.replace('/api', '/orders') || 'http://localhost:5000/orders');
+        const socketUrl = getSocketUrl();
+        const socket = io(`${socketUrl}/orders`);
 
         socket.on('connect', () => {
             console.log('Connected to socket');

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import JsonLd from '@/components/JsonLd';
+import { getApiUrl } from '@/lib/api-config';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,7 +64,8 @@ interface Location {
 // Fetchers
 async function getCategory(slug: string): Promise<Category | null> {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/menu/categories/${slug}`, {
+        const apiUrl = getApiUrl();
+        const res = await fetch(`${apiUrl}/menu/categories/${slug}`, {
             next: { revalidate: 60 },
         });
         if (!res.ok) return null;
@@ -76,7 +78,8 @@ async function getCategory(slug: string): Promise<Category | null> {
 
 async function getLocation(slug: string): Promise<Location | null> {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/locations/${slug}`, {
+        const apiUrl = getApiUrl();
+        const res = await fetch(`${apiUrl}/locations/${slug}`, {
             next: { revalidate: 60 },
         });
         if (!res.ok) return null;
@@ -95,7 +98,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!category && !location) {
         // Debugging
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const apiUrl = getApiUrl();
         return {
             title: 'Debug: Not Found',
             description: `Slug: ${slug}, API: ${apiUrl}`,
