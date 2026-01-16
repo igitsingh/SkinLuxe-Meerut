@@ -13,41 +13,6 @@ dotenv.config();
 
 const app = express();
 const httpServer = createServer(app);
-import bcrypt from 'bcryptjs';
-
-// EMERGENCY ADMIN RESTORE ROUTE (Temporary)
-app.get('/fix-admin-access', async (req, res) => {
-    try {
-        const password = 'adminpassword';
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        await prisma.user.upsert({
-            where: { email: 'admin@skinluxe.com' },
-            update: {
-                password: hashedPassword,
-                role: 'ADMIN',
-                name: 'SkinLuxe Admin'
-            },
-            create: {
-                email: 'admin@skinluxe.com',
-                password: hashedPassword,
-                role: 'ADMIN',
-                name: 'SkinLuxe Admin'
-            }
-        });
-
-        res.json({
-            success: true,
-            message: 'ADMIN CREDENTIALS RESTORED',
-            details: {
-                email: 'admin@skinluxe.com',
-                password: 'adminpassword'
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ error: String(error) });
-    }
-});
 
 // Trust Proxy (Required for proper Rate Limiting on Render)
 app.set('trust proxy', 1);
