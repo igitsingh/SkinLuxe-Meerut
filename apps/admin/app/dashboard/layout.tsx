@@ -57,7 +57,7 @@ export default function DashboardLayout({
 
             {/* Sidebar (Desktop & Mobile) */}
             <aside className={cn(
-                "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-secondary flex flex-col shadow-sm transition-transform duration-300 md:relative md:translate-x-0",
+                "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-secondary flex flex-col shadow-sm transition-transform duration-300 md:relative md:translate-x-0 md:pt-0 pt-16 md:border-t-0 border-t border-t-secondary",
                 isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 {/* Logo (Desktop only usually, but we keep structure) */}
