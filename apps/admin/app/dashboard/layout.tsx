@@ -57,7 +57,7 @@ export default function DashboardLayout({
 
             {/* Sidebar (Desktop & Mobile) */}
             <aside className={cn(
-                "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-secondary flex flex-col shadow-sm transition-transform duration-300 md:relative md:translate-x-0 md:pt-0 pt-16 md:border-t-0 border-t border-t-secondary",
+                "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-secondary flex flex-col shadow-sm transition-transform duration-300 md:relative md:translate-x-0",
                 isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 {/* Logo (Desktop only usually, but we keep structure) */}
@@ -75,7 +75,7 @@ export default function DashboardLayout({
                 </div>
 
                 {/* Mobile Menu Header for Logo */}
-                <div className="md:hidden px-6 py-4 border-b border-secondary flex justify-between items-center">
+                <div className="md:hidden h-16 px-6 border-b border-secondary flex justify-between items-center">
                     <span className="font-serif text-lg font-bold">Menu</span>
                     <button onClick={() => setIsMobileMenuOpen(false)}>
                         <X className="w-5 h-5" />
