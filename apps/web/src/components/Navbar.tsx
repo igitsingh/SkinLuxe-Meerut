@@ -111,7 +111,7 @@ const Navbar = () => {
 
             {/* Mobile Menu Overlay */}
             <div className={`fixed inset-0 bg-white z-40 transition-transform duration-500 ease-in-out lg:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                <div className="flex flex-col items-center justify-center h-full space-y-8 p-8">
+                <div className="flex flex-col items-center justify-center h-full space-y-8 p-8 overflow-y-auto">
                     {navLinks.map((link) => (
                         <Link
                             key={link.href}
