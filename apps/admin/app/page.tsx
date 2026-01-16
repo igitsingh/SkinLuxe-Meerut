@@ -157,24 +157,7 @@ export default function LoginPage() {
               {loading ? "Signing in..." : "Sign In"}
             </button>
 
-            {/* Quick Login Button for Development */}
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("admin@skinluxe.com");
-                setPassword("adminpassword");
-                // Auto-submit after a brief delay to show the filled values
-                setTimeout(() => {
-                  const form = document.querySelector('form');
-                  if (form) {
-                    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-                  }
-                }, 100);
-              }}
-              className="w-full bg-gradient-to-r from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-dark font-medium py-3 px-6 rounded-lg transition-all shadow-sm hover:shadow-md border border-secondary/20"
-            >
-              ⚡ Quick Login (Dev)
-            </button>
+
           </form>
 
           {/* Footer Note */}
