@@ -46,10 +46,10 @@ export default function DashboardLayout({
         <div className="flex h-screen bg-light">
             {/* Mobile Header */}
             <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-secondary z-40 flex items-center justify-between px-4">
-                <div className="flex items-center gap-2">
+                <Link href="/dashboard" className="flex items-center gap-2">
                     <img src="/skinluxe-logo-dark.png" alt="Logo" className="h-8 w-auto" />
                     <span className="text-[10px] uppercase tracking-widest text-gray-500">Admin Panel</span>
-                </div>
+                </Link>
                 <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-dark">
                     {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
