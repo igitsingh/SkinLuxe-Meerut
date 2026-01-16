@@ -198,6 +198,16 @@ app.all(/(.*)/, (req, res, next) => {
 // GLOBAL ERROR HANDLER (MUST BE LAST)
 app.use(globalErrorHandler);
 
+// ==========================================
+// SOCKET.IO INITIALIZATION
+// ==========================================
+import { initSocket } from './socket';
+import { setupOrderSockets } from './sockets/order.socket';
+
+const io = initSocket(httpServer);
+setupOrderSockets(io);
+console.log('✓ Socket.io initialized with order tracking namespace');
+
 httpServer.listen(PORT, () => {
     console.log(`SkinLuxe Server running on port ${PORT}`);
 });
