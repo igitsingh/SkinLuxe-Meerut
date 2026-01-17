@@ -19,7 +19,10 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password, name, phone } = signupSchema.parse(req.body);
 
-        const existingUser = await prisma.user.findUnique({ where: { email } });
+        const existingUser = await prisma.user.findUnique({
+            where: { email },
+            select: { id: true }
+        });
         if (existingUser) {
             res.status(400).json({ message: 'User already exists' });
             return;
@@ -56,10 +59,34 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
         let user;
         if (isEmail) {
-            user = await prisma.user.findUnique({ where: { email: identifier } });
+            user = await prisma.user.findUnique({
+                where: { email: identifier },
+                select: {
+                    id: true,
+                    email: true,
+                    password: true,
+                    name: true,
+                    phone: true,
+                    role: true,
+                    createdAt: true,
+                    updatedAt: true,
+                }
+            });
         } else {
             // Phone lookup
-            user = await prisma.user.findUnique({ where: { phone: identifier } });
+            user = await prisma.user.findUnique({
+                where: { phone: identifier },
+                select: {
+                    id: true,
+                    email: true,
+                    password: true,
+                    name: true,
+                    phone: true,
+                    role: true,
+                    createdAt: true,
+                    updatedAt: true,
+                }
+            });
         }
 
         if (!user) {
@@ -105,7 +132,16 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
             return;
         }
 
-        let user = await prisma.user.findUnique({ where: { email } });
+        let user = await prisma.user.findUnique({
+            where: { email },
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                role: true,
+                phone: true,
+            }
+        });
 
         if (!user) {
             user = await prisma.user.create({

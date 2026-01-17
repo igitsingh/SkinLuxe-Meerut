@@ -1,0 +1,25 @@
+{
+    "timestamp": "2026-01-15T22:57:16+05:30",
+    "source_db": "postgresql://isachinsingh@localhost:5432/the_pizza_box (Sanitized)",
+    "versions": {
+        "postgres": "14.20",
+        "prisma": "5.22.0"
+    },
+    "tables": {
+        "Treatment": 21,
+        "Appointment": 12,
+        "Inquiry": 7,
+        "User": 2,
+        "Settings": 1,
+        "Doctor": 0,
+        "BlogPost": 0,
+        "Testimonial": 0,
+        "Media": 0,
+        "ActivityLog": 0
+    },
+    "files": {
+        "skinluxe_meerut_FULL_BACKUP.sql": "a0ad8b6634665bca081b93150188002d5ee1138069c90131500ed2b4b006b8af",
+        "skinluxe_meerut_DATA_ONLY.sql": "c1688d18d2d9e558b1205481d04712f6388ff6a5007a727ed20328051fc53a3e",
+        "skinluxe_meerut_SCHEMA_ONLY.sql": "fb856e863d2efc71ee712e351f7784bb8d38b3c4c11d5785fd72f5a7a9b3e908"
+    }
+}
