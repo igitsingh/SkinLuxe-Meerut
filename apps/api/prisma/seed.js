@@ -127,21 +127,48 @@ async function main() {
     // Password: alkayadav (hashed with bcrypt rounds=10)
     const adminPasswordHash = '$2b$10$MckeDObyg0bajY80co9goe6U/V2qGFaYxF4R48bVywAR.J9Xv5VBS';
 
-    const admin = await prisma.user.upsert({
+    // Check if admin exists (with explicit select to avoid resetToken field)
+    const existingAdmin = await prisma.user.findUnique({
         where: { email: 'ay@skinluxe.com' },
-        update: {
-            name: 'Miss. Alka Yadav',
-            role: 'ADMIN',
-            // Password remains unchanged on update to preserve any password changes
-        },
-        create: {
-            email: 'ay@skinluxe.com',
-            name: 'Miss. Alka Yadav',
-            role: 'ADMIN',
-            password: adminPasswordHash,
-        },
+        select: { id: true, email: true }
     });
-    console.log(`Created admin user: ${admin.email}`);
+
+    let admin;
+    if (existingAdmin) {
+        // Update existing admin
+        admin = await prisma.user.update({
+            where: { email: 'ay@skinluxe.com' },
+            data: {
+                name: 'Miss. Alka Yadav',
+                role: 'ADMIN',
+                // Password remains unchanged on update to preserve any password changes
+            },
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                role: true,
+            }
+        });
+        console.log(`Updated admin user: ${admin.email}`);
+    } else {
+        // Create new admin
+        admin = await prisma.user.create({
+            data: {
+                email: 'ay@skinluxe.com',
+                name: 'Miss. Alka Yadav',
+                role: 'ADMIN',
+                password: adminPasswordHash,
+            },
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                role: true,
+            }
+        });
+        console.log(`Created admin user: ${admin.email}`);
+    }
 
     console.log('Seeding finished.');
 }
