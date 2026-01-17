@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useSettings } from '@/contexts/SettingsContext';
 
 export default function ContactPage() {
+    const { settings } = useSettings();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -73,9 +75,7 @@ export default function ContactPage() {
             title: 'Visit Us',
             description: (
                 <div className="flex flex-col gap-1">
-                    <span>First floor, Plot No 38, New Market</span>
-                    <span>Lala Lajpat Raj market, Begum Bridge</span>
-                    <span>Sotiganj, Meerut, Uttar Pradesh 250001</span>
+                    <span>{settings.address || 'First floor, Plot No 38, New Market'}</span>
                 </div>
             ),
             link: "https://www.google.com/maps/place/SkinLuxe+Aesthetics+%26+Academy/@28.993371,77.7023805,17z/data=!3m1!4b1!4m6!3m5!1s0x390c65d6274281b3:0x1dfdaa095a1907a5!8m2!3d28.9933663!4d77.7049608!16s%2Fg%2F11yn1gjxqj?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D",
@@ -83,14 +83,14 @@ export default function ContactPage() {
         {
             icon: Phone,
             title: 'Call Us',
-            details: ['9318452282 / 7451910272'],
-            links: ['tel:+919318452282'],
+            details: [settings.contactPhone || '9318452282 / 7451910272'],
+            links: [`tel:+91${settings.contactPhone?.split('/')[0]?.trim() || '9318452282'}`],
         },
         {
             icon: Mail,
             title: 'Email Us',
-            details: ['skinluxemeerut@gmail.com'],
-            links: ['mailto:skinluxemeerut@gmail.com'],
+            details: [settings.contactEmail || 'skinluxemeerut@gmail.com'],
+            links: [`mailto:${settings.contactEmail || 'skinluxemeerut@gmail.com'}`],
         },
         {
             icon: Clock,
