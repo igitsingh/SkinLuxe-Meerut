@@ -20,7 +20,17 @@ export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
 
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await prisma.user.findUnique({
+            where: { email },
+            select: {
+                id: true,
+                email: true,
+                password: true,
+                name: true,
+                role: true,
+                phone: true,
+            }
+        });
 
         if (!user || user.role !== 'ADMIN') {
             return res.status(401).json({ message: 'Invalid credentials or not an admin' });

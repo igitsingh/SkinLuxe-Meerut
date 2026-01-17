@@ -15,7 +15,8 @@ export const createUser = async (req: Request, res: Response) => {
         }
 
         const existingUser = await prisma.user.findFirst({
-            where: { OR: [{ email }, { phone }] }
+            where: { OR: [{ email }, { phone }] },
+            select: { id: true, email: true, phone: true }
         });
 
         if (existingUser) {
@@ -33,6 +34,16 @@ export const createUser = async (req: Request, res: Response) => {
                 password: hashedPassword,
                 role: 'CUSTOMER',
                 isActive: true
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true,
+                role: true,
+                isActive: true,
+                createdAt: true,
+                password: true,
             }
         });
 
@@ -87,7 +98,16 @@ export const getUserById = async (req: Request, res: Response) => {
         const { id } = req.params;
         const user = await prisma.user.findUnique({
             where: { id },
-            // Removed 'include: appointments' as the relation does not exist in schema
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true,
+                role: true,
+                isActive: true,
+                createdAt: true,
+                updatedAt: true,
+            }
         });
         if (!user) return res.status(404).json({ message: 'User not found' });
         res.json(user);
@@ -102,7 +122,15 @@ export const updateUserStatus = async (req: Request, res: Response) => {
         const { isActive } = req.body;
         const user = await prisma.user.update({
             where: { id },
-            data: { isActive }
+            data: { isActive },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true,
+                role: true,
+                isActive: true,
+            }
         });
         res.json(user);
     } catch (error) {
@@ -116,7 +144,15 @@ export const updateUserRole = async (req: Request, res: Response) => {
         const { role } = req.body;
         const user = await prisma.user.update({
             where: { id },
-            data: { role }
+            data: { role },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true,
+                role: true,
+                isActive: true,
+            }
         });
         res.json(user);
     } catch (error) {
