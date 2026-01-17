@@ -13,6 +13,7 @@ import { initSentry } from './config/monitoring';
 dotenv.config();
 
 // Initialize monitoring (Sentry, etc.)
+// Redeployment trigger: Jan 17, 2026 - 10:52 PM
 initSentry();
 
 const app = express();
