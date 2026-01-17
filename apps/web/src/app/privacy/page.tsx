@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
             <section className="relative min-h-[40vh] flex items-center justify-center bg-[#1C1C1C] text-white pt-32 pb-20">
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
                 <div className="container relative z-10 text-center max-w-4xl">
-                    <h1 className="font-serif text-4xl md:text-6xl mb-4">Privacy Policy</h1>
+                    <h1 className="font-serif text-4xl md:text-6xl mb-4 text-white">Privacy Policy</h1>
                     <p className="text-white/70 text-sm md:text-base">
                         Last Updated: January 17, 2026
                     </p>
@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
 
             {/* Content Section */}
             <section className="py-16 md:py-24">
-                <div className="container max-w-4xl">
+                <div className="container max-w-7xl px-6 md:px-12 lg:px-16">
                     <div className="prose prose-lg max-w-none">
                         {/* Introduction */}
                         <div className="mb-12">
