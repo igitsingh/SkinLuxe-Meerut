@@ -30,9 +30,25 @@ export default function PrivacyPolicyPage() {
                             <p className="text-[#4A4A4A] leading-relaxed mb-4">
                                 SkinLuxe Aesthetics & Academy ("we," "our," or "us") operates a medical aesthetics clinic and professional training academy located in Meerut, Uttar Pradesh, India. This Privacy Policy explains how we collect, use, store, and protect your personal information when you interact with our website, book appointments, or engage with our services.
                             </p>
-                            <p className="text-[#4A4A4A] leading-relaxed">
+                            <p className="text-[#4A4A4A] leading-relaxed mb-4">
                                 We are committed to protecting your privacy and handling your data responsibly. This policy is designed to help you understand our data practices and your rights.
                             </p>
+
+                            {/* UPGRADE 1: Indian Legal Compliance */}
+                            <div className="bg-[#F9F8F6] p-6 border-l-4 border-[#B4838D] mt-6">
+                                <h3 className="font-serif text-lg text-[#1C1C1C] mb-3">Compliance with Indian Law</h3>
+                                <p className="text-[#4A4A4A] leading-relaxed">
+                                    This Privacy Policy is prepared in compliance with the <strong>Digital Personal Data Protection Act, 2023 (DPDP Act)</strong> and other applicable laws of India. SkinLuxe Aesthetics & Academy acts as a <strong>Data Fiduciary</strong> under the DPDP Act with respect to all personal data and sensitive personal data collected through this website and our services.
+                                </p>
+                            </div>
+
+                            {/* UPGRADE 3: Explicit Consent */}
+                            <div className="bg-[#FFF9F5] p-6 border-l-4 border-[#1C1C1C] mt-6">
+                                <h3 className="font-serif text-lg text-[#1C1C1C] mb-3">Your Explicit Consent</h3>
+                                <p className="text-[#4A4A4A] leading-relaxed">
+                                    <strong>By submitting a form, booking an appointment, or contacting us through this website, you explicitly consent to the collection, use, storage, and processing of your personal data and sensitive personal data as described in this Privacy Policy.</strong> This consent is voluntary, informed, and specific. You may withdraw your consent at any time by contacting our Grievance Officer (details provided below).
+                                </p>
+                            </div>
                         </div>
 
                         {/* 1. Information We Collect */}
@@ -49,6 +65,23 @@ export default function PrivacyPolicyPage() {
                                 <li><strong>Inquiry Information:</strong> Subject matter, message content, service interests</li>
                                 <li><strong>Communication Records:</strong> Correspondence with our staff via email, phone, or messaging</li>
                             </ul>
+
+                            {/* UPGRADE 2: Sensitive Personal Data Classification */}
+                            <div className="bg-[#FFF9F5] p-6 border-l-4 border-[#B4838D] mb-6">
+                                <h4 className="font-serif text-lg text-[#1C1C1C] mb-3">Classification of Sensitive Personal Data</h4>
+                                <p className="text-[#4A4A4A] leading-relaxed mb-3">
+                                    Under Indian law, including the Digital Personal Data Protection Act, 2023, the following categories of information collected by us are classified as <strong>Sensitive Personal Data</strong> and are subject to higher protection standards:
+                                </p>
+                                <ul className="list-disc pl-6 text-[#4A4A4A] space-y-2">
+                                    <li><strong>Medical History:</strong> Any information regarding past or current medical conditions, treatments, or health status</li>
+                                    <li><strong>Treatment Details:</strong> Information about aesthetic treatments, procedures, consultations, or medical advice provided</li>
+                                    <li><strong>Consultation Records:</strong> Notes, observations, or recommendations made during in-person or remote consultations</li>
+                                    <li><strong>Appointment Information:</strong> Details of scheduled or completed appointments that may reveal health-related intentions or conditions</li>
+                                </ul>
+                                <p className="text-[#4A4A4A] leading-relaxed mt-3">
+                                    We handle all Sensitive Personal Data with enhanced security measures, strict access controls, and in accordance with applicable Indian medical and data protection regulations.
+                                </p>
+                            </div>
 
                             <h3 className="font-serif text-xl text-[#1C1C1C] mb-4">1.2 Information Collected Automatically</h3>
                             <p className="text-[#4A4A4A] leading-relaxed mb-4">
@@ -210,11 +243,49 @@ export default function PrivacyPolicyPage() {
                             </p>
                         </div>
 
+                        {/* UPGRADE 5: Medical Disclaimer */}
+                        <div className="mb-12">
+                            <h2 className="font-serif text-2xl md:text-3xl text-[#1C1C1C] mb-6">11. Medical Disclaimer</h2>
+                            <div className="bg-[#FFF9F5] p-6 border-2 border-[#1C1C1C]">
+                                <p className="text-[#4A4A4A] leading-relaxed mb-4">
+                                    <strong>Important Notice:</strong> The content provided on this website, including treatment descriptions, service information, and educational materials, is for <strong>informational purposes only</strong> and does not constitute medical advice, diagnosis, or treatment recommendations.
+                                </p>
+                                <p className="text-[#4A4A4A] leading-relaxed mb-4">
+                                    <strong>No Online Diagnosis or Treatment:</strong> No medical diagnosis, treatment plan, or clinical decision is made through this website or any online communication. All medical assessments, diagnoses, and treatment decisions are made exclusively during in-person consultations at our clinic in Meerut, Uttar Pradesh, after proper examination by qualified medical professionals.
+                                </p>
+                                <p className="text-[#4A4A4A] leading-relaxed mb-4">
+                                    <strong>Professional Consultation Required:</strong> You should not rely on website content as a substitute for professional medical advice. Always seek the advice of qualified healthcare providers with any questions you may have regarding a medical condition or treatment.
+                                </p>
+                                <p className="text-[#4A4A4A] leading-relaxed">
+                                    <strong>No Liability for Information:</strong> SkinLuxe Aesthetics & Academy is not liable for any decisions made based solely on information provided on this website. Final treatment decisions are made only after thorough in-person consultation and examination.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* UPGRADE 4: Grievance Officer */}
+                        <div className="mb-12 bg-[#F9F8F6] p-8 border-2 border-[#B4838D]">
+                            <h2 className="font-serif text-2xl md:text-3xl text-[#1C1C1C] mb-6">Grievance Officer / Data Protection Contact</h2>
+                            <p className="text-[#4A4A4A] leading-relaxed mb-4">
+                                In accordance with the Digital Personal Data Protection Act, 2023, and other applicable Indian laws, we have designated a Grievance Officer to address your concerns regarding data protection, privacy, or any grievances related to the processing of your personal data.
+                            </p>
+                            <div className="bg-white p-6 border border-[#E6E2DD] space-y-3 text-[#4A4A4A]">
+                                <p><strong className="text-[#1C1C1C]">Grievance Officer / Data Protection Contact</strong></p>
+                                <p><strong>Organization:</strong> SkinLuxe Aesthetics & Academy</p>
+                                <p><strong>Address:</strong> FF, No. 38, New Market, Begum Bridge, near Titan Showroom, Sotiganj, Meerut, Uttar Pradesh 250001, India</p>
+                                <p><strong>Email:</strong> <a href="mailto:skinluxemeerut@gmail.com" className="text-[#B4838D] hover:underline font-semibold">skinluxemeerut@gmail.com</a></p>
+                                <p><strong>Phone:</strong> <a href="tel:+919318452282" className="text-[#B4838D] hover:underline">+91 9318452282</a> / <a href="tel:+917451910272" className="text-[#B4838D] hover:underline">+91 7451910272</a></p>
+                                <p className="mt-4"><strong className="text-[#1C1C1C]">Response Timeline:</strong> We will acknowledge your grievance within 7 business days and endeavor to resolve it within 14 business days from the date of receipt.</p>
+                            </div>
+                            <p className="text-[#4A4A4A] leading-relaxed mt-4">
+                                You may contact the Grievance Officer for any concerns related to data access, correction, deletion, consent withdrawal, or any other privacy-related matters.
+                            </p>
+                        </div>
+
                         {/* Contact Information */}
                         <div className="mb-12 bg-[#F9F8F6] p-8 border border-[#E6E2DD]">
-                            <h2 className="font-serif text-2xl md:text-3xl text-[#1C1C1C] mb-6">Contact Us</h2>
+                            <h2 className="font-serif text-2xl md:text-3xl text-[#1C1C1C] mb-6">General Contact Information</h2>
                             <p className="text-[#4A4A4A] leading-relaxed mb-4">
-                                If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:
+                                For general inquiries, appointment bookings, or other non-privacy-related matters, please contact us:
                             </p>
                             <div className="space-y-2 text-[#4A4A4A]">
                                 <p><strong>SkinLuxe Aesthetics & Academy</strong></p>
