@@ -1,14 +1,13 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Award, Shield, Heart, CheckCircle, MapPin, Clock } from 'lucide-react';
-
-export const metadata = {
-    title: 'About SkinLuxe | Medical Aesthetic Clinic in Meerut',
-    description: 'Meet Alka Yadav and the expert team at SkinLuxe. We combine medical science with luxury care to deliver safe, effective skin and hair treatments.',
-};
+import { useSettings } from '@/contexts/SettingsContext';
 
 export default function AboutPage() {
+    const { settings } = useSettings();
     return (
         <div className="bg-white">
 
@@ -204,9 +203,7 @@ export default function AboutPage() {
                                     <div>
                                         <h4 className="font-serif text-lg text-white mb-1">Address</h4>
                                         <p className="text-white/60 font-light">
-                                            FF, No. 38, New Market, Begum Bridge,<br />
-                                            Near Titan Showroom, Sotiganj,<br />
-                                            Meerut, Uttar Pradesh
+                                            {settings.address || 'FF, No. 38, New Market, Begum Bridge, Near Titan Showroom, Sotiganj, Meerut, Uttar Pradesh'}
                                         </p>
                                     </div>
                                 </div>

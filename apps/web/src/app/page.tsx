@@ -1,10 +1,15 @@
+'use client';
+
 import React from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Star, ArrowRight, Shield, CheckCircle, Clock, MapPin, Phone } from 'lucide-react';
 import FounderJourney from '@/components/FounderJourney';
 
-export default function Home() {
+export default function HomePage() {
+  const { settings } = useSettings();
   return (
     <div className="bg-[#FFFFFF]">
 
@@ -229,7 +234,7 @@ export default function Home() {
                 Book Appointment
               </button>
             </Link>
-            <a href="tel:9318452282" className="w-full sm:w-auto">
+            <a href={`tel:${settings.contactPhone?.split('/')[0]?.trim() || '9318452282'}`} className="w-full sm:w-auto">
               <button className="btn-luxury border-[#1C1C1C] text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center gap-2">
                 <Phone className="w-4 h-4" /> Call Clinic
               </button>

@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, Calendar, MessageCircle, CheckCircle, Clock, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { useSettings } from '@/contexts/SettingsContext';
 
 export default function BookAppointmentPage() {
+    const { settings } = useSettings();
     const [selectedTreatment, setSelectedTreatment] = useState('');
     const [selectedDateTime, setSelectedDateTime] = useState('');
     const [phone, setPhone] = useState('');
@@ -125,7 +127,8 @@ Phone: ${phone || 'N/A'}
 
 Please verify availability.`;
 
-        return `https://wa.me/919318452282?text=${encodeURIComponent(message)}`;
+        const whatsappNumber = settings.contactPhone?.split('/')[0]?.trim().replace(/\s/g, '') || '919318452282';
+        return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
