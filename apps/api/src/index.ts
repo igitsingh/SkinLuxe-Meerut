@@ -53,6 +53,7 @@ import authRoutes from './routes/auth.routes';
 import treatmentRoutes from './routes/treatment.routes';
 import publicAppointmentRoutes from './routes/public/appointment.routes';
 import publicInquiryRoutes from './routes/public/inquiry.routes';
+import settingsRoutes from './routes/settings.routes';
 
 // Admin Routes Imports
 import adminAuthRoutes from './routes/admin/auth.routes';
@@ -113,6 +114,7 @@ app.use('/api/', generalLimiter);
 // Public
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/treatments', treatmentRoutes);
+app.use('/api/settings', settingsRoutes); // Public settings endpoint
 app.use('/api/appointments', formLimiter, publicAppointmentRoutes); // Public appointment bookings with rate limit
 // Note: Blog public routes should also be added if we want public reading. I'll reuse admin route for GET for now or add public one.
 // Let's add simple public blog route too.

@@ -68,26 +68,38 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     const fetchSettings = async () => {
-        // PERMANENT FIX: For now, we use static settings from the code (defaultSettings).
-        // The API route /api/settings does not exist publicly, only /api/admin/settings which is protected.
-        // To prevent 404 errors and site crashes, we skip the fetch.
-        setLoading(false);
-        /*
         try {
             // Use the centralized API client which points to the correct backend
             const response = await api.get('/settings');
 
             // Assuming the main API returns the settings object directly or wrapped
-            if (response.data) {
-                // Merge defects to ensure type safety if some fields are missing
-                setSettings({ ...defaultSettings, ...response.data });
+            if (response.data && response.data.success && response.data.data) {
+                const apiSettings = response.data.data;
+
+                // Map API fields to our Settings interface
+                const mappedSettings: Settings = {
+                    ...defaultSettings,
+                    siteName: apiSettings.siteName || defaultSettings.siteName,
+                    siteTagline: apiSettings.siteTagline || defaultSettings.siteTagline,
+                    logo: apiSettings.logo || defaultSettings.logo,
+                    contactEmail: apiSettings.contactEmail || defaultSettings.contactEmail,
+                    contactPhone: apiSettings.contactPhone || defaultSettings.contactPhone,
+                    address: apiSettings.address || defaultSettings.address,
+                    // Parse socialMedia JSON if it exists
+                    instagram: apiSettings.socialMedia?.instagram || defaultSettings.instagram,
+                    facebook: apiSettings.socialMedia?.facebook || defaultSettings.facebook,
+                    twitter: apiSettings.socialMedia?.twitter || defaultSettings.twitter,
+                    youtube: apiSettings.socialMedia?.youtube || defaultSettings.youtube,
+                };
+
+                setSettings(mappedSettings);
             }
         } catch (error) {
             console.error('Failed to fetch settings:', error);
+            // Keep using default settings if fetch fails
         } finally {
             setLoading(false);
         }
-        */
     };
 
     useEffect(() => {
