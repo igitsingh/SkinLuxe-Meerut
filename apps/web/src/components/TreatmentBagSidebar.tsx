@@ -18,7 +18,7 @@ export default function TreatmentBagSidebar() {
     if (!mounted) return null;
 
     const handleWhatsAppCheckout = () => {
-        const whatsappNumber = settings.contactPhone?.split('/')[0]?.trim().replace(/\s/g, '') || '919318452282';
+        const whatsappNumber = settings.contactPhone?.split('/')[0]?.trim().replace(/\s/g, '') || '917014681829';
 
         let message = `Halo SkinLuxe,\n\nI am interested in the following treatments:\n\n`;
         bag.forEach((item, index) => {

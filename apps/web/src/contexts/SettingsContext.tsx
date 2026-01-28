@@ -36,7 +36,7 @@ const defaultSettings: Settings = {
     logo: '/skinluxe-logo-dark.png',
     favicon: '/skinluxe-logo.png',
     contactEmail: 'skinluxemeerut@gmail.com',
-    contactPhone: '9318452282 / 7451910272',
+    contactPhone: '7014681829',
     address: 'FF, No. 38, New Market, Begum Bridge, near Titan Showroom, Sotiganj, Meerut',
     instagram: 'https://instagram.com/skinluxe_clinic_meerut',
     facebook: 'https://facebook.com/skinluxe',

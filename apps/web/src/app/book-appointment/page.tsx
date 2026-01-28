@@ -127,7 +127,7 @@ Phone: ${phone || 'N/A'}
 
 Please verify availability.`;
 
-        const whatsappNumber = settings.contactPhone?.split('/')[0]?.trim().replace(/\s/g, '') || '919318452282';
+        const whatsappNumber = settings.contactPhone?.split('/')[0]?.trim().replace(/\s/g, '') || '917014681829';
         return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
 
