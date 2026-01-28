@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Sparkles, Zap, Droplets, ArrowRight, Shield, Crown, Clock, CheckCircle } from 'lucide-react';
 import api from '@/lib/api';
 import PageLoader from '@/components/PageLoader';
+import { useBooking } from '@/contexts/BookingContext';
 
 // Icon Mapping Helper
 const getIcon = (iconName: string | null) => {
@@ -31,6 +32,7 @@ interface Treatment {
 export default function TreatmentsPage() {
     const [treatments, setTreatments] = useState<Treatment[]>([]);
     const [loading, setLoading] = useState(true);
+    const { addToBag } = useBooking();
 
     useEffect(() => {
         const fetchTreatments = async () => {
@@ -105,9 +107,17 @@ export default function TreatmentsPage() {
                                         <p className="text-[#4A4A4A] group-hover:text-white/70 font-light text-sm leading-relaxed mb-8 min-h-[5rem]">
                                             {t.description}
                                         </p>
-                                        <Link href={`/treatments/${t.slug}`} className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#B4838D] font-medium">
-                                            View Treatment <ArrowRight className="w-4 h-4" />
-                                        </Link>
+                                        <div className="flex items-center gap-4 mt-auto">
+                                            <button
+                                                onClick={() => addToBag(t)}
+                                                className="text-xs uppercase tracking-widest text-[#1C1C1C] font-medium border border-[#1C1C1C] px-4 py-2 hover:bg-[#B4838D] hover:text-white hover:border-[#B4838D] transition-all group-hover:border-white group-hover:text-white"
+                                            >
+                                                Add to Bag
+                                            </button>
+                                            <Link href={`/treatments/${t.slug}`} className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#B4838D] font-medium group-hover:text-white/80">
+                                                Details <ArrowRight className="w-4 h-4" />
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             );
@@ -145,7 +155,15 @@ export default function TreatmentsPage() {
                                                 <h4 className="text-[#1C1C1C] text-lg font-serif group-hover:text-[#B4838D] transition-colors">
                                                     {item.name}
                                                 </h4>
-                                                <ArrowRight className="w-4 h-4 text-[#E6E2DD] group-hover:text-[#B4838D] transition-colors opacity-0 group-hover:opacity-100 hidden md:block" />
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        addToBag(item);
+                                                    }}
+                                                    className="opacity-0 group-hover:opacity-100 text-[10px] uppercase font-bold text-white bg-[#B4838D] px-2 py-1 rounded transition-opacity"
+                                                >
+                                                    Add
+                                                </button>
                                             </div>
                                             <p className="text-sm text-[#4A4A4A] font-light max-w-xs mx-auto md:mx-0">
                                                 {item.description ? item.description.slice(0, 60) + '...' : ''}

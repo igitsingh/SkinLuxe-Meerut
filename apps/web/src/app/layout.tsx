@@ -8,6 +8,8 @@ import { SettingsProvider } from "@/contexts/SettingsContext";
 import DynamicFavicon from "@/components/DynamicFavicon";
 import DynamicSchema from "@/components/DynamicSchema";
 import DynamicColors from "@/components/DynamicColors";
+import { BookingProvider } from "@/contexts/BookingContext";
+import TreatmentBagSidebar from "@/components/TreatmentBagSidebar";
 
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-serif" });
 const lato = Lato({ subsets: ["latin"], weight: ["100", "300", "400", "700"], variable: "--font-sans" });
@@ -103,9 +105,12 @@ export default function RootLayout({
           <DynamicFavicon />
           <DynamicSchema />
           <DynamicColors />
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <BookingProvider>
+            <TreatmentBagSidebar />
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </BookingProvider>
           <Toaster position="top-center" toastOptions={{
             style: {
               background: '#FFFFFF',

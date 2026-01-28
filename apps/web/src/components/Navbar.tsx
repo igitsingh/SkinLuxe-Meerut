@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, ShoppingBag } from 'lucide-react';
 import { useSettings } from '@/contexts/SettingsContext';
+import { useBooking } from '@/contexts/BookingContext';
 import Image from 'next/image';
 import SearchModal from './SearchModal';
 
@@ -12,6 +13,7 @@ const Navbar = () => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { settings } = useSettings();
+    const { bag, toggleBag } = useBooking();
 
     // Handle scroll effect for navbar
     useEffect(() => {
@@ -77,6 +79,20 @@ const Navbar = () => {
                             </button>
 
                         </div>
+
+                        {/* Shopping Bag Icon */}
+                        <button
+                            onClick={toggleBag}
+                            className="relative text-[#1C1C1C] hover:text-[#B4838D] transition-colors p-1"
+                            aria-label="View Bag"
+                        >
+                            <ShoppingBag className="w-5 h-5 lg:w-4 lg:h-4" />
+                            {bag.length > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-[#B4838D] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                                    {bag.length}
+                                </span>
+                            )}
+                        </button>
 
                         {/* CTA Button - CRO Focused */}
                         <Link href="/book-appointment" className="hidden lg:block">
