@@ -216,9 +216,9 @@ export default function HairTreatmentsPage() {
                                 Book Consultation
                             </button>
                         </Link>
-                        <a href="tel:+917014681829">
+                        <a href="tel:+917451910272">
                             <button className="px-10 py-4 bg-transparent border-2 border-white text-white font-serif text-lg rounded-full hover:bg-white hover:text-[#000000] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                                Call: +91 70146 81829
+                                Call: +91 74519 10272
                             </button>
                         </a>
                     </div>

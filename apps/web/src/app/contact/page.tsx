@@ -83,8 +83,8 @@ export default function ContactPage() {
         {
             icon: Phone,
             title: 'Call Us',
-            details: [settings.contactPhone || '7014681829'],
-            links: [`tel:+91${settings.contactPhone?.split('/')[0]?.trim() || '7014681829'}`],
+            details: [settings.contactPhone || '9318452282 / 7451910272'],
+            links: [`tel:+91${settings.contactPhone?.split('/')[0]?.trim() || '9318452282'}`],
         },
         {
             icon: Mail,

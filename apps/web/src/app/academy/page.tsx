@@ -197,7 +197,7 @@ export default function AcademyPage() {
                                 Apply for Admission
                             </button>
                         </Link>
-                        <a href="tel:+917014681829" className="w-full sm:w-auto">
+                        <a href="tel:+917451910272" className="w-full sm:w-auto">
                             <button className="btn-luxury-filled bg-transparent border border-white text-white hover:bg-white hover:text-[#1C1C1C] w-full sm:w-auto min-w-[200px] h-[54px] flex items-center justify-center font-serif tracking-widest text-xs uppercase">
                                 Talk to Counselor
                             </button>

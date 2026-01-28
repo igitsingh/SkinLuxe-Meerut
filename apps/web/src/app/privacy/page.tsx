@@ -273,7 +273,7 @@ export default function PrivacyPolicyPage() {
                                 <p><strong>Organization:</strong> SkinLuxe Aesthetics & Academy</p>
                                 <p><strong>Address:</strong> FF, No. 38, New Market, Begum Bridge, near Titan Showroom, Sotiganj, Meerut, Uttar Pradesh 250001, India</p>
                                 <p><strong>Email:</strong> <a href="mailto:skinluxemeerut@gmail.com" className="text-[#B4838D] hover:underline font-semibold">skinluxemeerut@gmail.com</a></p>
-                                <p><strong>Phone:</strong> <a href="tel:+917014681829" className="text-[#B4838D] hover:underline">+91 7014681829</a></p>
+                                <p><strong>Phone:</strong> <a href="tel:+919318452282" className="text-[#B4838D] hover:underline">+91 9318452282</a> / <a href="tel:+917451910272" className="text-[#B4838D] hover:underline">+91 7451910272</a></p>
                                 <p className="mt-4"><strong className="text-[#1C1C1C]">Response Timeline:</strong> We will acknowledge your grievance within 7 business days and endeavor to resolve it within 14 business days from the date of receipt.</p>
                             </div>
                             <p className="text-[#4A4A4A] leading-relaxed mt-4">
@@ -297,7 +297,7 @@ export default function PrivacyPolicyPage() {
                                     <strong>Email:</strong> <a href="mailto:skinluxemeerut@gmail.com" className="text-[#B4838D] hover:underline">skinluxemeerut@gmail.com</a>
                                 </p>
                                 <p>
-                                    <strong>Phone:</strong> <a href="tel:+917014681829" className="text-[#B4838D] hover:underline">+91 7014681829</a>
+                                    <strong>Phone:</strong> <a href="tel:+919318452282" className="text-[#B4838D] hover:underline">+91 9318452282</a> / <a href="tel:+917451910272" className="text-[#B4838D] hover:underline">+91 7451910272</a>
                                 </p>
                             </div>
                         </div>
