@@ -170,6 +170,24 @@ async function main() {
         console.log(`Created admin user: ${admin.email}`);
     }
 
+    // Seed Settings for testing
+    const settings = await prisma.settings.findFirst();
+    if (settings) {
+        await prisma.settings.update({
+            where: { id: settings.id },
+            data: { contactPhone: '7014681829' }
+        });
+    } else {
+        await prisma.settings.create({
+            data: {
+                siteName: 'SkinLuxe Aesthetics & Academy',
+                contactPhone: '7014681829',
+                contactEmail: 'skinluxemeerut@gmail.com',
+                address: 'FF, No. 38, New Market, Begum Bridge, near Titan Showroom, Sotiganj, Meerut'
+            }
+        });
+    }
+
     console.log('Seeding finished.');
 }
 
