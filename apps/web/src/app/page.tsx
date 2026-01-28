@@ -22,7 +22,7 @@ export default function HomePage() {
         {/* Background Image - Desktop */}
         <div className="absolute inset-0 hidden lg:block">
           <Image
-            src="/hero-texture-wall.png"
+            src={settings.heroImage || '/hero-texture-wall.png'}
             alt="SkinLuxe Clinic Interior"
             fill
             className="object-cover object-center"
@@ -34,7 +34,7 @@ export default function HomePage() {
         {/* Background Image - Mobile */}
         <div className="absolute inset-0 lg:hidden">
           <Image
-            src="/hero-texture-wall.png"
+            src={settings.heroImageMobile || '/hero-texture-wall.png'}
             alt="SkinLuxe Clinic Interior"
             fill
             className="object-cover object-center"

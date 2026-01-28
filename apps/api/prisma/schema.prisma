@@ -194,6 +194,11 @@ model Settings {
   socialMedia       Json?    // { instagram, facebook }
   businessHours     Json?
   maintenanceMode   Boolean  @default(false)
+  
+  // Hero Section Customization
+  heroImage         String?  @db.Text
+  heroImageMobile   String?  @db.Text
+  
   updatedAt         DateTime @updatedAt
 }
 

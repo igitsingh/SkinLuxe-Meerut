@@ -26,6 +26,8 @@ interface Settings {
     maintenanceMode: boolean;
     customCSS: string;
     customJS: string;
+    heroImage: string;
+    heroImageMobile: string;
 }
 
 const defaultSettings: Settings = {
@@ -51,6 +53,8 @@ const defaultSettings: Settings = {
     maintenanceMode: false,
     customCSS: '',
     customJS: '',
+    heroImage: '/hero-texture-wall.png',
+    heroImageMobile: '/hero-texture-wall.png',
 };
 
 const SettingsContext = createContext<{
@@ -90,6 +94,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
                     facebook: apiSettings.socialMedia?.facebook || defaultSettings.facebook,
                     twitter: apiSettings.socialMedia?.twitter || defaultSettings.twitter,
                     youtube: apiSettings.socialMedia?.youtube || defaultSettings.youtube,
+                    heroImage: apiSettings.heroImage || defaultSettings.heroImage,
+                    heroImageMobile: apiSettings.heroImageMobile || defaultSettings.heroImageMobile,
                 };
 
                 setSettings(mappedSettings);

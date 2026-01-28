@@ -16,6 +16,8 @@ router.get('/', async (req, res) => {
                 address: true,
                 socialMedia: true,
                 businessHours: true,
+                heroImage: true,
+                heroImageMobile: true,
                 updatedAt: true,
             }
         });
