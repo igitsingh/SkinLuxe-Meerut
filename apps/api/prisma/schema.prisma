@@ -17,6 +17,7 @@ enum Role {
   USER
   ADMIN
   CUSTOMER
+  SUPER_ADMIN
 }
 
 model User {
