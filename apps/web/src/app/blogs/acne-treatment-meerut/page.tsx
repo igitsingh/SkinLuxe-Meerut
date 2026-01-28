@@ -365,7 +365,7 @@ export default function AcneTreatmentBlog() {
                             <span>Book Consultation</span>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <a href="https://wa.me/919318452282" target="_blank" rel="noopener noreferrer" className="btn-luxury-outline border border-[#E6E2DD] text-[#1C1C1C] px-10 py-4 hover:border-[#1C1C1C] transition-colors uppercase tracking-widest text-xs font-bold inline-flex items-center justify-center">
+                        <a href="https://wa.me/917014681829" target="_blank" rel="noopener noreferrer" className="btn-luxury-outline border border-[#E6E2DD] text-[#1C1C1C] px-10 py-4 hover:border-[#1C1C1C] transition-colors uppercase tracking-widest text-xs font-bold inline-flex items-center justify-center">
                             Chat on WhatsApp
                         </a>
                     </div>

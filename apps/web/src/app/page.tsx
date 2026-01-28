@@ -234,7 +234,7 @@ export default function HomePage() {
                 Book Appointment
               </button>
             </Link>
-            <a href={`tel:${settings.contactPhone?.split('/')[0]?.trim() || '9318452282'}`} className="w-full sm:w-auto">
+            <a href={`tel:${settings.contactPhone?.split('/')[0]?.trim() || '7014681829'}`} className="w-full sm:w-auto">
               <button className="btn-luxury border-[#1C1C1C] text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white w-full sm:min-w-[200px] h-[54px] flex items-center justify-center gap-2">
                 <Phone className="w-4 h-4" /> Call Clinic
               </button>

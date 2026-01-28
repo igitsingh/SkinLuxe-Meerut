@@ -297,7 +297,7 @@ export default function TermsOfServicePage() {
                                     <strong>Email:</strong> <a href="mailto:skinluxemeerut@gmail.com" className="text-[#B4838D] hover:underline">skinluxemeerut@gmail.com</a>
                                 </p>
                                 <p>
-                                    <strong>Phone:</strong> <a href="tel:+919318452282" className="text-[#B4838D] hover:underline">+91 9318452282</a> / <a href="tel:+917451910272" className="text-[#B4838D] hover:underline">+91 7451910272</a>
+                                    <strong>Phone:</strong> <a href="tel:+917014681829" className="text-[#B4838D] hover:underline">+91 7014681829</a>
                                 </p>
                             </div>
                         </div>
