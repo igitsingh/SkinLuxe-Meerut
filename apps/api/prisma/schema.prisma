@@ -18,6 +18,10 @@ enum Role {
   ADMIN
   CUSTOMER
   SUPER_ADMIN
+  MANAGER
+  CHEF
+  DELIVERY_PARTNER
+  ACCOUNTANT
 }
 
 model User {
